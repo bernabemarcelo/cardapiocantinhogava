@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -41,16 +40,16 @@
 
         .firebase-status {
             position: fixed;
-            top: 70px;
+            top: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .firebase-status.connected {
@@ -62,7 +61,7 @@
         }
 
         .firebase-status i {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         header {
@@ -74,17 +73,19 @@
 
         header h1 {
             font-family: var(--title-font);
-            font-size: 2.5em;
+            font-size: var(--title-size);
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             font-weight: 700;
+            color: var(--title-color);
         }
 
         header p {
             font-family: var(--subtitle-font);
-            font-size: 1.2em;
+            font-size: var(--subtitle-size);
             opacity: 0.9;
             font-weight: 300;
+            color: var(--subtitle-color);
         }
 
         .contact-bar {
@@ -104,9 +105,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: white;
+            color: var(--contact-color);
             text-decoration: none;
-            font-size: 1em;
+            font-size: var(--contact-size);
             transition: transform 0.3s;
             padding: 8px 15px;
             border-radius: 8px;
@@ -120,27 +121,6 @@
 
         .contact-item i {
             font-size: 1.3em;
-        }
-
-        .admin-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-family: var(--body-font);
-            font-weight: 500;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        .admin-btn:hover {
-            background: #ff5252;
         }
 
         .menu-grid {
@@ -174,24 +154,25 @@
 
         .menu-item h3 {
             font-family: var(--item-title-font);
-            color: #333;
+            color: var(--item-title-color);
             margin-bottom: 10px;
-            font-size: 1.4em;
+            font-size: var(--item-title-size);
             font-weight: 600;
         }
 
         .menu-item p {
             font-family: var(--item-description-font);
-            color: #666;
+            color: var(--item-description-color);
             margin-bottom: 15px;
             line-height: 1.6;
             font-weight: 400;
+            font-size: var(--item-description-size);
         }
 
         .menu-item .price {
             font-family: var(--price-font);
-            color: #ff6b6b;
-            font-size: 1.5em;
+            color: var(--price-color);
+            font-size: var(--price-size);
             font-weight: 700;
         }
 
@@ -201,11 +182,32 @@
             padding: 30px 20px;
             margin-top: 40px;
             font-family: var(--body-font);
+            position: relative;
         }
 
         footer p {
             opacity: 0.8;
             margin-top: 10px;
+        }
+
+        .admin-btn {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.8);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: var(--body-font);
+            font-weight: 500;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 82, 82, 0.9);
+            transform: scale(1.05);
         }
 
         .modal {
@@ -228,6 +230,8 @@
             border-radius: 15px;
             position: relative;
             font-family: var(--body-font);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-modal {
@@ -278,6 +282,24 @@
             margin-top: 5px;
         }
 
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
         .btn {
             background: #ff6b6b;
             color: white;
@@ -289,6 +311,7 @@
             font-family: var(--body-font);
             font-weight: 500;
             margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .btn:hover {
@@ -347,9 +370,27 @@
             text-align: center;
         }
 
+        .color-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-input-group input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .color-input-group input[type="text"] {
+            flex: 1;
+        }
+
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2em;
+                font-size: calc(var(--title-size) * 0.8);
             }
 
             .contact-bar {
@@ -372,25 +413,17 @@
                 padding: 20px;
             }
 
-            .admin-btn {
+            .firebase-status {
                 top: 10px;
                 right: 10px;
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-
-            .firebase-status {
-                top: 60px;
-                right: 10px;
-                font-size: 12px;
-                padding: 8px 15px;
+                font-size: 11px;
+                padding: 6px 12px;
             }
         }
     </style>
 </head>
 <body>
     <div class="overlay">
-        <button class="admin-btn" onclick="showLoginModal()">Admin</button>
         <div class="firebase-status disconnected" id="firebaseStatus">
             <i class="fas fa-circle"></i>
             <span>Conectando...</span>
@@ -407,11 +440,11 @@
                 <div class="admin-panel">
                     <h2>Painel Administrativo</h2>
                     
-                    <button class="btn" onclick="showSettingsModal()">Configurações Gerais</button>
-                    <button class="btn" onclick="showContactModal()">Editar Contatos</button>
-                    <button class="btn" onclick="showFontModal()">Trocar Fontes</button>
-                    <button class="btn" onclick="showAddItemModal()">Adicionar Item</button>
-                    <button class="btn-secondary btn" onclick="logout()">Sair</button>
+                    <button class="btn" onclick="showSettingsModal()">⚙️ Configurações Gerais</button>
+                    <button class="btn" onclick="showContactModal()">📞 Editar Contatos</button>
+                    <button class="btn" onclick="showStyleModal()">🎨 Personalizar Estilos</button>
+                    <button class="btn" onclick="showAddItemModal()">➕ Adicionar Item</button>
+                    <button class="btn-secondary btn" onclick="logout()">🚪 Sair</button>
 
                     <div class="item-list" id="itemList"></div>
                 </div>
@@ -422,6 +455,7 @@
             <footer>
                 <div class="contact-bar" id="contactBarFooter"></div>
                 <p>© 2024 <span id="footerName">Meu Restaurante</span>. Todos os direitos reservados.</p>
+                <button class="admin-btn" onclick="showLoginModal()">🔐 Admin</button>
             </footer>
         </div>
     </div>
@@ -430,7 +464,7 @@
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
-            <h2>Login Administrativo</h2>
+            <h2>🔐 Login Administrativo</h2>
             <div class="form-group">
                 <label>Senha:</label>
                 <input type="password" id="loginPassword" placeholder="Digite a senha">
@@ -443,122 +477,226 @@
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
-            <h2>Editar Informações de Contato</h2>
+            <h2>📞 Editar Informações de Contato</h2>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showWhatsapp" checked>
+                <label for="showWhatsapp">Mostrar WhatsApp</label>
+            </div>
+            <div class="form-group" id="whatsappGroup">
                 <label><i class="fab fa-whatsapp"></i> WhatsApp:</label>
                 <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
                 <small>Digite o número com DDD</small>
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showPhone">
+                <label for="showPhone">Mostrar Telefone</label>
+            </div>
+            <div class="form-group" id="phoneGroup">
                 <label><i class="fas fa-phone"></i> Telefone:</label>
                 <input type="text" id="contactPhone" placeholder="(11) 3333-4444">
-                <small>Telefone fixo (opcional)</small>
+                <small>Telefone fixo</small>
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showInstagram" checked>
+                <label for="showInstagram">Mostrar Instagram</label>
+            </div>
+            <div class="form-group" id="instagramGroup">
                 <label><i class="fab fa-instagram"></i> Instagram:</label>
                 <input type="text" id="contactInstagram" placeholder="@seurestaurante">
                 <small>Digite apenas o @usuario</small>
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showFacebook">
+                <label for="showFacebook">Mostrar Facebook</label>
+            </div>
+            <div class="form-group" id="facebookGroup">
                 <label><i class="fab fa-facebook"></i> Facebook:</label>
                 <input type="text" id="contactFacebook" placeholder="facebook.com/seurestaurante">
                 <small>URL completa ou nome da página</small>
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showEmail" checked>
+                <label for="showEmail">Mostrar E-mail</label>
+            </div>
+            <div class="form-group" id="emailGroup">
                 <label><i class="fas fa-envelope"></i> E-mail:</label>
                 <input type="email" id="contactEmail" placeholder="contato@restaurante.com">
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showAddress" checked>
+                <label for="showAddress">Mostrar Endereço</label>
+            </div>
+            <div class="form-group" id="addressGroup">
                 <label><i class="fas fa-map-marker-alt"></i> Endereço:</label>
                 <input type="text" id="contactAddress" placeholder="Rua Exemplo, 123 - Bairro">
             </div>
 
-            <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="showHours" checked>
+                <label for="showHours">Mostrar Horário</label>
+            </div>
+            <div class="form-group" id="hoursGroup">
                 <label><i class="fas fa-clock"></i> Horário de Funcionamento:</label>
                 <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h">
             </div>
 
-            <button class="btn" onclick="saveContacts()">Salvar Contatos</button>
-            <button class="btn-secondary btn" onclick="closeModal('contactModal')">Cancelar</button>
+            <button class="btn" onclick="saveContacts()">💾 Salvar Contatos</button>
+            <button class="btn-secondary btn" onclick="closeModal('contactModal')">❌ Cancelar</button>
         </div>
     </div>
 
-    <!-- Modal de Fontes -->
-    <div id="fontModal" class="modal">
+    <!-- Modal de Estilos -->
+    <div id="styleModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('fontModal')">&times;</span>
-            <h2>Personalizar Fontes</h2>
+            <span class="close-modal" onclick="closeModal('styleModal')">&times;</span>
+            <h2>🎨 Personalizar Estilos</h2>
+
+            <h3 style="margin-top: 20px; color: #333;">📏 Tamanhos de Texto</h3>
 
             <div class="form-group">
-                <label>Fonte do Título Principal:</label>
-                <select id="fontTitle" onchange="previewFont('title')">
+                <label>Tamanho do Título Principal:</label>
+                <input type="range" id="titleSize" min="20" max="60" value="40" oninput="updateSizePreview('title')">
+                <small id="titleSizeValue">40px</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tamanho do Subtítulo:</label>
+                <input type="range" id="subtitleSize" min="14" max="30" value="19" oninput="updateSizePreview('subtitle')">
+                <small id="subtitleSizeValue">19px</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tamanho dos Nomes dos Pratos:</label>
+                <input type="range" id="itemTitleSize" min="16" max="32" value="22" oninput="updateSizePreview('itemTitle')">
+                <small id="itemTitleSizeValue">22px</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tamanho das Descrições:</label>
+                <input type="range" id="itemDescriptionSize" min="12" max="20" value="16" oninput="updateSizePreview('itemDescription')">
+                <small id="itemDescriptionSizeValue">16px</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tamanho dos Preços:</label>
+                <input type="range" id="priceSize" min="18" max="36" value="24" oninput="updateSizePreview('price')">
+                <small id="priceSizeValue">24px</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tamanho dos Contatos:</label>
+                <input type="range" id="contactSize" min="12" max="20" value="16" oninput="updateSizePreview('contact')">
+                <small id="contactSizeValue">16px</small>
+            </div>
+
+            <h3 style="margin-top: 30px; color: #333;">🎨 Cores dos Textos</h3>
+
+            <div class="form-group">
+                <label>Cor do Título Principal:</label>
+                <div class="color-input-group">
+                    <input type="color" id="titleColor" value="#ffffff">
+                    <input type="text" id="titleColorText" value="#ffffff" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cor do Subtítulo:</label>
+                <div class="color-input-group">
+                    <input type="color" id="subtitleColor" value="#ffffff">
+                    <input type="text" id="subtitleColorText" value="#ffffff" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cor dos Nomes dos Pratos:</label>
+                <div class="color-input-group">
+                    <input type="color" id="itemTitleColor" value="#333333">
+                    <input type="text" id="itemTitleColorText" value="#333333" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cor das Descrições:</label>
+                <div class="color-input-group">
+                    <input type="color" id="itemDescriptionColor" value="#666666">
+                    <input type="text" id="itemDescriptionColorText" value="#666666" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cor dos Preços:</label>
+                <div class="color-input-group">
+                    <input type="color" id="priceColor" value="#ff6b6b">
+                    <input type="text" id="priceColorText" value="#ff6b6b" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Cor dos Contatos:</label>
+                <div class="color-input-group">
+                    <input type="color" id="contactColor" value="#ffffff">
+                    <input type="text" id="contactColorText" value="#ffffff" readonly>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; color: #333;">✏️ Fontes</h3>
+
+            <div class="form-group">
+                <label>Fonte do Título:</label>
+                <select id="fontTitle">
                     <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
                     <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
                     <option value="'Roboto', sans-serif">Roboto (Simples)</option>
                 </select>
-                <div class="font-preview" id="previewTitle" style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;">Meu Restaurante</div>
             </div>
 
             <div class="form-group">
                 <label>Fonte do Subtítulo:</label>
-                <select id="fontSubtitle" onchange="previewFont('subtitle')">
+                <select id="fontSubtitle">
                     <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
                     <option value="'Roboto', sans-serif">Roboto (Simples)</option>
                     <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
                 </select>
-                <div class="font-preview" id="previewSubtitle" style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 300;">Sabores que encantam</div>
             </div>
 
             <div class="form-group">
-                <label>Fonte dos Nomes dos Pratos:</label>
-                <select id="fontItemTitle" onchange="previewFont('itemTitle')">
+                <label>Fonte dos Pratos:</label>
+                <select id="fontItemTitle">
                     <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
                     <option value="'Roboto', sans-serif">Roboto (Simples)</option>
                     <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
                 </select>
-                <div class="font-preview" id="previewItemTitle" style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 600;">Pizza Margherita</div>
             </div>
 
             <div class="form-group">
                 <label>Fonte das Descrições:</label>
-                <select id="fontItemDescription" onchange="previewFont('itemDescription')">
+                <select id="fontItemDescription">
                     <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
                     <option value="'Roboto', sans-serif">Roboto (Simples)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
                 </select>
-                <div class="font-preview" id="previewItemDescription" style="font-family: 'Poppins', sans-serif; font-size: 16px;">Molho de tomate, mussarela, manjericão fresco</div>
             </div>
 
             <div class="form-group">
                 <label>Fonte dos Preços:</label>
-                <select id="fontPrice" onchange="previewFont('price')">
+                <select id="fontPrice">
                     <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
                     <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
                     <option value="'Roboto', sans-serif">Roboto (Simples)</option>
                 </select>
-                <div class="font-preview" id="previewPrice" style="font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 700; color: #ff6b6b;">R$ 35,90</div>
             </div>
 
-            <div class="form-group">
-                <label>Fonte Geral (Botões e Textos):</label>
-                <select id="fontBody" onchange="previewFont('body')">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                </select>
-            </div>
-
-            <button class="btn" onclick="saveFonts()">Salvar Fontes</button>
-            <button class="btn-secondary btn" onclick="closeModal('fontModal')">Cancelar</button>
+            <button class="btn" onclick="saveStyles()">💾 Salvar Estilos</button>
+            <button class="btn-secondary btn" onclick="closeModal('styleModal')">❌ Cancelar</button>
         </div>
     </div>
 
@@ -566,7 +704,7 @@
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
-            <h2>Configurações Gerais</h2>
+            <h2>⚙️ Configurações Gerais</h2>
             <div class="form-group">
                 <label>Nome do Restaurante:</label>
                 <input type="text" id="settingsName" placeholder="Nome do restaurante">
@@ -581,10 +719,10 @@
             </div>
             <div class="form-group">
                 <label>Senha de Administrador:</label>
-                <input type="password" id="settingsPassword" placeholder="Nova senha">
+                <input type="password" id="settingsPassword" placeholder="Nova senha (deixe em branco para manter)">
             </div>
-            <button class="btn" onclick="saveSettings()">Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">Cancelar</button>
+            <button class="btn" onclick="saveSettings()">💾 Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">❌ Cancelar</button>
         </div>
     </div>
 
@@ -592,7 +730,7 @@
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('itemModal')">&times;</span>
-            <h2 id="itemModalTitle">Adicionar Item</h2>
+            <h2 id="itemModalTitle">➕ Adicionar Item</h2>
             <div class="form-group">
                 <label>Nome do Prato:</label>
                 <input type="text" id="itemName" placeholder="Ex: Pizza Margherita">
@@ -609,8 +747,8 @@
                 <label>URL da Imagem:</label>
                 <input type="text" id="itemImage" placeholder="https://exemplo.com/imagem.jpg">
             </div>
-            <button class="btn" onclick="saveItem()">Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('itemModal')">Cancelar</button>
+            <button class="btn" onclick="saveItem()">💾 Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('itemModal')">❌ Cancelar</button>
         </div>
     </div>
 
@@ -641,16 +779,34 @@
             facebook: '',
             email: 'contato@restaurante.com',
             address: 'Rua Exemplo, 123 - Centro',
-            hours: 'Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h'
+            hours: 'Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h',
+            showWhatsapp: true,
+            showPhone: false,
+            showInstagram: true,
+            showFacebook: false,
+            showEmail: true,
+            showAddress: true,
+            showHours: true
         };
 
-        let fonts = {
-            title: "'Playfair Display', serif",
-            subtitle: "'Poppins', sans-serif",
-            itemTitle: "'Poppins', sans-serif",
-            itemDescription: "'Poppins', sans-serif",
-            price: "'Poppins', sans-serif",
-            body: "'Poppins', sans-serif"
+        let styles = {
+            titleSize: '40px',
+            subtitleSize: '19px',
+            itemTitleSize: '22px',
+            itemDescriptionSize: '16px',
+            priceSize: '24px',
+            contactSize: '16px',
+            titleColor: '#ffffff',
+            subtitleColor: '#ffffff',
+            itemTitleColor: '#333333',
+            itemDescriptionColor: '#666666',
+            priceColor: '#ff6b6b',
+            contactColor: '#ffffff',
+            titleFont: "'Playfair Display', serif",
+            subtitleFont: "'Poppins', sans-serif",
+            itemTitleFont: "'Poppins', sans-serif",
+            itemDescriptionFont: "'Poppins', sans-serif",
+            priceFont: "'Poppins', sans-serif"
         };
 
         let menuItems = [
@@ -700,7 +856,7 @@
             const statusEl = document.getElementById('firebaseStatus');
             if (connected) {
                 statusEl.className = 'firebase-status connected';
-                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Firebase Conectado</span>';
+                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Conectado ☁️</span>';
             } else {
                 statusEl.className = 'firebase-status disconnected';
                 statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Modo Local</span>';
@@ -725,10 +881,10 @@
                 }
             });
 
-            database.ref('fonts').once('value').then((snapshot) => {
+            database.ref('styles').once('value').then((snapshot) => {
                 if (snapshot.exists()) {
-                    fonts = snapshot.val();
-                    applyFonts();
+                    styles = snapshot.val();
+                    applyStyles();
                 }
             });
 
@@ -751,16 +907,16 @@
         function loadFromLocalStorage() {
             const savedSettings = localStorage.getItem('menuSettings');
             const savedItems = localStorage.getItem('menuItems');
-            const savedFonts = localStorage.getItem('menuFonts');
+            const savedStyles = localStorage.getItem('menuStyles');
             const savedContacts = localStorage.getItem('menuContacts');
 
             if (savedSettings) settings = JSON.parse(savedSettings);
             if (savedItems) menuItems = JSON.parse(savedItems);
-            if (savedFonts) fonts = JSON.parse(savedFonts);
+            if (savedStyles) styles = JSON.parse(savedStyles);
             if (savedContacts) contacts = JSON.parse(savedContacts);
 
             applySettings();
-            applyFonts();
+            applyStyles();
             renderContacts();
             renderMenu();
         }
@@ -769,45 +925,45 @@
         function renderContacts() {
             let contactHTML = '';
 
-            if (contacts.whatsapp) {
+            if (contacts.showWhatsapp && contacts.whatsapp) {
                 const whatsappNumber = contacts.whatsapp.replace(/\D/g, '');
                 contactHTML += `<a href="https://wa.me/55${whatsappNumber}" target="_blank" class="contact-item">
                     <i class="fab fa-whatsapp"></i> ${contacts.whatsapp}
                 </a>`;
             }
 
-            if (contacts.phone) {
+            if (contacts.showPhone && contacts.phone) {
                 contactHTML += `<a href="tel:${contacts.phone}" class="contact-item">
                     <i class="fas fa-phone"></i> ${contacts.phone}
                 </a>`;
             }
 
-            if (contacts.instagram) {
+            if (contacts.showInstagram && contacts.instagram) {
                 const instaUser = contacts.instagram.replace('@', '');
                 contactHTML += `<a href="https://instagram.com/${instaUser}" target="_blank" class="contact-item">
                     <i class="fab fa-instagram"></i> ${contacts.instagram}
                 </a>`;
             }
 
-            if (contacts.facebook) {
+            if (contacts.showFacebook && contacts.facebook) {
                 contactHTML += `<a href="${contacts.facebook.includes('http') ? contacts.facebook : 'https://facebook.com/' + contacts.facebook}" target="_blank" class="contact-item">
                     <i class="fab fa-facebook"></i> Facebook
                 </a>`;
             }
 
-            if (contacts.email) {
+            if (contacts.showEmail && contacts.email) {
                 contactHTML += `<a href="mailto:${contacts.email}" class="contact-item">
                     <i class="fas fa-envelope"></i> ${contacts.email}
                 </a>`;
             }
 
-            if (contacts.address) {
+            if (contacts.showAddress && contacts.address) {
                 contactHTML += `<div class="contact-item">
                     <i class="fas fa-map-marker-alt"></i> ${contacts.address}
                 </div>`;
             }
 
-            if (contacts.hours) {
+            if (contacts.showHours && contacts.hours) {
                 contactHTML += `<div class="contact-item">
                     <i class="fas fa-clock"></i> ${contacts.hours}
                 </div>`;
@@ -817,14 +973,28 @@
             document.getElementById('contactBarFooter').innerHTML = contactHTML;
         }
 
-        // Aplicar fontes
-        function applyFonts() {
-            document.documentElement.style.setProperty('--title-font', fonts.title);
-            document.documentElement.style.setProperty('--subtitle-font', fonts.subtitle);
-            document.documentElement.style.setProperty('--item-title-font', fonts.itemTitle);
-            document.documentElement.style.setProperty('--item-description-font', fonts.itemDescription);
-            document.documentElement.style.setProperty('--price-font', fonts.price);
-            document.documentElement.style.setProperty('--body-font', fonts.body);
+        // Aplicar estilos
+        function applyStyles() {
+            document.documentElement.style.setProperty('--title-size', styles.titleSize);
+            document.documentElement.style.setProperty('--subtitle-size', styles.subtitleSize);
+            document.documentElement.style.setProperty('--item-title-size', styles.itemTitleSize);
+            document.documentElement.style.setProperty('--item-description-size', styles.itemDescriptionSize);
+            document.documentElement.style.setProperty('--price-size', styles.priceSize);
+            document.documentElement.style.setProperty('--contact-size', styles.contactSize);
+            
+            document.documentElement.style.setProperty('--title-color', styles.titleColor);
+            document.documentElement.style.setProperty('--subtitle-color', styles.subtitleColor);
+            document.documentElement.style.setProperty('--item-title-color', styles.itemTitleColor);
+            document.documentElement.style.setProperty('--item-description-color', styles.itemDescriptionColor);
+            document.documentElement.style.setProperty('--price-color', styles.priceColor);
+            document.documentElement.style.setProperty('--contact-color', styles.contactColor);
+            
+            document.documentElement.style.setProperty('--title-font', styles.titleFont);
+            document.documentElement.style.setProperty('--subtitle-font', styles.subtitleFont);
+            document.documentElement.style.setProperty('--item-title-font', styles.itemTitleFont);
+            document.documentElement.style.setProperty('--item-description-font', styles.itemDescriptionFont);
+            document.documentElement.style.setProperty('--price-font', styles.priceFont);
+            document.documentElement.style.setProperty('--body-font', "'Poppins', sans-serif");
         }
 
         // Aplicar configurações
@@ -857,19 +1027,39 @@
         // Renderizar lista admin
         function renderAdminList() {
             const list = document.getElementById('itemList');
-            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">Itens do Cardápio</h3>' +
+            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">📋 Itens do Cardápio</h3>' +
                 menuItems.map(item => `
                 <div class="item-row">
                     <div>
                         <strong>${item.name}</strong> - R$ ${item.price}
                     </div>
                     <div class="item-actions">
-                        <button class="btn" onclick="editItem(${item.id})">Editar</button>
-                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">Excluir</button>
+                        <button class="btn" onclick="editItem(${item.id})">✏️ Editar</button>
+                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️ Excluir</button>
                     </div>
                 </div>
             `).join('');
         }
+
+        // Atualizar preview de tamanho
+        function updateSizePreview(type) {
+            const value = document.getElementById(type + 'Size').value + 'px';
+            document.getElementById(type + 'SizeValue').textContent = value;
+        }
+
+        // Atualizar cor
+        document.addEventListener('DOMContentLoaded', function() {
+            ['title', 'subtitle', 'itemTitle', 'itemDescription', 'price', 'contact'].forEach(type => {
+                const colorInput = document.getElementById(type + 'Color');
+                const textInput = document.getElementById(type + 'ColorText');
+                
+                if (colorInput && textInput) {
+                    colorInput.addEventListener('input', function() {
+                        textInput.value = this.value;
+                    });
+                }
+            });
+        });
 
         // Modais
         function showLoginModal() {
@@ -889,6 +1079,15 @@
             document.getElementById('contactEmail').value = contacts.email;
             document.getElementById('contactAddress').value = contacts.address;
             document.getElementById('contactHours').value = contacts.hours;
+            
+            document.getElementById('showWhatsapp').checked = contacts.showWhatsapp !== false;
+            document.getElementById('showPhone').checked = contacts.showPhone === true;
+            document.getElementById('showInstagram').checked = contacts.showInstagram !== false;
+            document.getElementById('showFacebook').checked = contacts.showFacebook === true;
+            document.getElementById('showEmail').checked = contacts.showEmail !== false;
+            document.getElementById('showAddress').checked = contacts.showAddress !== false;
+            document.getElementById('showHours').checked = contacts.showHours !== false;
+            
             document.getElementById('contactModal').style.display = 'block';
         }
 
@@ -900,62 +1099,83 @@
             contacts.email = document.getElementById('contactEmail').value;
             contacts.address = document.getElementById('contactAddress').value;
             contacts.hours = document.getElementById('contactHours').value;
+            
+            contacts.showWhatsapp = document.getElementById('showWhatsapp').checked;
+            contacts.showPhone = document.getElementById('showPhone').checked;
+            contacts.showInstagram = document.getElementById('showInstagram').checked;
+            contacts.showFacebook = document.getElementById('showFacebook').checked;
+            contacts.showEmail = document.getElementById('showEmail').checked;
+            contacts.showAddress = document.getElementById('showAddress').checked;
+            contacts.showHours = document.getElementById('showHours').checked;
 
             saveToFirebase('contacts', contacts);
             renderContacts();
             closeModal('contactModal');
-            alert('Contatos salvos com sucesso!');
+            alert('✅ Contatos salvos com sucesso!');
         }
 
-        function showFontModal() {
-            document.getElementById('fontTitle').value = fonts.title;
-            document.getElementById('fontSubtitle').value = fonts.subtitle;
-            document.getElementById('fontItemTitle').value = fonts.itemTitle;
-            document.getElementById('fontItemDescription').value = fonts.itemDescription;
-            document.getElementById('fontPrice').value = fonts.price;
-            document.getElementById('fontBody').value = fonts.body;
-
-            previewFont('title');
-            previewFont('subtitle');
-            previewFont('itemTitle');
-            previewFont('itemDescription');
-            previewFont('price');
-
-            document.getElementById('fontModal').style.display = 'block';
+        function showStyleModal() {
+            document.getElementById('titleSize').value = parseInt(styles.titleSize);
+            document.getElementById('subtitleSize').value = parseInt(styles.subtitleSize);
+            document.getElementById('itemTitleSize').value = parseInt(styles.itemTitleSize);
+            document.getElementById('itemDescriptionSize').value = parseInt(styles.itemDescriptionSize);
+            document.getElementById('priceSize').value = parseInt(styles.priceSize);
+            document.getElementById('contactSize').value = parseInt(styles.contactSize);
+            
+            updateSizePreview('title');
+            updateSizePreview('subtitle');
+            updateSizePreview('itemTitle');
+            updateSizePreview('itemDescription');
+            updateSizePreview('price');
+            updateSizePreview('contact');
+            
+            document.getElementById('titleColor').value = styles.titleColor;
+            document.getElementById('titleColorText').value = styles.titleColor;
+            document.getElementById('subtitleColor').value = styles.subtitleColor;
+            document.getElementById('subtitleColorText').value = styles.subtitleColor;
+            document.getElementById('itemTitleColor').value = styles.itemTitleColor;
+            document.getElementById('itemTitleColorText').value = styles.itemTitleColor;
+            document.getElementById('itemDescriptionColor').value = styles.itemDescriptionColor;
+            document.getElementById('itemDescriptionColorText').value = styles.itemDescriptionColor;
+            document.getElementById('priceColor').value = styles.priceColor;
+            document.getElementById('priceColorText').value = styles.priceColor;
+            document.getElementById('contactColor').value = styles.contactColor;
+            document.getElementById('contactColorText').value = styles.contactColor;
+            
+            document.getElementById('fontTitle').value = styles.titleFont;
+            document.getElementById('fontSubtitle').value = styles.subtitleFont;
+            document.getElementById('fontItemTitle').value = styles.itemTitleFont;
+            document.getElementById('fontItemDescription').value = styles.itemDescriptionFont;
+            document.getElementById('fontPrice').value = styles.priceFont;
+            
+            document.getElementById('styleModal').style.display = 'block';
         }
 
-        function previewFont(type) {
-            const fontMap = {
-                'title': 'fontTitle',
-                'subtitle': 'fontSubtitle',
-                'itemTitle': 'fontItemTitle',
-                'itemDescription': 'fontItemDescription',
-                'price': 'fontPrice',
-                'body': 'fontBody'
-            };
+        function saveStyles() {
+            styles.titleSize = document.getElementById('titleSize').value + 'px';
+            styles.subtitleSize = document.getElementById('subtitleSize').value + 'px';
+            styles.itemTitleSize = document.getElementById('itemTitleSize').value + 'px';
+            styles.itemDescriptionSize = document.getElementById('itemDescriptionSize').value + 'px';
+            styles.priceSize = document.getElementById('priceSize').value + 'px';
+            styles.contactSize = document.getElementById('contactSize').value + 'px';
+            
+            styles.titleColor = document.getElementById('titleColor').value;
+            styles.subtitleColor = document.getElementById('subtitleColor').value;
+            styles.itemTitleColor = document.getElementById('itemTitleColor').value;
+            styles.itemDescriptionColor = document.getElementById('itemDescriptionColor').value;
+            styles.priceColor = document.getElementById('priceColor').value;
+            styles.contactColor = document.getElementById('contactColor').value;
+            
+            styles.titleFont = document.getElementById('fontTitle').value;
+            styles.subtitleFont = document.getElementById('fontSubtitle').value;
+            styles.itemTitleFont = document.getElementById('fontItemTitle').value;
+            styles.itemDescriptionFont = document.getElementById('fontItemDescription').value;
+            styles.priceFont = document.getElementById('fontPrice').value;
 
-            const selectId = fontMap[type];
-            const previewId = 'preview' + type.charAt(0).toUpperCase() + type.slice(1);
-            const selectedFont = document.getElementById(selectId).value;
-            const previewElement = document.getElementById(previewId);
-
-            if (previewElement) {
-                previewElement.style.fontFamily = selectedFont;
-            }
-        }
-
-        function saveFonts() {
-            fonts.title = document.getElementById('fontTitle').value;
-            fonts.subtitle = document.getElementById('fontSubtitle').value;
-            fonts.itemTitle = document.getElementById('fontItemTitle').value;
-            fonts.itemDescription = document.getElementById('fontItemDescription').value;
-            fonts.price = document.getElementById('fontPrice').value;
-            fonts.body = document.getElementById('fontBody').value;
-
-            saveToFirebase('fonts', fonts);
-            applyFonts();
-            closeModal('fontModal');
-            alert('Fontes salvas com sucesso!');
+            saveToFirebase('styles', styles);
+            applyStyles();
+            closeModal('styleModal');
+            alert('✅ Estilos salvos com sucesso!');
         }
 
         function showSettingsModal() {
@@ -967,7 +1187,7 @@
 
         function showAddItemModal() {
             editingItemId = null;
-            document.getElementById('itemModalTitle').textContent = 'Adicionar Item';
+            document.getElementById('itemModalTitle').textContent = '➕ Adicionar Item';
             document.getElementById('itemName').value = '';
             document.getElementById('itemDescription').value = '';
             document.getElementById('itemPrice').value = '';
@@ -987,16 +1207,16 @@
                 closeModal('loginModal');
                 document.getElementById('adminPanel').style.display = 'block';
                 renderMenu();
-                alert('Login realizado com sucesso!');
+                alert('✅ Login realizado com sucesso!');
             } else {
-                alert('Senha incorreta!');
+                alert('❌ Senha incorreta!');
             }
         }
 
         function logout() {
             isLoggedIn = false;
             document.getElementById('adminPanel').style.display = 'none';
-            alert('Logout realizado!');
+            alert('👋 Logout realizado!');
         }
 
         // Salvar configurações
@@ -1011,7 +1231,7 @@
             saveToFirebase('settings', settings);
             applySettings();
             closeModal('settingsModal');
-            alert('Configurações salvas!');
+            alert('✅ Configurações salvas!');
         }
 
         // Gerenciar itens
@@ -1022,7 +1242,7 @@
             const image = document.getElementById('itemImage').value;
 
             if (!name || !price) {
-                alert('Preencha pelo menos o nome e o preço!');
+                alert('⚠️ Preencha pelo menos o nome e o preço!');
                 return;
             }
 
@@ -1037,13 +1257,13 @@
             saveToFirebase('menuItems', menuItems);
             renderMenu();
             closeModal('itemModal');
-            alert('Item salvo!');
+            alert('✅ Item salvo!');
         }
 
         function editItem(id) {
             editingItemId = id;
             const item = menuItems.find(i => i.id === id);
-            document.getElementById('itemModalTitle').textContent = 'Editar Item';
+            document.getElementById('itemModalTitle').textContent = '✏️ Editar Item';
             document.getElementById('itemName').value = item.name;
             document.getElementById('itemDescription').value = item.description;
             document.getElementById('itemPrice').value = item.price;
@@ -1052,11 +1272,11 @@
         }
 
         function deleteItem(id) {
-            if (confirm('Deseja realmente excluir este item?')) {
+            if (confirm('⚠️ Deseja realmente excluir este item?')) {
                 menuItems = menuItems.filter(item => item.id !== id);
                 saveToFirebase('menuItems', menuItems);
                 renderMenu();
-                alert('Item excluído!');
+                alert('✅ Item excluído!');
             }
         }
 
