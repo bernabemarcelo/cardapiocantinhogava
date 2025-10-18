@@ -11,6 +11,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
         * {
@@ -56,15 +57,20 @@
             color: #27ae60;
         }
 
-        .firebase-status.disconnected {
-            color: #e74c3c;
-        }
-
         header {
             text-align: center;
             color: white;
             padding: 30px 20px;
             margin-bottom: 30px;
+        }
+
+        #restaurantLogo {
+            max-width: 300px;
+            max-height: 150px;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         header h1 {
@@ -113,6 +119,23 @@
         .contact-item:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 2em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .menu-grid {
@@ -170,27 +193,6 @@
             font-weight: 700;
         }
 
-        .add-cart-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(46, 204, 113, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            color: white;
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-        .menu-item:hover .add-cart-overlay {
-            opacity: 1;
-        }
-
         .cart-float-btn {
             position: fixed;
             bottom: 30px;
@@ -229,7 +231,7 @@
             border: 3px solid white;
         }
 
-        .cart-modal {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -239,6 +241,133 @@
             background: rgba(0,0,0,0.85);
             z-index: 3000;
             overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #666;
+            background: #f0f0f0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #e0e0e0;
+            transform: rotate(90deg);
+        }
+
+        .product-detail-modal .modal-content {
+            max-width: 500px;
+        }
+
+        .product-detail-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-detail-name {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .product-detail-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .product-detail-price {
+            font-size: 2em;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 25px;
+        }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .qty-selector button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-selector button:hover {
+            background: #27ae60;
+            transform: scale(1.1);
+        }
+
+        .qty-selector span {
+            font-size: 1.8em;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .obs-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
         }
 
         .cart-modal-content {
@@ -267,26 +396,9 @@
             font-weight: 700;
         }
 
-        .close-cart-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5em;
-            transition: all 0.3s;
-        }
-
-        .close-cart-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(90deg);
-        }
-
         .cart-items-container {
             padding: 25px;
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
             flex: 1;
         }
@@ -328,59 +440,32 @@
             margin-bottom: 10px;
         }
 
-        .cart-qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
+        .cart-item-qty {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 5px;
         }
 
-        .qty-btn {
-            background: #2ecc71;
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.3s;
-        }
-
-        .qty-btn:hover {
-            background: #27ae60;
-            transform: scale(1.1);
-        }
-
-        .qty-display {
-            font-weight: 600;
-            min-width: 35px;
-            text-align: center;
-            font-size: 1.1em;
+        .cart-item-obs {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
         }
 
         .remove-btn {
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.85em;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
         .remove-btn:hover {
             background: #c0392b;
-        }
-
-        .cart-obs-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.9em;
-            margin-top: 8px;
         }
 
         .cart-empty {
@@ -411,7 +496,7 @@
             color: #2c3e50;
         }
 
-        .checkout-whatsapp-btn {
+        .checkout-btn {
             width: 100%;
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
@@ -428,9 +513,22 @@
             gap: 10px;
         }
 
-        .checkout-whatsapp-btn:hover {
+        .checkout-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+
+        .customer-info-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .customer-info-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
         }
 
         footer {
@@ -438,7 +536,6 @@
             color: white;
             padding: 30px 20px;
             margin-top: 40px;
-            position: relative;
         }
 
         footer p {
@@ -465,38 +562,6 @@
             transform: scale(1.05);
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background: white;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            border-radius: 15px;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #666;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -516,6 +581,7 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
+            font-family: 'Poppins', sans-serif;
         }
 
         .form-group textarea {
@@ -587,17 +653,28 @@
             font-size: 14px;
         }
 
-        .color-input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        .image-upload-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: none;
         }
 
-        .color-input-group input[type="color"] {
-            width: 60px;
-            height: 40px;
-            border: none;
-            border-radius: 5px;
+        .image-size-control {
+            margin-top: 10px;
+        }
+
+        .logo-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo-type-selector label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
         }
 
@@ -615,8 +692,8 @@
                 right: 20px;
             }
 
-            .cart-modal-content {
-                margin: 10px;
+            .modal-content {
+                margin: 20px;
             }
         }
     </style>
@@ -630,6 +707,7 @@
 
         <div class="container">
             <header>
+                <img id="restaurantLogo" style="display: none;">
                 <h1 id="restaurantName">Meu Restaurante</h1>
                 <p id="restaurantSubtitle">Sabores que encantam</p>
                 <div class="contact-bar" id="contactBar"></div>
@@ -640,14 +718,14 @@
                     <h2>Painel Administrativo</h2>
                     <button class="btn" onclick="showSettingsModal()">⚙️ Configurações</button>
                     <button class="btn" onclick="showContactModal()">📞 Contatos</button>
-                    <button class="btn" onclick="showStyleModal()">🎨 Estilos</button>
+                    <button class="btn" onclick="showCategoryModal()">📁 Gerenciar Categorias</button>
                     <button class="btn" onclick="showAddItemModal()">➕ Adicionar Item</button>
                     <button class="btn-secondary btn" onclick="logout()">🚪 Sair</button>
                     <div class="item-list" id="itemList"></div>
                 </div>
             </div>
 
-            <div class="menu-grid" id="menuGrid"></div>
+            <div id="menuContainer"></div>
 
             <footer>
                 <div class="contact-bar" id="contactBarFooter"></div>
@@ -662,11 +740,35 @@
         <span class="cart-count" id="cartCount">0</span>
     </button>
 
-    <div id="cartModal" class="cart-modal">
+    <!-- Modal Detalhes do Produto -->
+    <div id="productDetailModal" class="modal product-detail-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('productDetailModal')">×</span>
+            <img id="detailProductImg" class="product-detail-img">
+            <h2 id="detailProductName" class="product-detail-name"></h2>
+            <p id="detailProductDescription" class="product-detail-description"></p>
+            <div id="detailProductPrice" class="product-detail-price"></div>
+            
+            <div class="qty-selector">
+                <button onclick="decreaseDetailQty()">-</button>
+                <span id="detailQty">1</span>
+                <button onclick="increaseDetailQty()">+</button>
+            </div>
+            
+            <textarea id="detailObs" class="obs-textarea" placeholder="Observações (opcional)"></textarea>
+            
+            <button class="add-to-cart-btn" onclick="confirmAddToCart()">
+                <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal do Carrinho -->
+    <div id="cartModal" class="modal">
         <div class="cart-modal-content">
             <div class="cart-header">
                 <h2><i class="fas fa-shopping-cart"></i> Meu Pedido</h2>
-                <button class="close-cart-btn" onclick="closeCartModal()">×</button>
+                <button class="close-modal" onclick="closeModal('cartModal')">×</button>
             </div>
             <div class="cart-items-container" id="cartItemsContainer"></div>
             <div class="cart-footer">
@@ -674,13 +776,40 @@
                     <span>Total:</span>
                     <span id="cartTotalDisplay">R$ 0,00</span>
                 </div>
-                <button class="checkout-whatsapp-btn" onclick="sendOrderToWhatsApp()">
-                    <i class="fab fa-whatsapp"></i> Finalizar Pedido
+                <button class="checkout-btn" onclick="showCheckoutModal()">
+                    <i class="fas fa-check-circle"></i> Finalizar Pedido
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Modal Checkout -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('checkoutModal')">×</span>
+            <h2>📋 Finalizar Pedido</h2>
+            <div class="customer-info-section">
+                <h3>Seus Dados</h3>
+                <div class="form-group">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="customerName" placeholder="Digite seu nome">
+                </div>
+                <div class="form-group">
+                    <label>Celular/WhatsApp:</label>
+                    <input type="tel" id="customerPhone" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label>Endereço de Entrega:</label>
+                    <textarea id="customerAddress" placeholder="Rua, número, complemento, bairro"></textarea>
+                </div>
+            </div>
+            <button class="checkout-btn" onclick="sendOrderToWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Enviar Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Login -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('loginModal')">×</span>
@@ -693,6 +822,63 @@
         </div>
     </div>
 
+    <!-- Modal Configurações -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('settingsModal')">×</span>
+            <h2>⚙️ Configurações</h2>
+            
+            <div class="form-group">
+                <label>Tipo de Logo:</label>
+                <div class="logo-type-selector">
+                    <label>
+                        <input type="radio" name="logoType" value="text" checked onchange="toggleLogoType()">
+                        Texto
+                    </label>
+                    <label>
+                        <input type="radio" name="logoType" value="image" onchange="toggleLogoType()">
+                        Imagem
+                    </label>
+                </div>
+            </div>
+
+            <div id="textLogoSection">
+                <div class="form-group">
+                    <label>Nome do Restaurante:</label>
+                    <input type="text" id="settingsName">
+                </div>
+            </div>
+
+            <div id="imageLogoSection" style="display: none;">
+                <div class="form-group">
+                    <label>Logo (Imagem):</label>
+                    <input type="file" id="logoImageInput" accept="image/*" capture="environment" onchange="previewLogoImage(this)">
+                    <img id="logoPreview" class="image-upload-preview">
+                </div>
+                <div class="form-group image-size-control" id="logoSizeControl" style="display: none;">
+                    <label>Tamanho da Logo:</label>
+                    <input type="range" id="logoSize" min="100" max="400" value="300" oninput="updateLogoSize()">
+                    <small id="logoSizeValue">300px</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Subtítulo:</label>
+                <input type="text" id="settingsSubtitle">
+            </div>
+            <div class="form-group">
+                <label>Imagem de Fundo:</label>
+                <input type="text" id="settingsBackground">
+            </div>
+            <div class="form-group">
+                <label>Senha Admin:</label>
+                <input type="password" id="settingsPassword" placeholder="Nova senha">
+            </div>
+            <button class="btn" onclick="saveSettings()">💾 Salvar</button>
+        </div>
+    </div>
+
+    <!-- Modal Contatos -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('contactModal')">×</span>
@@ -703,13 +889,6 @@
             </div>
             <div class="form-group">
                 <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showPhone">
-                <label>Telefone</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="contactPhone" placeholder="(11) 3333-4444">
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="showInstagram" checked>
@@ -732,78 +911,33 @@
             <div class="form-group">
                 <input type="text" id="contactAddress" placeholder="Rua, número">
             </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showHours" checked>
-                <label>Horário</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h">
-            </div>
             <button class="btn" onclick="saveContacts()">💾 Salvar</button>
         </div>
     </div>
 
-    <div id="styleModal" class="modal">
+    <!-- Modal Categorias -->
+    <div id="categoryModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('styleModal')">×</span>
-            <h2>🎨 Estilos</h2>
+            <span class="close-modal" onclick="closeModal('categoryModal')">×</span>
+            <h2>📁 Gerenciar Categorias</h2>
             <div class="form-group">
-                <label>Tamanho Título:</label>
-                <input type="range" id="titleSize" min="20" max="60" value="40" oninput="updateSizePreview('title')">
-                <small id="titleSizeValue">40px</small>
+                <label>Nova Categoria:</label>
+                <input type="text" id="newCategoryName" placeholder="Ex: Pizzas, Bebidas, Sobremesas">
             </div>
-            <div class="form-group">
-                <label>Tamanho Subtítulo:</label>
-                <input type="range" id="subtitleSize" min="14" max="30" value="19" oninput="updateSizePreview('subtitle')">
-                <small id="subtitleSizeValue">19px</small>
-            </div>
-            <div class="form-group">
-                <label>Cor Título:</label>
-                <div class="color-input-group">
-                    <input type="color" id="titleColor" value="#ffffff">
-                    <input type="text" id="titleColorText" value="#ffffff" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Fonte Título:</label>
-                <select id="fontTitle">
-                    <option value="'Playfair Display', serif">Playfair Display</option>
-                    <option value="'Poppins', sans-serif">Poppins</option>
-                    <option value="'Montserrat', sans-serif">Montserrat</option>
-                </select>
-            </div>
-            <button class="btn" onclick="saveStyles()">💾 Salvar</button>
+            <button class="btn" onclick="addCategory()">➕ Adicionar Categoria</button>
+            <div id="categoryList" style="margin-top: 20px;"></div>
         </div>
     </div>
 
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('settingsModal')">×</span>
-            <h2>⚙️ Configurações</h2>
-            <div class="form-group">
-                <label>Nome:</label>
-                <input type="text" id="settingsName">
-            </div>
-            <div class="form-group">
-                <label>Subtítulo:</label>
-                <input type="text" id="settingsSubtitle">
-            </div>
-            <div class="form-group">
-                <label>Imagem de Fundo:</label>
-                <input type="text" id="settingsBackground">
-            </div>
-            <div class="form-group">
-                <label>Senha:</label>
-                <input type="password" id="settingsPassword">
-            </div>
-            <button class="btn" onclick="saveSettings()">💾 Salvar</button>
-        </div>
-    </div>
-
+    <!-- Modal Item -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('itemModal')">×</span>
             <h2 id="itemModalTitle">➕ Item</h2>
+            <div class="form-group">
+                <label>Categoria:</label>
+                <select id="itemCategory"></select>
+            </div>
             <div class="form-group">
                 <label>Nome:</label>
                 <input type="text" id="itemName">
@@ -814,11 +948,17 @@
             </div>
             <div class="form-group">
                 <label>Preço:</label>
-                <input type="text" id="itemPrice">
+                <input type="text" id="itemPrice" placeholder="35.90">
             </div>
             <div class="form-group">
-                <label>Imagem URL:</label>
-                <input type="text" id="itemImage">
+                <label>Imagem do Produto:</label>
+                <input type="file" id="itemImageInput" accept="image/*" capture="environment" onchange="previewItemImage(this)">
+                <img id="itemImagePreview" class="image-upload-preview">
+            </div>
+            <div class="form-group image-size-control" id="itemImageSizeControl" style="display: none;">
+                <label>Tamanho da Imagem:</label>
+                <input type="range" id="itemImageSize" min="150" max="400" value="200" oninput="updateItemImageSize()">
+                <small id="itemImageSizeValue">200px</small>
             </div>
             <button class="btn" onclick="saveItem()">💾 Salvar</button>
         </div>
@@ -839,64 +979,50 @@
             name: 'Meu Restaurante',
             subtitle: 'Sabores que encantam',
             background: 'https://placehold.co/1920x1080/2c3e50/ffffff?text=Fundo',
-            password: 'admin123'
+            password: 'admin123',
+            logoType: 'text',
+            logoImage: '',
+            logoSize: '300px'
         };
 
         let contacts = {
             whatsapp: '(11) 99999-9999',
-            phone: '',
             instagram: '@restaurante',
             email: 'contato@restaurante.com',
             address: 'Rua Exemplo, 123',
-            hours: 'Seg-Sex: 11h-23h',
             showWhatsapp: true,
-            showPhone: false,
             showInstagram: true,
             showEmail: true,
-            showAddress: true,
-            showHours: true
+            showAddress: true
         };
 
-        let styles = {
-            titleSize: '40px',
-            subtitleSize: '19px',
-            itemTitleSize: '22px',
-            itemDescriptionSize: '16px',
-            priceSize: '24px',
-            contactSize: '16px',
-            titleColor: '#ffffff',
-            subtitleColor: '#ffffff',
-            itemTitleColor: '#333333',
-            itemDescriptionColor: '#666666',
-            priceColor: '#ff6b6b',
-            contactColor: '#ffffff',
-            titleFont: "'Playfair Display', serif",
-            subtitleFont: "'Poppins', sans-serif",
-            itemTitleFont: "'Poppins', sans-serif",
-            itemDescriptionFont: "'Poppins', sans-serif",
-            priceFont: "'Poppins', sans-serif"
-        };
+        let categories = ['Pratos Principais', 'Bebidas'];
 
         let menuItems = [
             {
                 id: 1,
+                category: 'Pratos Principais',
                 name: 'Pizza Margherita',
                 description: 'Molho, mussarela, manjericão',
                 price: '35.90',
-                image: 'https://placehold.co/400x300/e74c3c/ffffff?text=Pizza'
+                image: 'https://placehold.co/400x300/e74c3c/ffffff?text=Pizza',
+                imageSize: '200px'
             },
             {
                 id: 2,
-                name: 'Hambúrguer',
-                description: 'Pão, blend 180g, queijo',
-                price: '28.50',
-                image: 'https://placehold.co/400x300/3498db/ffffff?text=Hamburguer'
+                category: 'Bebidas',
+                name: 'Refrigerante',
+                description: 'Lata 350ml',
+                price: '5.00',
+                image: 'https://placehold.co/400x300/3498db/ffffff?text=Bebida',
+                imageSize: '200px'
             }
         ];
 
         let cart = [];
         let isLoggedIn = false;
         let editingItemId = null;
+        let currentProductDetail = null;
         let database = null;
 
         function initFirebase() {
@@ -936,10 +1062,9 @@
                     renderContacts();
                 }
             });
-            database.ref('styles').once('value').then(s => {
+            database.ref('categories').once('value').then(s => {
                 if (s.exists()) {
-                    styles = s.val();
-                    applyStyles();
+                    categories = s.val();
                 }
             });
             database.ref('menuItems').once('value').then(s => {
@@ -958,14 +1083,13 @@
         function loadFromLocalStorage() {
             const s1 = localStorage.getItem('menuSettings');
             const s2 = localStorage.getItem('menuItems');
-            const s3 = localStorage.getItem('menuStyles');
-            const s4 = localStorage.getItem('menuContacts');
+            const s3 = localStorage.getItem('menuContacts');
+            const s4 = localStorage.getItem('menuCategories');
             if (s1) settings = JSON.parse(s1);
             if (s2) menuItems = JSON.parse(s2);
-            if (s3) styles = JSON.parse(s3);
-            if (s4) contacts = JSON.parse(s4);
+            if (s3) contacts = JSON.parse(s3);
+            if (s4) categories = JSON.parse(s4);
             applySettings();
-            applyStyles();
             renderContacts();
             renderMenu();
         }
@@ -975,9 +1099,6 @@
             if (contacts.showWhatsapp && contacts.whatsapp) {
                 const num = contacts.whatsapp.replace(/\D/g, '');
                 html += `<a href="https://wa.me/55${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
-            }
-            if (contacts.showPhone && contacts.phone) {
-                html += `<a href="tel:${contacts.phone}" class="contact-item"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
             }
             if (contacts.showInstagram && contacts.instagram) {
                 const user = contacts.instagram.replace('@', '');
@@ -989,68 +1110,101 @@
             if (contacts.showAddress && contacts.address) {
                 html += `<div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${contacts.address}</div>`;
             }
-            if (contacts.showHours && contacts.hours) {
-                html += `<div class="contact-item"><i class="fas fa-clock"></i> ${contacts.hours}</div>`;
-            }
             document.getElementById('contactBar').innerHTML = html;
             document.getElementById('contactBarFooter').innerHTML = html;
         }
 
-        function applyStyles() {
-            document.documentElement.style.setProperty('--title-size', styles.titleSize);
-            document.documentElement.style.setProperty('--subtitle-size', styles.subtitleSize);
-            document.documentElement.style.setProperty('--item-title-size', styles.itemTitleSize);
-            document.documentElement.style.setProperty('--item-description-size', styles.itemDescriptionSize);
-            document.documentElement.style.setProperty('--price-size', styles.priceSize);
-            document.documentElement.style.setProperty('--contact-size', styles.contactSize);
-            document.documentElement.style.setProperty('--title-color', styles.titleColor);
-            document.documentElement.style.setProperty('--subtitle-color', styles.subtitleColor);
-            document.documentElement.style.setProperty('--item-title-color', styles.itemTitleColor);
-            document.documentElement.style.setProperty('--item-description-color', styles.itemDescriptionColor);
-            document.documentElement.style.setProperty('--price-color', styles.priceColor);
-            document.documentElement.style.setProperty('--contact-color', styles.contactColor);
-            document.documentElement.style.setProperty('--title-font', styles.titleFont);
-            document.documentElement.style.setProperty('--subtitle-font', styles.subtitleFont);
-            document.documentElement.style.setProperty('--item-title-font', styles.itemTitleFont);
-            document.documentElement.style.setProperty('--item-description-font', styles.itemDescriptionFont);
-            document.documentElement.style.setProperty('--price-font', styles.priceFont);
-        }
-
         function applySettings() {
-            document.getElementById('restaurantName').textContent = settings.name;
+            const logoEl = document.getElementById('restaurantLogo');
+            const nameEl = document.getElementById('restaurantName');
+            
+            if (settings.logoType === 'image' && settings.logoImage) {
+                logoEl.src = settings.logoImage;
+                logoEl.style.maxWidth = settings.logoSize || '300px';
+                logoEl.style.display = 'block';
+                nameEl.style.display = 'none';
+            } else {
+                logoEl.style.display = 'none';
+                nameEl.style.display = 'block';
+                nameEl.textContent = settings.name;
+            }
+            
             document.getElementById('restaurantSubtitle').textContent = settings.subtitle;
             document.getElementById('footerName').textContent = settings.name;
             document.body.style.backgroundImage = `url('${settings.background}')`;
         }
 
         function renderMenu() {
-            const grid = document.getElementById('menuGrid');
-            grid.innerHTML = menuItems.map(item => `
-                <div class="menu-item" onclick="addToCart(${item.id})">
-                    <div class="add-cart-overlay">
-                        <i class="fas fa-cart-plus"></i> Adicionar
-                    </div>
-                    <img src="${item.image}" alt="${item.name}">
-                    <div class="menu-item-content">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <div class="price">R$ ${item.price}</div>
-                    </div>
-                </div>
-            `).join('');
+            const container = document.getElementById('menuContainer');
+            let html = '';
+            
+            categories.forEach(category => {
+                const categoryItems = menuItems.filter(item => item.category === category);
+                if (categoryItems.length > 0) {
+                    html += `
+                        <div class="category-section">
+                            <h2 class="category-title">${category}</h2>
+                            <div class="menu-grid">
+                                ${categoryItems.map(item => `
+                                    <div class="menu-item" onclick="showProductDetail(${item.id})">
+                                        <img src="${item.image}" alt="${item.name}" style="height: ${item.imageSize || '200px'}">
+                                        <div class="menu-item-content">
+                                            <h3>${item.name}</h3>
+                                            <p>${item.description}</p>
+                                            <div class="price">R$ ${item.price}</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            container.innerHTML = html;
             if (isLoggedIn) renderAdminList();
         }
 
-        function addToCart(itemId) {
+        function showProductDetail(itemId) {
             const item = menuItems.find(i => i.id === itemId);
             if (!item) return;
-            const existing = cart.find(i => i.id === itemId);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push({...item, quantity: 1, observation: ''});
-            }
+            
+            currentProductDetail = item;
+            document.getElementById('detailProductImg').src = item.image;
+            document.getElementById('detailProductName').textContent = item.name;
+            document.getElementById('detailProductDescription').textContent = item.description;
+            document.getElementById('detailProductPrice').textContent = `R$ ${item.price}`;
+            document.getElementById('detailQty').textContent = '1';
+            document.getElementById('detailObs').value = '';
+            
+            document.getElementById('productDetailModal').style.display = 'block';
+        }
+
+        function increaseDetailQty() {
+            const qtyEl = document.getElementById('detailQty');
+            qtyEl.textContent = parseInt(qtyEl.textContent) + 1;
+        }
+
+        function decreaseDetailQty() {
+            const qtyEl = document.getElementById('detailQty');
+            const current = parseInt(qtyEl.textContent);
+            if (current > 1) qtyEl.textContent = current - 1;
+        }
+
+        function confirmAddToCart() {
+            if (!currentProductDetail) return;
+            
+            const qty = parseInt(document.getElementById('detailQty').textContent);
+            const obs = document.getElementById('detailObs').value;
+            
+            cart.push({
+                ...currentProductDetail,
+                quantity: qty,
+                observation: obs
+            });
+            
             updateCartDisplay();
+            closeModal('productDetailModal');
             showNotification();
         }
 
@@ -1067,22 +1221,22 @@
                 document.getElementById('cartTotalDisplay').textContent = 'R$ 0,00';
                 return;
             }
-            container.innerHTML = cart.map((item, i) => `
-                <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-                    <div class="cart-item-details">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">R$ ${item.price}</div>
-                        <div class="cart-qty-controls">
-                            <button class="qty-btn" onclick="decreaseQty(${i})">-</button>
-                            <span class="qty-display">${item.quantity}</span>
-                            <button class="qty-btn" onclick="increaseQty(${i})">+</button>
-                            <button class="remove-btn" onclick="removeFromCart(${i})"><i class="fas fa-trash"></i></button>
+            container.innerHTML = cart.map((item, i) => {
+                const subtotal = (parseFloat(item.price.replace(',', '.')) * item.quantity).toFixed(2).replace('.', ',');
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">R$ ${item.price}</div>
+                            <div class="cart-item-qty">Quantidade: ${item.quantity}x</div>
+                            ${item.observation ? `<div class="cart-item-obs">Obs: ${item.observation}</div>` : ''}
+                            <div class="cart-item-price" style="margin-top: 8px;">Subtotal: R$ ${subtotal}</div>
+                            <button class="remove-btn" onclick="removeFromCart(${i})"><i class="fas fa-trash"></i> Remover</button>
                         </div>
-                        <input type="text" class="cart-obs-input" placeholder="Observações" value="${item.observation}" onchange="updateObs(${i}, this.value)">
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             updateTotal();
         }
 
@@ -1091,33 +1245,22 @@
             document.getElementById('cartTotalDisplay').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
         }
 
-        function increaseQty(i) {
-            cart[i].quantity++;
-            updateCartDisplay();
-        }
-
-        function decreaseQty(i) {
-            if (cart[i].quantity > 1) {
-                cart[i].quantity--;
-                updateCartDisplay();
-            }
-        }
-
         function removeFromCart(i) {
             cart.splice(i, 1);
             updateCartDisplay();
-        }
-
-        function updateObs(i, val) {
-            cart[i].observation = val;
         }
 
         function openCartModal() {
             document.getElementById('cartModal').style.display = 'block';
         }
 
-        function closeCartModal() {
-            document.getElementById('cartModal').style.display = 'none';
+        function showCheckoutModal() {
+            if (cart.length === 0) {
+                alert('Carrinho vazio!');
+                return;
+            }
+            closeModal('cartModal');
+            document.getElementById('checkoutModal').style.display = 'block';
         }
 
         function showNotification() {
@@ -1129,12 +1272,22 @@
         }
 
         function sendOrderToWhatsApp() {
-            if (cart.length === 0) {
-                alert('Carrinho vazio!');
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            
+            if (!name || !phone || !address) {
+                alert('Por favor, preencha todos os dados!');
                 return;
             }
+            
             const num = contacts.whatsapp.replace(/\D/g, '');
             let msg = `🛒 *NOVO PEDIDO - ${settings.name}*\n${'═'.repeat(35)}\n\n`;
+            msg += `👤 *Cliente:* ${name}\n`;
+            msg += `📱 *Contato:* ${phone}\n`;
+            msg += `📍 *Entrega:* ${address}\n\n`;
+            msg += `${'═'.repeat(35)}\n*ITENS DO PEDIDO*\n${'═'.repeat(35)}\n\n`;
+            
             cart.forEach((item, i) => {
                 const sub = (parseFloat(item.price.replace(',', '.')) * item.quantity).toFixed(2).replace('.', ',');
                 msg += `*${i + 1}. ${item.name}*\n`;
@@ -1143,27 +1296,91 @@
                 if (item.observation) msg += `   📝 Obs: ${item.observation}\n`;
                 msg += `\n`;
             });
+            
             const total = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
             msg += `${'═'.repeat(35)}\n💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n${'═'.repeat(35)}`;
+            
             window.open(`https://wa.me/55${num}?text=${encodeURIComponent(msg)}`, '_blank');
+            
+            cart = [];
+            updateCartDisplay();
+            closeModal('checkoutModal');
+            alert('✅ Pedido enviado com sucesso!');
+        }
+
+        function toggleLogoType() {
+            const type = document.querySelector('input[name="logoType"]:checked').value;
+            document.getElementById('textLogoSection').style.display = type === 'text' ? 'block' : 'none';
+            document.getElementById('imageLogoSection').style.display = type === 'image' ? 'block' : 'none';
+        }
+
+        function previewLogoImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logoPreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('logoSizeControl').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function updateLogoSize() {
+            const size = document.getElementById('logoSize').value + 'px';
+            document.getElementById('logoSizeValue').textContent = size;
+            const preview = document.getElementById('logoPreview');
+            if (preview.src) {
+                preview.style.maxWidth = size;
+            }
+        }
+
+        function previewItemImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('itemImagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('itemImageSizeControl').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function updateItemImageSize() {
+            const size = document.getElementById('itemImageSize').value + 'px';
+            document.getElementById('itemImageSizeValue').textContent = size;
+            const preview = document.getElementById('itemImagePreview');
+            if (preview.src) {
+                preview.style.maxHeight = size;
+            }
         }
 
         function renderAdminList() {
             const list = document.getElementById('itemList');
-            list.innerHTML = '<h3 style="margin-top:30px;color:#333;">Itens</h3>' + menuItems.map(item => `
-                <div class="item-row">
-                    <div><strong>${item.name}</strong> - R$ ${item.price}</div>
-                    <div class="item-actions">
-                        <button class="btn" onclick="editItem(${item.id})">✏️</button>
-                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateSizePreview(type) {
-            const val = document.getElementById(type + 'Size').value + 'px';
-            document.getElementById(type + 'SizeValue').textContent = val;
+            let html = '<h3 style="margin-top:30px;color:#333;">Itens por Categoria</h3>';
+            
+            categories.forEach(category => {
+                const categoryItems = menuItems.filter(item => item.category === category);
+                if (categoryItems.length > 0) {
+                    html += `<h4 style="margin-top:20px;color:#666;">${category}</h4>`;
+                    categoryItems.forEach(item => {
+                        html += `
+                            <div class="item-row">
+                                <div><strong>${item.name}</strong> - R$ ${item.price}</div>
+                                <div class="item-actions">
+                                    <button class="btn" onclick="editItem(${item.id})">✏️</button>
+                                    <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+            
+            list.innerHTML = html;
         }
 
         function showLoginModal() {
@@ -1177,58 +1394,28 @@
 
         function showContactModal() {
             document.getElementById('contactWhatsapp').value = contacts.whatsapp;
-            document.getElementById('contactPhone').value = contacts.phone;
             document.getElementById('contactInstagram').value = contacts.instagram;
             document.getElementById('contactEmail').value = contacts.email;
             document.getElementById('contactAddress').value = contacts.address;
-            document.getElementById('contactHours').value = contacts.hours;
             document.getElementById('showWhatsapp').checked = contacts.showWhatsapp !== false;
-            document.getElementById('showPhone').checked = contacts.showPhone === true;
             document.getElementById('showInstagram').checked = contacts.showInstagram !== false;
             document.getElementById('showEmail').checked = contacts.showEmail !== false;
             document.getElementById('showAddress').checked = contacts.showAddress !== false;
-            document.getElementById('showHours').checked = contacts.showHours !== false;
             document.getElementById('contactModal').style.display = 'block';
         }
 
         function saveContacts() {
             contacts.whatsapp = document.getElementById('contactWhatsapp').value;
-            contacts.phone = document.getElementById('contactPhone').value;
             contacts.instagram = document.getElementById('contactInstagram').value;
             contacts.email = document.getElementById('contactEmail').value;
             contacts.address = document.getElementById('contactAddress').value;
-            contacts.hours = document.getElementById('contactHours').value;
             contacts.showWhatsapp = document.getElementById('showWhatsapp').checked;
-            contacts.showPhone = document.getElementById('showPhone').checked;
             contacts.showInstagram = document.getElementById('showInstagram').checked;
             contacts.showEmail = document.getElementById('showEmail').checked;
             contacts.showAddress = document.getElementById('showAddress').checked;
-            contacts.showHours = document.getElementById('showHours').checked;
             saveToFirebase('contacts', contacts);
             renderContacts();
             closeModal('contactModal');
-            alert('Salvo!');
-        }
-
-        function showStyleModal() {
-            document.getElementById('titleSize').value = parseInt(styles.titleSize);
-            document.getElementById('subtitleSize').value = parseInt(styles.subtitleSize);
-            document.getElementById('titleColor').value = styles.titleColor;
-            document.getElementById('titleColorText').value = styles.titleColor;
-            document.getElementById('fontTitle').value = styles.titleFont;
-            updateSizePreview('title');
-            updateSizePreview('subtitle');
-            document.getElementById('styleModal').style.display = 'block';
-        }
-
-        function saveStyles() {
-            styles.titleSize = document.getElementById('titleSize').value + 'px';
-            styles.subtitleSize = document.getElementById('subtitleSize').value + 'px';
-            styles.titleColor = document.getElementById('titleColor').value;
-            styles.titleFont = document.getElementById('fontTitle').value;
-            saveToFirebase('styles', styles);
-            applyStyles();
-            closeModal('styleModal');
             alert('Salvo!');
         }
 
@@ -1236,19 +1423,91 @@
             document.getElementById('settingsName').value = settings.name;
             document.getElementById('settingsSubtitle').value = settings.subtitle;
             document.getElementById('settingsBackground').value = settings.background;
+            
+            const logoType = settings.logoType || 'text';
+            document.querySelector(`input[name="logoType"][value="${logoType}"]`).checked = true;
+            toggleLogoType();
+            
+            if (settings.logoImage) {
+                document.getElementById('logoPreview').src = settings.logoImage;
+                document.getElementById('logoPreview').style.display = 'block';
+                document.getElementById('logoSizeControl').style.display = 'block';
+                document.getElementById('logoSize').value = parseInt(settings.logoSize) || 300;
+                updateLogoSize();
+            }
+            
             document.getElementById('settingsModal').style.display = 'block';
         }
 
         function saveSettings() {
-            settings.name = document.getElementById('settingsName').value;
+            const logoType = document.querySelector('input[name="logoType"]:checked').value;
+            settings.logoType = logoType;
+            
+            if (logoType === 'text') {
+                settings.name = document.getElementById('settingsName').value;
+                settings.logoImage = '';
+            } else {
+                const logoPreview = document.getElementById('logoPreview');
+                if (logoPreview.src && logoPreview.src.startsWith('data:')) {
+                    settings.logoImage = logoPreview.src;
+                    settings.logoSize = document.getElementById('logoSize').value + 'px';
+                }
+            }
+            
             settings.subtitle = document.getElementById('settingsSubtitle').value;
             settings.background = document.getElementById('settingsBackground').value;
             const newPass = document.getElementById('settingsPassword').value;
             if (newPass) settings.password = newPass;
+            
             saveToFirebase('settings', settings);
             applySettings();
             closeModal('settingsModal');
             alert('Salvo!');
+        }
+
+        function showCategoryModal() {
+            renderCategoryList();
+            document.getElementById('categoryModal').style.display = 'block';
+        }
+
+        function renderCategoryList() {
+            const list = document.getElementById('categoryList');
+            list.innerHTML = '<h3 style="color:#333;margin-bottom:15px;">Categorias Existentes:</h3>' +
+                categories.map((cat, i) => `
+                    <div class="item-row">
+                        <div><strong>${cat}</strong></div>
+                        <button class="btn-secondary btn" onclick="deleteCategory(${i})">🗑️ Excluir</button>
+                    </div>
+                `).join('');
+        }
+
+        function addCategory() {
+            const name = document.getElementById('newCategoryName').value.trim();
+            if (!name) {
+                alert('Digite o nome da categoria!');
+                return;
+            }
+            if (categories.includes(name)) {
+                alert('Categoria já existe!');
+                return;
+            }
+            categories.push(name);
+            saveToFirebase('categories', categories);
+            document.getElementById('newCategoryName').value = '';
+            renderCategoryList();
+            alert('Categoria adicionada!');
+        }
+
+        function deleteCategory(index) {
+            if (!confirm('Excluir categoria? Os itens desta categoria também serão removidos.')) return;
+            const catName = categories[index];
+            menuItems = menuItems.filter(item => item.category !== catName);
+            categories.splice(index, 1);
+            saveToFirebase('categories', categories);
+            saveToFirebase('menuItems', menuItems);
+            renderCategoryList();
+            renderMenu();
+            alert('Categoria excluída!');
         }
 
         function showAddItemModal() {
@@ -1257,7 +1516,12 @@
             document.getElementById('itemName').value = '';
             document.getElementById('itemDescription').value = '';
             document.getElementById('itemPrice').value = '';
-            document.getElementById('itemImage').value = '';
+            document.getElementById('itemImagePreview').style.display = 'none';
+            document.getElementById('itemImageSizeControl').style.display = 'none';
+            
+            const categorySelect = document.getElementById('itemCategory');
+            categorySelect.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+            
             document.getElementById('itemModal').style.display = 'block';
         }
 
@@ -1266,32 +1530,54 @@
             if (!item) return;
             editingItemId = id;
             document.getElementById('itemModalTitle').textContent = '✏️ Editar';
+            
+            const categorySelect = document.getElementById('itemCategory');
+            categorySelect.innerHTML = categories.map(cat => `<option value="${cat}" ${cat === item.category ? 'selected' : ''}>${cat}</option>`).join('');
+            
             document.getElementById('itemName').value = item.name;
             document.getElementById('itemDescription').value = item.description;
             document.getElementById('itemPrice').value = item.price;
-            document.getElementById('itemImage').value = item.image;
+            
+            if (item.image) {
+                const preview = document.getElementById('itemImagePreview');
+                preview.src = item.image;
+                preview.style.display = 'block';
+                document.getElementById('itemImageSizeControl').style.display = 'block';
+                document.getElementById('itemImageSize').value = parseInt(item.imageSize) || 200;
+                updateItemImageSize();
+            }
+            
             document.getElementById('itemModal').style.display = 'block';
         }
 
         function saveItem() {
+            const category = document.getElementById('itemCategory').value;
             const name = document.getElementById('itemName').value;
             const desc = document.getElementById('itemDescription').value;
             const price = document.getElementById('itemPrice').value;
-            const img = document.getElementById('itemImage').value;
+            
             if (!name || !price) {
                 alert('Preencha nome e preço!');
                 return;
             }
+            
+            const preview = document.getElementById('itemImagePreview');
+            const image = preview.src || 'https://placehold.co/400x300/95a5a6/ffffff?text=Sem+Imagem';
+            const imageSize = document.getElementById('itemImageSize').value + 'px';
+            
             if (editingItemId) {
                 const item = menuItems.find(i => i.id === editingItemId);
+                item.category = category;
                 item.name = name;
                 item.description = desc;
                 item.price = price;
-                item.image = img;
+                item.image = image;
+                item.imageSize = imageSize;
             } else {
                 const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
-                menuItems.push({id: newId, name, description: desc, price, image: img});
+                menuItems.push({id: newId, category, name, description: desc, price, image, imageSize});
             }
+            
             saveToFirebase('menuItems', menuItems);
             renderMenu();
             closeModal('itemModal');
@@ -1327,20 +1613,8 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            ['title', 'subtitle'].forEach(type => {
-                const colorInput = document.getElementById(type + 'Color');
-                const textInput = document.getElementById(type + 'ColorText');
-                if (colorInput && textInput) {
-                    colorInput.addEventListener('input', function() {
-                        textInput.value = this.value;
-                    });
-                }
-            });
-        });
-
         window.onclick = function(e) {
-            if (e.target.classList.contains('modal') || e.target.classList.contains('cart-modal')) {
+            if (e.target.classList.contains('modal')) {
                 e.target.style.display = 'none';
             }
         };
