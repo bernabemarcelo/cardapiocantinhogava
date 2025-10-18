@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.7);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-family: var(--title-font);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+        }
+
+        header p {
+            font-family: var(--subtitle-font);
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .contact-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            transition: transform 0.3s;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-item i {
+            font-size: 1.3em;
+        }
+
+        .admin-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: var(--body-font);
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .admin-btn:hover {
+            background: #ff5252;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item h3 {
+            font-family: var(--item-title-font);
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .menu-item p {
+            font-family: var(--item-description-font);
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .menu-item .price {
+            font-family: var(--price-font);
+            color: #ff6b6b;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+            font-family: var(--body-font);
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            font-family: var(--body-font);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-family: var(--body-font);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: var(--body-font);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group small {
+            color: #666;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: var(--body-font);
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: #ff5252;
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+
+        .admin-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-panel h2 {
+            font-family: var(--title-font);
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .item-list {
+            margin-top: 20px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-row:hover {
+            background: #f9f9f9;
+        }
+
+        .item-actions button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .font-preview {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .contact-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .contact-item {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .modal-content {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .admin-btn {
+                top: 10px;
+                right: 10px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <button class="admin-btn" onclick="showLoginModal()">Admin</button>
+
+        <div class="container">
+            <header>
+                <h1 id="restaurantName">Meu Restaurante</h1>
+                <p id="restaurantSubtitle">Sabores que encantam</p>
+                <div class="contact-bar" id="contactBar"></div>
+            </header>
+
+            <div id="adminPanel" style="display: none;">
+                <div class="admin-panel">
+                    <h2>Painel Administrativo</h2>
+                    <button class="btn" onclick="showSettingsModal()">Configurações Gerais</button>
+                    <button class="btn" onclick="showContactModal()">Editar Contatos</button>
+                    <button class="btn" onclick="showFontModal()">Trocar Fontes</button>
+                    <button class="btn" onclick="showAddItemModal()">Adicionar Item</button>
+                    <button class="btn-secondary btn" onclick="logout()">Sair</button>
+
+                    <div class="item-list" id="itemList"></div>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="menuGrid"></div>
+
+            <footer>
+                <div class="contact-bar" id="contactBarFooter"></div>
+                <p>© 2024 <span id="footerName">Meu Restaurante</span>. Todos os direitos reservados.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login Administrativo</h2>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="loginPassword" placeholder="Digite a senha">
+            </div>
+            <button class="btn" onclick="login()">Entrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Contatos -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
+            <h2>Editar Informações de Contato</h2>
+
+            <div class="form-group">
+                <label><i class="fab fa-whatsapp"></i> WhatsApp:</label>
+                <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
+                <small>Digite o número com DDD</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-phone"></i> Telefone:</label>
+                <input type="text" id="contactPhone" placeholder="(11) 3333-4444">
+                <small>Telefone fixo (opcional)</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fab fa-instagram"></i> Instagram:</label>
+                <input type="text" id="contactInstagram" placeholder="@seurestaurante">
+                <small>Digite apenas o @usuario</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fab fa-facebook"></i> Facebook:</label>
+                <input type="text" id="contactFacebook" placeholder="facebook.com/seurestaurante">
+                <small>URL completa ou nome da página</small>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> E-mail:</label>
+                <input type="email" id="contactEmail" placeholder="contato@restaurante.com">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> Endereço:</label>
+                <input type="text" id="contactAddress" placeholder="Rua Exemplo, 123 - Bairro">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-clock"></i> Horário de Funcionamento:</label>
+                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h">
+            </div>
+
+            <button class="btn" onclick="saveContacts()">Salvar Contatos</button>
+            <button class="btn-secondary btn" onclick="closeModal('contactModal')">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Fontes -->
+    <div id="fontModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('fontModal')">&times;</span>
+            <h2>Personalizar Fontes</h2>
+
+            <div class="form-group">
+                <label>Fonte do Título Principal:</label>
+                <select id="fontTitle" onchange="previewFont('title')">
+                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                </select>
+                <div class="font-preview" id="previewTitle" style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;">Meu Restaurante</div>
+            </div>
+
+            <div class="form-group">
+                <label>Fonte do Subtítulo:</label>
+                <select id="fontSubtitle" onchange="previewFont('subtitle')">
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
+                </select>
+                <div class="font-preview" id="previewSubtitle" style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 300;">Sabores que encantam</div>
+            </div>
+
+            <div class="form-group">
+                <label>Fonte dos Nomes dos Pratos:</label>
+                <select id="fontItemTitle" onchange="previewFont('itemTitle')">
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
+                </select>
+                <div class="font-preview" id="previewItemTitle" style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 600;">Pizza Margherita</div>
+            </div>
+
+            <div class="form-group">
+                <label>Fonte das Descrições:</label>
+                <select id="fontItemDescription" onchange="previewFont('itemDescription')">
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                </select>
+                <div class="font-preview" id="previewItemDescription" style="font-family: 'Poppins', sans-serif; font-size: 16px;">Molho de tomate, mussarela, manjericão fresco</div>
+            </div>
+
+            <div class="form-group">
+                <label>Fonte dos Preços:</label>
+                <select id="fontPrice" onchange="previewFont('price')">
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                </select>
+                <div class="font-preview" id="previewPrice" style="font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 700; color: #ff6b6b;">R$ 35,90</div>
+            </div>
+
+            <div class="form-group">
+                <label>Fonte Geral (Botões e Textos):</label>
+                <select id="fontBody" onchange="previewFont('body')">
+                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="saveFonts()">Salvar Fontes</button>
+            <button class="btn-secondary btn" onclick="closeModal('fontModal')">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
+            <h2>Configurações Gerais</h2>
+            <div class="form-group">
+                <label>Nome do Restaurante:</label>
+                <input type="text" id="settingsName" placeholder="Nome do restaurante">
+            </div>
+            <div class="form-group">
+                <label>Subtítulo:</label>
+                <input type="text" id="settingsSubtitle" placeholder="Subtítulo">
+            </div>
+            <div class="form-group">
+                <label>URL da Imagem de Fundo:</label>
+                <input type="text" id="settingsBackground" placeholder="https://exemplo.com/imagem.jpg">
+            </div>
+            <div class="form-group">
+                <label>Senha de Administrador:</label>
+                <input type="password" id="settingsPassword" placeholder="Nova senha">
+            </div>
+            <button class="btn" onclick="saveSettings()">Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Item -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('itemModal')">&times;</span>
+            <h2 id="itemModalTitle">Adicionar Item</h2>
+            <div class="form-group">
+                <label>Nome do Prato:</label>
+                <input type="text" id="itemName" placeholder="Ex: Pizza Margherita">
+            </div>
+            <div class="form-group">
+                <label>Descrição:</label>
+                <textarea id="itemDescription" placeholder="Descrição do prato"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Preço (R$):</label>
+                <input type="text" id="itemPrice" placeholder="Ex: 35.90">
+            </div>
+            <div class="form-group">
+                <label>URL da Imagem:</label>
+                <input type="text" id="itemImage" placeholder="https://exemplo.com/imagem.jpg">
+            </div>
+            <button class="btn" onclick="saveItem()">Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('itemModal')">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados padrão
+        let settings = {
+            name: 'Meu Restaurante',
+            subtitle: 'Sabores que encantam',
+            background: 'https://placehold.co/1920x1080/2c3e50/ffffff?text=Fundo+do+Cardapio',
+            password: 'admin123'
+        };
+
+        let contacts = {
+            whatsapp: '(11) 99999-9999',
+            phone: '',
+            instagram: '@meurestaurante',
+            facebook: '',
+            email: 'contato@restaurante.com',
+            address: 'Rua Exemplo, 123 - Centro',
+            hours: 'Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h'
+        };
+
+        let fonts = {
+            title: "'Playfair Display', serif",
+            subtitle: "'Poppins', sans-serif",
+            itemTitle: "'Poppins', sans-serif",
+            itemDescription: "'Poppins', sans-serif",
+            price: "'Poppins', sans-serif",
+            body: "'Poppins', sans-serif"
+        };
+
+        let menuItems = [
+            {
+                id: 1,
+                name: 'Pizza Margherita',
+                description: 'Molho de tomate, mussarela, manjericão fresco',
+                price: '35.90',
+                image: 'https://placehold.co/400x300/e74c3c/ffffff?text=Pizza'
+            },
+            {
+                id: 2,
+                name: 'Hambúrguer Artesanal',
+                description: 'Pão brioche, blend 180g, queijo cheddar, bacon',
+                price: '28.50',
+                image: 'https://placehold.co/400x300/3498db/ffffff?text=Hamburguer'
+            },
+            {
+                id: 3,
+                name: 'Salada Caesar',
+                description: 'Alface romana, croutons, parmesão, molho caesar',
+                price: '22.00',
+                image: 'https://placehold.co/400x300/2ecc71/ffffff?text=Salada'
+            }
+        ];
+
+        let isLoggedIn = false;
+        let editingItemId = null;
+
+        // Carregar dados do localStorage
+        function loadData() {
+            const savedSettings = localStorage.getItem('menuSettings');
+            const savedItems = localStorage.getItem('menuItems');
+            const savedFonts = localStorage.getItem('menuFonts');
+            const savedContacts = localStorage.getItem('menuContacts');
+
+            if (savedSettings) settings = JSON.parse(savedSettings);
+            if (savedItems) menuItems = JSON.parse(savedItems);
+            if (savedFonts) fonts = JSON.parse(savedFonts);
+            if (savedContacts) contacts = JSON.parse(savedContacts);
+
+            applySettings();
+            applyFonts();
+            renderContacts();
+            renderMenu();
+        }
+
+        // Renderizar contatos
+        function renderContacts() {
+            let contactHTML = '';
+
+            if (contacts.whatsapp) {
+                const whatsappNumber = contacts.whatsapp.replace(/\D/g, '');
+                contactHTML += `<a href="https://wa.me/55${whatsappNumber}" target="_blank" class="contact-item">
+                    <i class="fab fa-whatsapp"></i> ${contacts.whatsapp}
+                </a>`;
+            }
+
+            if (contacts.phone) {
+                contactHTML += `<a href="tel:${contacts.phone}" class="contact-item">
+                    <i class="fas fa-phone"></i> ${contacts.phone}
+                </a>`;
+            }
+
+            if (contacts.instagram) {
+                const instaUser = contacts.instagram.replace('@', '');
+                contactHTML += `<a href="https://instagram.com/${instaUser}" target="_blank" class="contact-item">
+                    <i class="fab fa-instagram"></i> ${contacts.instagram}
+                </a>`;
+            }
+
+            if (contacts.facebook) {
+                contactHTML += `<a href="${contacts.facebook.includes('http') ? contacts.facebook : 'https://facebook.com/' + contacts.facebook}" target="_blank" class="contact-item">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>`;
+            }
+
+            if (contacts.email) {
+                contactHTML += `<a href="mailto:${contacts.email}" class="contact-item">
+                    <i class="fas fa-envelope"></i> ${contacts.email}
+                </a>`;
+            }
+
+            if (contacts.address) {
+                contactHTML += `<div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i> ${contacts.address}
+                </div>`;
+            }
+
+            if (contacts.hours) {
+                contactHTML += `<div class="contact-item">
+                    <i class="fas fa-clock"></i> ${contacts.hours}
+                </div>`;
+            }
+
+            document.getElementById('contactBar').innerHTML = contactHTML;
+            document.getElementById('contactBarFooter').innerHTML = contactHTML;
+        }
+
+        // Aplicar fontes
+        function applyFonts() {
+            document.documentElement.style.setProperty('--title-font', fonts.title);
+            document.documentElement.style.setProperty('--subtitle-font', fonts.subtitle);
+            document.documentElement.style.setProperty('--item-title-font', fonts.itemTitle);
+            document.documentElement.style.setProperty('--item-description-font', fonts.itemDescription);
+            document.documentElement.style.setProperty('--price-font', fonts.price);
+            document.documentElement.style.setProperty('--body-font', fonts.body);
+        }
+
+        // Aplicar configurações
+        function applySettings() {
+            document.getElementById('restaurantName').textContent = settings.name;
+            document.getElementById('restaurantSubtitle').textContent = settings.subtitle;
+            document.getElementById('footerName').textContent = settings.name;
+            document.body.style.backgroundImage = `url('${settings.background}')`;
+        }
+
+        // Renderizar menu
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = menuItems.map(item => `
+                <div class="menu-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="menu-item-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <div class="price">R$ ${item.price}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            if (isLoggedIn) {
+                renderAdminList();
+            }
+        }
+
+        // Renderizar lista admin
+        function renderAdminList() {
+            const list = document.getElementById('itemList');
+            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">Itens do Cardápio</h3>' + 
+                menuItems.map(item => `
+                <div class="item-row">
+                    <div>
+                        <strong>${item.name}</strong> - R$ ${item.price}
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn" onclick="editItem(${item.id})">Editar</button>
+                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modais
+        function showLoginModal() {
+            if (isLoggedIn) {
+                document.getElementById('adminPanel').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        }
+
+        function showContactModal() {
+            document.getElementById('contactWhatsapp').value = contacts.whatsapp;
+            document.getElementById('contactPhone').value = contacts.phone;
+            document.getElementById('contactInstagram').value = contacts.instagram;
+            document.getElementById('contactFacebook').value = contacts.facebook;
+            document.getElementById('contactEmail').value = contacts.email;
+            document.getElementById('contactAddress').value = contacts.address;
+            document.getElementById('contactHours').value = contacts.hours;
+            document.getElementById('contactModal').style.display = 'block';
+        }
+
+        function saveContacts() {
+            contacts.whatsapp = document.getElementById('contactWhatsapp').value;
+            contacts.phone = document.getElementById('contactPhone').value;
+            contacts.instagram = document.getElementById('contactInstagram').value;
+            contacts.facebook = document.getElementById('contactFacebook').value;
+            contacts.email = document.getElementById('contactEmail').value;
+            contacts.address = document.getElementById('contactAddress').value;
+            contacts.hours = document.getElementById('contactHours').value;
+
+            localStorage.setItem('menuContacts', JSON.stringify(contacts));
+            renderContacts();
+            closeModal('contactModal');
+            alert('Contatos salvos com sucesso!');
+        }
+
+        function showFontModal() {
+            document.getElementById('fontTitle').value = fonts.title;
+            document.getElementById('fontSubtitle').value = fonts.subtitle;
+            document.getElementById('fontItemTitle').value = fonts.itemTitle;
+            document.getElementById('fontItemDescription').value = fonts.itemDescription;
+            document.getElementById('fontPrice').value = fonts.price;
+            document.getElementById('fontBody').value = fonts.body;
+
+            previewFont('title');
+            previewFont('subtitle');
+            previewFont('itemTitle');
+            previewFont('itemDescription');
+            previewFont('price');
+
+            document.getElementById('fontModal').style.display = 'block';
+        }
+
+        function previewFont(type) {
+            const fontMap = {
+                'title': 'fontTitle',
+                'subtitle': 'fontSubtitle',
+                'itemTitle': 'fontItemTitle',
+                'itemDescription': 'fontItemDescription',
+                'price': 'fontPrice',
+                'body': 'fontBody'
+            };
+
+            const selectId = fontMap[type];
+            const previewId = 'preview' + type.charAt(0).toUpperCase() + type.slice(1);
+            const selectedFont = document.getElementById(selectId).value;
+            const previewElement = document.getElementById(previewId);
+
+            if (previewElement) {
+                previewElement.style.fontFamily = selectedFont;
+            }
+        }
+
+        function saveFonts() {
+            fonts.title = document.getElementById('fontTitle').value;
+            fonts.subtitle = document.getElementById('fontSubtitle').value;
+            fonts.itemTitle = document.getElementById('fontItemTitle').value;
+            fonts.itemDescription = document.getElementById('fontItemDescription').value;
+            fonts.price = document.getElementById('fontPrice').value;
+            fonts.body = document.getElementById('fontBody').value;
+
+            localStorage.setItem('menuFonts', JSON.stringify(fonts));
+            applyFonts();
+            closeModal('fontModal');
+            alert('Fontes salvas com sucesso!');
+        }
+
+        function showSettingsModal() {
+            document.getElementById('settingsName').value = settings.name;
+            document.getElementById('settingsSubtitle').value = settings.subtitle;
+            document.getElementById('settingsBackground').value = settings.background;
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function showAddItemModal() {
+            editingItemId = null;
+            document.getElementById('itemModalTitle').textContent = 'Adicionar Item';
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemDescription').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemImage').value = '';
+            document.getElementById('itemModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Login
+        function login() {
+            const password = document.getElementById('loginPassword').value;
+            if (password === settings.password) {
+                isLoggedIn = true;
+                closeModal('loginModal');
+                document.getElementById('adminPanel').style.display = 'block';
+                renderMenu();
+                alert('Login realizado com sucesso!');
+            } else {
+                alert('Senha incorreta!');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('adminPanel').style.display = 'none';
+            alert('Logout realizado!');
+        }
+
+        // Salvar configurações
+        function saveSettings() {
+            settings.name = document.getElementById('settingsName').value;
+            settings.subtitle = document.getElementById('settingsSubtitle').value;
+            settings.background = document.getElementById('settingsBackground').value;
+
+            const newPassword = document.getElementById('settingsPassword').value;
+            if (newPassword) settings.password = newPassword;
+
+            localStorage.setItem('menuSettings', JSON.stringify(settings));
+            applySettings();
+            closeModal('settingsModal');
+            alert('Configurações salvas!');
+        }
+
+        // Gerenciar itens
+        function saveItem() {
+            const name = document.getElementById('itemName').value;
+            const description = document.getElementById('itemDescription').value;
+            const price = document.getElementById('itemPrice').value;
+            const image = document.getElementById('itemImage').value;
+
+            if (!name || !price) {
+                alert('Preencha pelo menos o nome e o preço!');
+                return;
+            }
+
+            if (editingItemId) {
+                const index = menuItems.findIndex(item => item.id === editingItemId);
+                menuItems[index] = { id: editingItemId, name, description, price, image };
+            } else {
+                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
+                menuItems.push({ id: newId, name, description, price, image });
+            }
+
+            localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            renderMenu();
+            closeModal('itemModal');
+            alert('Item salvo!');
+        }
+
+        function editItem(id) {
+            editingItemId = id;
+            const item = menuItems.find(i => i.id === id);
+            document.getElementById('itemModalTitle').textContent = 'Editar Item';
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemDescription').value = item.description;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemImage').value = item.image;
+            document.getElementById('itemModal').style.display = 'block';
+        }
+
+        function deleteItem(id) {
+            if (confirm('Deseja realmente excluir este item?')) {
+                menuItems = menuItems.filter(item => item.id !== id);
+                localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                renderMenu();
+                alert('Item excluído!');
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Inicializar
+        loadData();
+    </script>
+</body>
+</html>
