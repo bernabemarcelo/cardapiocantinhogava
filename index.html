@@ -939,7 +939,7 @@
         function renderContacts() {
             let html = '';
             if (contacts.showWhatsapp && contacts.whatsapp) {
-                const num = contacts.whatsapp.replace(/\D/g, '');
+                const num = contacts.whatsapp.replace(/\\D/g, '');
                 html += `<a href="https://wa.me/${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
             }
             if (contacts.showPhone && contacts.phone) html += `<a href="tel:${contacts.phone}" class="contact-item"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
@@ -985,7 +985,7 @@
         }
 
         function renderCategories() {
-            let html = '<button class="category-btn active" onclick="filterCategory(\'all\')">🍽️ Todos</button>';
+            let html = '<button class="category-btn active" onclick="filterCategory(\\'all\\')">🍽️ Todos</button>';
             categories.forEach(cat => html += `<button class="category-btn" onclick="filterCategory('${cat}')">${cat}</button>`);
             document.getElementById('categoriesNav').innerHTML = html;
         }
@@ -1095,15 +1095,39 @@
             const name = document.getElementById('customerName').value;
             const location = document.getElementById('customerLocation').value;
             if (!name || !location) { alert('⚠️ Preencha seu nome e localização!'); return; }
-            let message = `🍽️ *NOVO PEDIDO*\\n\\n👤 *Cliente:* ${name}\\n📍 *Local:* ${location}\\n\\n*Itens:*\\n`;
+            
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('pt-BR');
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
             let total = 0;
+            let itemsText = '';
+            
             cart.forEach(item => {
                 const subtotal = parseFloat(item.price) * item.qty;
                 total += subtotal;
-                message += `• ${item.qty}x ${item.name} - R$ ${subtotal.toFixed(2)}\\n`;
+                itemsText += `${item.qty}x ${item.name.padEnd(20)} R$ ${subtotal.toFixed(2)}\\n`;
             });
-            message += `\\n💰 *Total: R$ ${total.toFixed(2)}*`;
-            const whatsapp = contacts.whatsapp.replace(/\D/g, '');
+            
+            const message = `╔═══════════════════════════╗
+║     🍽️ NOVO PEDIDO 🍽️      ║
+╠═══════════════════════════╣
+║ 📅 Data: ${dateStr.padEnd(17)}║
+║ ⏰ Hora: ${timeStr.padEnd(17)}║
+╠═══════════════════════════╣
+║ 👤 Cliente: ${name.padEnd(15)}║
+║ 📍 Local: ${location.padEnd(17)}║
+╠═══════════════════════════╣
+║         📋 ITENS           ║
+╠═══════════════════════════╣
+${itemsText.split('\\n').filter(l => l).map(l => '║ ' + l.padEnd(25) + '║').join('\\n')}
+╠═══════════════════════════╣
+║ 💰 TOTAL: R$ ${total.toFixed(2).padStart(12)} ║
+╚═══════════════════════════╝
+
+✅ Pedido realizado via Cardápio Digital`;
+            
+            const whatsapp = contacts.whatsapp.replace(/\\D/g, '');
             const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
             cart = [];
