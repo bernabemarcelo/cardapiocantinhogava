@@ -8,18 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Poppins', sans-serif;
             background-size: cover;
@@ -27,19 +22,16 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
-
+        
         .overlay {
             background: rgba(0, 0, 0, 0.7);
             min-height: 100vh;
             padding: 20px;
             padding-bottom: 100px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
         .firebase-status {
             position: fixed;
             top: 20px;
@@ -53,26 +45,18 @@
             align-items: center;
             gap: 6px;
         }
-
-        .firebase-status.connected {
-            color: #27ae60;
-        }
-
-        .firebase-status.disconnected {
-            color: #e74c3c;
-        }
-
-        .firebase-status i {
-            font-size: 10px;
-        }
-
+        
+        .firebase-status.connected { color: #27ae60; }
+        .firebase-status.disconnected { color: #e74c3c; }
+        .firebase-status i { font-size: 10px; }
+        
         header {
             text-align: center;
             color: white;
             padding: 30px 20px;
             margin-bottom: 30px;
         }
-
+        
         header h1 {
             font-family: var(--title-font);
             font-size: var(--title-size);
@@ -81,7 +65,7 @@
             font-weight: 700;
             color: var(--title-color);
         }
-
+        
         header p {
             font-family: var(--subtitle-font);
             font-size: var(--subtitle-size);
@@ -89,7 +73,7 @@
             font-weight: 300;
             color: var(--subtitle-color);
         }
-
+        
         .contact-bar {
             display: flex;
             justify-content: center;
@@ -102,7 +86,7 @@
             border-radius: 15px;
             backdrop-filter: blur(10px);
         }
-
+        
         .contact-item {
             display: flex;
             align-items: center;
@@ -115,56 +99,55 @@
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
         }
-
+        
         .contact-item:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.2);
         }
-
-        .contact-item i {
-            font-size: 1.3em;
-        }
-
-        .category-tabs {
+        
+        .contact-item i { font-size: 1.3em; }
+        
+        .categories-nav {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding: 0 20px;
+            padding: 20px;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
-
-        .category-tab {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border: none;
+        
+        .category-btn {
             padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
+            white-space: nowrap;
             transition: all 0.3s;
             font-family: var(--body-font);
+            font-weight: 500;
         }
-
-        .category-tab:hover {
-            background: white;
+        
+        .category-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-
-        .category-tab.active {
+        
+        .category-btn.active {
             background: #ff6b6b;
-            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
-
+        
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             padding: 20px;
         }
-
+        
         .menu-item {
             background: white;
             border-radius: 15px;
@@ -173,21 +156,17 @@
             transition: transform 0.3s;
             cursor: pointer;
         }
-
-        .menu-item:hover {
-            transform: translateY(-5px);
-        }
-
+        
+        .menu-item:hover { transform: translateY(-5px); }
+        
         .menu-item img {
             width: 100%;
             height: var(--image-height, 200px);
             object-fit: cover;
         }
-
-        .menu-item-content {
-            padding: 20px;
-        }
-
+        
+        .menu-item-content { padding: 20px; }
+        
         .menu-item h3 {
             font-family: var(--item-title-font);
             color: var(--item-title-color);
@@ -195,7 +174,7 @@
             font-size: var(--item-title-size);
             font-weight: 600;
         }
-
+        
         .menu-item p {
             font-family: var(--item-description-font);
             color: var(--item-description-color);
@@ -204,70 +183,60 @@
             font-weight: 400;
             font-size: var(--item-description-size);
         }
-
+        
         .menu-item .price {
             font-family: var(--price-font);
             color: var(--price-color);
             font-size: var(--price-size);
             font-weight: 700;
         }
-
-        .add-to-cart-btn {
-            width: 100%;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.3s;
+        
+        .menu-item .category-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
         }
-
-        .add-to-cart-btn:hover {
-            background: #ff5252;
-        }
-
-        .cart-button {
+        
+        .cart-float {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background: #ff6b6b;
             color: white;
-            border: none;
-            padding: 18px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-
-        .cart-button:hover {
-            background: #ff5252;
-            transform: scale(1.05);
-        }
-
-        .cart-badge {
-            background: white;
-            color: #ff6b6b;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
+            z-index: 1500;
+            transition: all 0.3s;
         }
-
+        
+        .cart-float:hover { transform: scale(1.1); }
+        
+        .cart-float .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #fff;
+            color: #ff6b6b;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
         footer {
             text-align: center;
             color: white;
@@ -276,12 +245,9 @@
             font-family: var(--body-font);
             position: relative;
         }
-
-        footer p {
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-
+        
+        footer p { opacity: 0.8; margin-top: 10px; }
+        
         .admin-btn {
             display: inline-block;
             background: rgba(255, 107, 107, 0.8);
@@ -296,12 +262,12 @@
             margin-top: 15px;
             transition: all 0.3s;
         }
-
+        
         .admin-btn:hover {
             background: rgba(255, 82, 82, 0.9);
             transform: scale(1.05);
         }
-
+        
         .modal {
             display: none;
             position: fixed;
@@ -313,7 +279,7 @@
             z-index: 2000;
             overflow-y: auto;
         }
-
+        
         .modal-content {
             background: white;
             max-width: 600px;
@@ -325,11 +291,9 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
-        .modal-content.large {
-            max-width: 800px;
-        }
-
+        
+        .modal-content.large { max-width: 800px; }
+        
         .close-modal {
             position: absolute;
             top: 15px;
@@ -338,15 +302,11 @@
             cursor: pointer;
             color: #666;
         }
-
-        .close-modal:hover {
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
+        
+        .close-modal:hover { color: #333; }
+        
+        .form-group { margin-bottom: 20px; }
+        
         .form-group label {
             display: block;
             margin-bottom: 8px;
@@ -354,7 +314,7 @@
             font-weight: 600;
             font-family: var(--body-font);
         }
-
+        
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -365,37 +325,37 @@
             font-size: 16px;
             font-family: var(--body-font);
         }
-
+        
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
         }
-
+        
         .form-group small {
             color: #666;
             font-size: 0.9em;
             display: block;
             margin-top: 5px;
         }
-
+        
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 15px;
         }
-
+        
         .checkbox-group input[type="checkbox"] {
             width: auto;
             cursor: pointer;
         }
-
+        
         .checkbox-group label {
             margin: 0;
             cursor: pointer;
             font-weight: normal;
         }
-
+        
         .btn {
             background: #ff6b6b;
             color: white;
@@ -409,45 +369,29 @@
             margin-right: 10px;
             margin-bottom: 10px;
         }
-
-        .btn:hover {
-            background: #ff5252;
-        }
-
-        .btn-secondary {
-            background: #666;
-        }
-
-        .btn-secondary:hover {
-            background: #555;
-        }
-
-        .btn-success {
-            background: #27ae60;
-        }
-
-        .btn-success:hover {
-            background: #229954;
-        }
-
+        
+        .btn:hover { background: #ff5252; }
+        .btn-secondary { background: #666; }
+        .btn-secondary:hover { background: #555; }
+        .btn-success { background: #27ae60; }
+        .btn-success:hover { background: #229954; }
+        
         .admin-panel {
             background: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
         }
-
+        
         .admin-panel h2 {
             font-family: var(--title-font);
             color: #333;
             margin-bottom: 20px;
             font-weight: 700;
         }
-
-        .item-list {
-            margin-top: 20px;
-        }
-
+        
+        .item-list { margin-top: 20px; }
+        
         .item-row {
             display: flex;
             justify-content: space-between;
@@ -455,23 +399,21 @@
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
-
-        .item-row:hover {
-            background: #f9f9f9;
-        }
-
+        
+        .item-row:hover { background: #f9f9f9; }
+        
         .item-actions button {
             margin-left: 10px;
             padding: 8px 16px;
             font-size: 14px;
         }
-
+        
         .color-input-group {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-
+        
         .color-input-group input[type="color"] {
             width: 60px;
             height: 40px;
@@ -479,39 +421,32 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .color-input-group input[type="text"] {
-            flex: 1;
-        }
-
-        .image-upload-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .image-upload-options button {
-            flex: 1;
-            padding: 10px;
-            background: #3498db;
-            color: white;
-            border: none;
+        
+        .color-input-group input[type="text"] { flex: 1; }
+        
+        .image-upload-area {
+            border: 2px dashed #ddd;
             border-radius: 8px;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            font-size: 14px;
+            transition: all 0.3s;
         }
-
-        .image-upload-options button:hover {
-            background: #2980b9;
+        
+        .image-upload-area:hover {
+            border-color: #ff6b6b;
+            background: #fff5f5;
         }
-
+        
+        .image-upload-area.has-image { border-color: #27ae60; }
+        
         .image-preview {
-            margin-top: 15px;
             max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
             border-radius: 8px;
-            display: none;
         }
-
+        
         .cart-item {
             display: flex;
             justify-content: space-between;
@@ -519,169 +454,47 @@
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-info h4 {
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .cart-item-info p {
-            color: #666;
-            font-size: 14px;
-        }
-
+        
+        .cart-item-info { flex: 1; }
+        
         .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .quantity-control {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .quantity-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
+        
+        .qty-btn {
             width: 30px;
             height: 30px;
+            border: none;
+            background: #ff6b6b;
+            color: white;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 16px;
         }
-
-        .quantity-btn:hover {
-            background: #ff5252;
-        }
-
-        .quantity-display {
-            font-weight: 600;
-            font-size: 18px;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .remove-item-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .remove-item-btn:hover {
-            background: #c0392b;
-        }
-
+        
+        .qty-btn:hover { background: #ff5252; }
+        
         .cart-total {
             padding: 20px;
-            background: #f8f9fa;
+            background: #f9f9f9;
             border-radius: 8px;
             margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
         }
-
-        .cart-total h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .cart-total .total-price {
-            font-size: 28px;
-            color: #ff6b6b;
-            font-weight: 700;
-        }
-
-        .category-section {
-            margin-bottom: 30px;
-        }
-
-        .category-header {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .category-header h3 {
-            color: #333;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .empty-cart i {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-
+        
         @media (max-width: 768px) {
-            header h1 {
-                font-size: calc(var(--title-size) * 0.8);
-            }
-
-            .contact-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .contact-item {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .menu-grid {
-                grid-template-columns: 1fr;
-                padding: 10px;
-            }
-
-            .modal-content {
-                margin: 20px;
-                padding: 20px;
-            }
-
-            .firebase-status {
-                top: 10px;
-                right: 10px;
-                font-size: 11px;
-                padding: 6px 12px;
-            }
-
-            .cart-button {
-                bottom: 15px;
-                right: 15px;
-                padding: 15px 20px;
-                font-size: 16px;
-            }
-
-            .category-tabs {
-                gap: 8px;
-            }
-
-            .category-tab {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
+            header h1 { font-size: calc(var(--title-size) * 0.8); }
+            .contact-bar { flex-direction: column; gap: 10px; }
+            .contact-item { width: 100%; justify-content: center; }
+            .menu-grid { grid-template-columns: 1fr; padding: 10px; }
+            .modal-content { margin: 20px; padding: 20px; }
+            .firebase-status { top: 10px; right: 10px; font-size: 11px; padding: 6px 12px; }
+            .categories-nav { padding: 10px; }
+            .cart-float { bottom: 80px; }
         }
     </style>
 </head>
@@ -699,14 +512,18 @@
                 <div class="contact-bar" id="contactBar"></div>
             </header>
 
+            <div class="categories-nav" id="categoriesNav">
+                <button class="category-btn active" onclick="filterCategory('all')">🍽️ Todos</button>
+            </div>
+
             <div id="adminPanel" style="display: none;">
                 <div class="admin-panel">
                     <h2>Painel Administrativo</h2>
                     
-                    <button class="btn" onclick="showSettingsModal()">⚙️ Configurações Gerais</button>
-                    <button class="btn" onclick="showContactModal()">📞 Editar Contatos</button>
-                    <button class="btn" onclick="showStyleModal()">🎨 Personalizar Estilos</button>
-                    <button class="btn" onclick="showCategoryModal()">📁 Gerenciar Categorias</button>
+                    <button class="btn" onclick="showSettingsModal()">⚙️ Configurações</button>
+                    <button class="btn" onclick="showContactModal()">📞 Contatos</button>
+                    <button class="btn" onclick="showStyleModal()">🎨 Estilos</button>
+                    <button class="btn" onclick="showCategoriesModal()">📁 Categorias</button>
                     <button class="btn" onclick="showAddItemModal()">➕ Adicionar Item</button>
                     <button class="btn-secondary btn" onclick="logout()">🚪 Sair</button>
 
@@ -714,13 +531,12 @@
                 </div>
             </div>
 
-            <div class="category-tabs" id="categoryTabs"></div>
             <div class="menu-grid" id="menuGrid"></div>
 
-            <button class="cart-button" onclick="showCartModal()" id="cartButton" style="display: none;">
-                🛒 Carrinho
-                <span class="cart-badge" id="cartBadge">0</span>
-            </button>
+            <div class="cart-float" onclick="showCartModal()" style="display: none;" id="cartFloat">
+                <i class="fas fa-shopping-cart fa-2x"></i>
+                <div class="cart-count" id="cartCount">0</div>
+            </div>
 
             <footer>
                 <div class="contact-bar" id="contactBarFooter"></div>
@@ -730,7 +546,6 @@
         </div>
     </div>
 
-    <!-- Modal de Login -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
@@ -743,60 +558,36 @@
         </div>
     </div>
 
-    <!-- Modal de Carrinho -->
-    <div id="cartModal" class="modal">
-        <div class="modal-content large">
-            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-            <h2>🛒 Seu Carrinho</h2>
-            <div id="cartItems"></div>
-            <div class="cart-total" id="cartTotal" style="display: none;">
-                <h3>Total do Pedido:</h3>
-                <div class="total-price" id="totalPrice">R$ 0,00</div>
-                <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="showCheckoutModal()">
-                    📱 Finalizar Pedido pelo WhatsApp
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Checkout -->
-    <div id="checkoutModal" class="modal">
+    <div id="categoriesModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('checkoutModal')">&times;</span>
-            <h2>📝 Finalizar Pedido</h2>
+            <span class="close-modal" onclick="closeModal('categoriesModal')">&times;</span>
+            <h2>📁 Gerenciar Categorias</h2>
+            
             <div class="form-group">
-                <label>Seu Nome:</label>
-                <input type="text" id="customerName" placeholder="Digite seu nome">
+                <label>Nova Categoria:</label>
+                <input type="text" id="newCategoryName" placeholder="Ex: Bebidas, Pratos Quentes">
             </div>
-            <div class="form-group">
-                <label>Localização:</label>
-                <input type="text" id="customerLocation" placeholder="Ex: Mesa 5, Quarto 201, etc.">
-            </div>
-            <div class="form-group">
-                <label>Observações (opcional):</label>
-                <textarea id="orderNotes" placeholder="Alguma observação sobre o pedido?"></textarea>
-            </div>
-            <button class="btn btn-success" onclick="sendOrderToWhatsApp()">
-                📱 Enviar Pedido pelo WhatsApp
-            </button>
-            <button class="btn-secondary btn" onclick="closeModal('checkoutModal')">❌ Cancelar</button>
+            <button class="btn" onclick="addCategory()">➕ Adicionar</button>
+            
+            <div id="categoriesList" style="margin-top: 20px;"></div>
+            
+            <button class="btn-secondary btn" onclick="closeModal('categoriesModal')">Fechar</button>
         </div>
     </div>
 
-    <!-- Modais Admin (continuação no próximo bloco) -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
-            <h2>📞 Editar Informações de Contato</h2>
+            <h2>📞 Editar Contatos</h2>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="showWhatsapp" checked>
                 <label for="showWhatsapp">Mostrar WhatsApp</label>
             </div>
             <div class="form-group">
-                <label><i class="fab fa-whatsapp"></i> WhatsApp (para pedidos):</label>
+                <label><i class="fab fa-whatsapp"></i> WhatsApp:</label>
                 <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
-                <small>Este número receberá os pedidos dos clientes</small>
+                <small>Número para receber pedidos</small>
             </div>
 
             <div class="checkbox-group">
@@ -841,7 +632,7 @@
             </div>
             <div class="form-group">
                 <label><i class="fas fa-map-marker-alt"></i> Endereço:</label>
-                <input type="text" id="contactAddress" placeholder="Rua Exemplo, 123 - Bairro">
+                <input type="text" id="contactAddress" placeholder="Rua Exemplo, 123">
             </div>
 
             <div class="checkbox-group">
@@ -849,32 +640,15 @@
                 <label for="showHours">Mostrar Horário</label>
             </div>
             <div class="form-group">
-                <label><i class="fas fa-clock"></i> Horário de Funcionamento:</label>
-                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h">
+                <label><i class="fas fa-clock"></i> Horário:</label>
+                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h">
             </div>
 
-            <button class="btn" onclick="saveContacts()">💾 Salvar Contatos</button>
-            <button class="btn-secondary btn" onclick="closeModal('contactModal')">❌ Cancelar</button>
+            <button class="btn" onclick="saveContacts()">💾 Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('contactModal')">Cancelar</button>
         </div>
     </div>
 
-    <!-- Modal de Categorias -->
-    <div id="categoryModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('categoryModal')">&times;</span>
-            <h2>📁 Gerenciar Categorias</h2>
-            
-            <div class="form-group">
-                <label>Nome da Nova Categoria:</label>
-                <input type="text" id="newCategoryName" placeholder="Ex: Bebidas, Pratos Principais, Sobremesas">
-            </div>
-            <button class="btn" onclick="addCategory()">➕ Adicionar Categoria</button>
-
-            <div class="item-list" id="categoryList"></div>
-        </div>
-    </div>
-
-    <!-- Modal de Estilos -->
     <div id="styleModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('styleModal')">&times;</span>
@@ -883,13 +657,13 @@
             <h3 style="margin-top: 20px; color: #333;">📏 Tamanhos</h3>
 
             <div class="form-group">
-                <label>Altura das Imagens dos Produtos:</label>
-                <input type="range" id="imageHeight" min="150" max="400" value="200" oninput="updateImageHeight()">
+                <label>Altura das Imagens:</label>
+                <input type="range" id="imageHeight" min="100" max="400" value="200" oninput="updateImageHeight()">
                 <small id="imageHeightValue">200px</small>
             </div>
 
             <div class="form-group">
-                <label>Tamanho do Título Principal:</label>
+                <label>Tamanho do Título:</label>
                 <input type="range" id="titleSize" min="20" max="60" value="40" oninput="updateSizePreview('title')">
                 <small id="titleSizeValue">40px</small>
             </div>
@@ -900,36 +674,12 @@
                 <small id="subtitleSizeValue">19px</small>
             </div>
 
-            <div class="form-group">
-                <label>Tamanho dos Nomes dos Pratos:</label>
-                <input type="range" id="itemTitleSize" min="16" max="32" value="22" oninput="updateSizePreview('itemTitle')">
-                <small id="itemTitleSizeValue">22px</small>
-            </div>
+            <h3 style="margin-top: 30px; color: #333;">🎨 Cores</h3>
 
             <div class="form-group">
-                <label>Tamanho das Descrições:</label>
-                <input type="range" id="itemDescriptionSize" min="12" max="20" value="16" oninput="updateSizePreview('itemDescription')">
-                <small id="itemDescriptionSizeValue">16px</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tamanho dos Preços:</label>
-                <input type="range" id="priceSize" min="18" max="36" value="24" oninput="updateSizePreview('price')">
-                <small id="priceSizeValue">24px</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tamanho dos Contatos:</label>
-                <input type="range" id="contactSize" min="12" max="20" value="16" oninput="updateSizePreview('contact')">
-                <small id="contactSizeValue">16px</small>
-            </div>
-
-            <h3 style="margin-top: 30px; color: #333;">🎨 Cores dos Textos</h3>
-
-            <div class="form-group">
-                <label>Cor do Título Principal:</label>
+                <label>Cor do Título:</label>
                 <div class="color-input-group">
-                    <input type="color" id="titleColor" value="#ffffff">
+                    <input type="color" id="titleColor" value="#ffffff" onchange="updateColorText('title')">
                     <input type="text" id="titleColorText" value="#ffffff" readonly>
                 </div>
             </div>
@@ -937,106 +687,23 @@
             <div class="form-group">
                 <label>Cor do Subtítulo:</label>
                 <div class="color-input-group">
-                    <input type="color" id="subtitleColor" value="#ffffff">
+                    <input type="color" id="subtitleColor" value="#ffffff" onchange="updateColorText('subtitle')">
                     <input type="text" id="subtitleColorText" value="#ffffff" readonly>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Cor dos Nomes dos Pratos:</label>
-                <div class="color-input-group">
-                    <input type="color" id="itemTitleColor" value="#333333">
-                    <input type="text" id="itemTitleColorText" value="#333333" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor das Descrições:</label>
-                <div class="color-input-group">
-                    <input type="color" id="itemDescriptionColor" value="#666666">
-                    <input type="text" id="itemDescriptionColorText" value="#666666" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor dos Preços:</label>
-                <div class="color-input-group">
-                    <input type="color" id="priceColor" value="#ff6b6b">
-                    <input type="text" id="priceColorText" value="#ff6b6b" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor dos Contatos:</label>
-                <div class="color-input-group">
-                    <input type="color" id="contactColor" value="#ffffff">
-                    <input type="text" id="contactColorText" value="#ffffff" readonly>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 30px; color: #333;">✏️ Fontes</h3>
-
-            <div class="form-group">
-                <label>Fonte do Título:</label>
-                <select id="fontTitle">
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte do Subtítulo:</label>
-                <select id="fontSubtitle">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte dos Pratos:</label>
-                <select id="fontItemTitle">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte das Descrições:</label>
-                <select id="fontItemDescription">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte dos Preços:</label>
-                <select id="fontPrice">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                </select>
-            </div>
-
-            <button class="btn" onclick="saveStyles()">💾 Salvar Estilos</button>
-            <button class="btn-secondary btn" onclick="closeModal('styleModal')">❌ Cancelar</button>
+            <button class="btn" onclick="saveStyles()">💾 Salvar</button>
+            <button class="btn-secondary btn" onclick="closeModal('styleModal')">Cancelar</button>
         </div>
     </div>
 
-    <!-- Modal de Configurações -->
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
             <h2>⚙️ Configurações Gerais</h2>
             <div class="form-group">
                 <label>Nome do Restaurante:</label>
-                <input type="text" id="settingsName" placeholder="Nome do restaurante">
+                <input type="text" id="settingsName" placeholder="Nome">
             </div>
             <div class="form-group">
                 <label>Subtítulo:</label>
@@ -1047,15 +714,14 @@
                 <input type="text" id="settingsBackground" placeholder="https://exemplo.com/imagem.jpg">
             </div>
             <div class="form-group">
-                <label>Senha de Administrador:</label>
-                <input type="password" id="settingsPassword" placeholder="Nova senha (deixe em branco para manter)">
+                <label>Senha de Admin:</label>
+                <input type="password" id="settingsPassword" placeholder="Nova senha">
             </div>
             <button class="btn" onclick="saveSettings()">💾 Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">❌ Cancelar</button>
+            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">Cancelar</button>
         </div>
     </div>
 
-    <!-- Modal de Item -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('itemModal')">&times;</span>
@@ -1063,9 +729,7 @@
             
             <div class="form-group">
                 <label>Categoria:</label>
-                <select id="itemCategory">
-                    <option value="">Selecione uma categoria</option>
-                </select>
+                <select id="itemCategory"></select>
             </div>
 
             <div class="form-group">
@@ -1075,38 +739,67 @@
             
             <div class="form-group">
                 <label>Descrição:</label>
-                <textarea id="itemDescription" placeholder="Descrição do prato"></textarea>
+                <textarea id="itemDescription" placeholder="Descrição"></textarea>
             </div>
             
             <div class="form-group">
                 <label>Preço (R$):</label>
-                <input type="text" id="itemPrice" placeholder="Ex: 35.90">
+                <input type="text" id="itemPrice" placeholder="35.90">
             </div>
             
             <div class="form-group">
-                <label>Imagem do Produto:</label>
-                <input type="text" id="itemImage" placeholder="Cole a URL da imagem ou use os botões abaixo">
-                <div class="image-upload-options">
-                    <button type="button" onclick="document.getElementById('fileInput').click()">
-                        📁 Escolher Arquivo
-                    </button>
-                    <button type="button" onclick="document.getElementById('cameraInput').click()">
-                        📷 Tirar Foto
-                    </button>
+                <label>Imagem:</label>
+                <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('itemImageFile').click()">
+                    <i class="fas fa-cloud-upload-alt fa-3x" style="color: #ddd;"></i>
+                    <p>📸 Clique para fazer upload ou tirar foto</p>
+                    <img id="imagePreview" class="image-preview" style="display: none;">
                 </div>
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageUpload(event)">
-                <img id="imagePreview" class="image-preview" alt="Preview">
-                <small>Você pode colar uma URL, escolher um arquivo ou tirar uma foto</small>
+                <input type="file" id="itemImageFile" accept="image/*" capture="environment" style="display: none;" onchange="previewImage(this)">
+                <small>Ou cole a URL:</small>
+                <input type="text" id="itemImage" placeholder="https://exemplo.com/imagem.jpg" style="margin-top: 10px;">
             </div>
             
             <button class="btn" onclick="saveItem()">💾 Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('itemModal')">❌ Cancelar</button>
+            <button class="btn-secondary btn" onclick="closeModal('itemModal')">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content large">
+            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+            <h2>🛒 Seu Pedido</h2>
+            
+            <div id="cartItems"></div>
+            
+            <div class="cart-total" id="cartTotal">Total: R$ 0,00</div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label>👤 Seu Nome:</label>
+                <input type="text" id="customerName" placeholder="Digite seu nome">
+            </div>
+            
+            <div class="form-group">
+                <label>📍 Localização (Mesa/Quarto/Endereço):</label>
+                <input type="text" id="customerLocation" placeholder="Ex: Mesa 5">
+            </div>
+            
+            <button class="btn btn-success" onclick="sendOrder()" style="width: 100%; font-size: 18px; padding: 15px;">
+                <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
+            </button>
+            <button class="btn-secondary btn" onclick="closeModal('cartModal')" style="width: 100%; margin-top: 10px;">
+                Continuar Comprando
+            </button>
+        </div>
+    </div>
+
+    <div id="itemDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('itemDetailModal')">&times;</span>
+            <div id="itemDetailContent"></div>
         </div>
     </div>
 
     <script>
-        // FIREBASE PRÉ-CONFIGURADO
         const firebaseConfig = {
             apiKey: "AIzaSyB2k6gxxExHWOkYWRPwSDald6Sd22N8BNM",
             authDomain: "cardapio-cantinho-gava.firebaseapp.com",
@@ -1117,11 +810,10 @@
             appId: "1:250618497333:web:022ae360f0e923eda8247c"
         };
 
-        // Dados padrão
         let settings = {
             name: 'Meu Restaurante',
             subtitle: 'Sabores que encantam',
-            background: 'https://placehold.co/1920x1080/2c3e50/ffffff?text=Fundo+do+Cardapio',
+            background: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920',
             password: 'admin123'
         };
 
@@ -1131,8 +823,8 @@
             instagram: '@meurestaurante',
             facebook: '',
             email: 'contato@restaurante.com',
-            address: 'Rua Exemplo, 123 - Centro',
-            hours: 'Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h',
+            address: 'Rua Exemplo, 123',
+            hours: 'Seg-Sex: 11h-23h',
             showWhatsapp: true,
             showPhone: false,
             showInstagram: true,
@@ -1163,50 +855,17 @@
             priceFont: "'Poppins', sans-serif"
         };
 
-        let categories = [
-            { id: 1, name: 'Todos', order: 0 },
-            { id: 2, name: 'Pratos Principais', order: 1 },
-            { id: 3, name: 'Bebidas', order: 2 },
-            { id: 4, name: 'Sobremesas', order: 3 }
-        ];
-
-        let menuItems = [
-            {
-                id: 1,
-                name: 'Pizza Margherita',
-                description: 'Molho de tomate, mussarela, manjericão fresco',
-                price: '35.90',
-                image: 'https://placehold.co/400x300/e74c3c/ffffff?text=Pizza',
-                categoryId: 2
-            },
-            {
-                id: 2,
-                name: 'Hambúrguer Artesanal',
-                description: 'Pão brioche, blend 180g, queijo cheddar, bacon',
-                price: '28.50',
-                image: 'https://placehold.co/400x300/3498db/ffffff?text=Hamburguer',
-                categoryId: 2
-            },
-            {
-                id: 3,
-                name: 'Refrigerante Lata',
-                description: 'Coca-Cola, Guaraná, Fanta',
-                price: '5.00',
-                image: 'https://placehold.co/400x300/27ae60/ffffff?text=Refrigerante',
-                categoryId: 3
-            }
-        ];
-
+        let categories = ['Bebidas', 'Pratos Principais', 'Sobremesas'];
+        let menuItems = [];
         let cart = [];
-        let currentCategory = 1;
         let isLoggedIn = false;
         let editingItemId = null;
         let firebaseApp = null;
         let database = null;
         let storage = null;
+        let currentFilter = 'all';
         let uploadedImageData = null;
 
-        // Inicializar Firebase
         function initFirebase() {
             try {
                 firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -1215,7 +874,7 @@
                 updateFirebaseStatus(true);
                 loadFromFirebase();
             } catch (error) {
-                console.error('Erro ao inicializar Firebase:', error);
+                console.error('Erro Firebase:', error);
                 updateFirebaseStatus(false);
                 loadFromLocalStorage();
             }
@@ -1232,172 +891,70 @@
             }
         }
 
-        // Carregar dados do Firebase
         function loadFromFirebase() {
             if (!database) return;
-
-            database.ref('settings').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    settings = snapshot.val();
-                    applySettings();
-                }
-            });
-
-            database.ref('contacts').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    contacts = snapshot.val();
-                    renderContacts();
-                }
-            });
-
-            database.ref('styles').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    styles = snapshot.val();
-                    applyStyles();
-                }
-            });
-
-            database.ref('categories').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    categories = Object.values(snapshot.val());
-                    renderCategoryTabs();
-                    updateCategorySelect();
-                }
-            });
-
-            database.ref('menuItems').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    menuItems = Object.values(snapshot.val());
-                    renderMenu();
-                }
-            });
+            database.ref('settings').once('value').then((s) => { if (s.exists()) { settings = s.val(); applySettings(); } });
+            database.ref('contacts').once('value').then((s) => { if (s.exists()) { contacts = s.val(); renderContacts(); } });
+            database.ref('styles').once('value').then((s) => { if (s.exists()) { styles = s.val(); applyStyles(); } });
+            database.ref('categories').once('value').then((s) => { if (s.exists()) { categories = s.val(); renderCategories(); } });
+            database.ref('menuItems').once('value').then((s) => { if (s.exists()) { menuItems = Object.values(s.val()); renderMenu(); } });
         }
 
-        // Salvar no Firebase
-        function saveToFirebase(path, data) {
-            if (database) {
-                database.ref(path).set(data);
-            }
-        }
+        function saveToFirebase(path, data) { if (database) database.ref(path).set(data); }
 
-        // Upload de imagem
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedImageData = e.target.result;
-                document.getElementById('itemImage').value = 'Imagem carregada (será salva ao salvar o item)';
-                document.getElementById('imagePreview').src = uploadedImageData;
-                document.getElementById('imagePreview').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Atualizar altura da imagem
-        function updateImageHeight() {
-            const value = document.getElementById('imageHeight').value + 'px';
-            document.getElementById('imageHeightValue').textContent = value;
-        }
-
-        // Carregar do localStorage
         function loadFromLocalStorage() {
-            const savedSettings = localStorage.getItem('menuSettings');
-            const savedItems = localStorage.getItem('menuItems');
-            const savedStyles = localStorage.getItem('menuStyles');
-            const savedContacts = localStorage.getItem('menuContacts');
-            const savedCategories = localStorage.getItem('menuCategories');
-            const savedCart = localStorage.getItem('cart');
-
-            if (savedSettings) settings = JSON.parse(savedSettings);
-            if (savedItems) menuItems = JSON.parse(savedItems);
-            if (savedStyles) styles = JSON.parse(savedStyles);
-            if (savedContacts) contacts = JSON.parse(savedContacts);
-            if (savedCategories) categories = JSON.parse(savedCategories);
-            if (savedCart) cart = JSON.parse(savedCart);
-
+            const saved = localStorage.getItem('menuData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                settings = data.settings || settings;
+                contacts = data.contacts || contacts;
+                styles = data.styles || styles;
+                categories = data.categories || categories;
+                menuItems = data.menuItems || menuItems;
+            }
             applySettings();
             applyStyles();
             renderContacts();
-            renderCategoryTabs();
-            renderMenu();
-            updateCartBadge();
-        }
-
-        // Renderizar abas de categorias
-        function renderCategoryTabs() {
-            const tabs = document.getElementById('categoryTabs');
-            tabs.innerHTML = categories
-                .sort((a, b) => a.order - b.order)
-                .map(cat => `
-                    <button class="category-tab ${currentCategory === cat.id ? 'active' : ''}" 
-                            onclick="selectCategory(${cat.id})">
-                        ${cat.name}
-                    </button>
-                `).join('');
-        }
-
-        // Selecionar categoria
-        function selectCategory(categoryId) {
-            currentCategory = categoryId;
-            renderCategoryTabs();
+            renderCategories();
             renderMenu();
         }
 
-        // Renderizar contatos
+        function saveToLocalStorage() {
+            localStorage.setItem('menuData', JSON.stringify({ settings, contacts, styles, categories, menuItems }));
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageData = e.target.result;
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('imageUploadArea').classList.add('has-image');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function renderContacts() {
-            let contactHTML = '';
-
+            let html = '';
             if (contacts.showWhatsapp && contacts.whatsapp) {
-                const whatsappNumber = contacts.whatsapp.replace(/\D/g, '');
-                contactHTML += `<a href="https://wa.me/${whatsappNumber}" target="_blank" class="contact-item">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>`;
+                const num = contacts.whatsapp.replace(/\D/g, '');
+                html += `<a href="https://wa.me/${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
             }
-
-            if (contacts.showPhone && contacts.phone) {
-                contactHTML += `<a href="tel:${contacts.phone}" class="contact-item">
-                    <i class="fas fa-phone"></i> ${contacts.phone}
-                </a>`;
-            }
-
+            if (contacts.showPhone && contacts.phone) html += `<a href="tel:${contacts.phone}" class="contact-item"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
             if (contacts.showInstagram && contacts.instagram) {
-                const instaUser = contacts.instagram.replace('@', '');
-                contactHTML += `<a href="https://instagram.com/${instaUser}" target="_blank" class="contact-item">
-                    <i class="fab fa-instagram"></i> ${contacts.instagram}
-                </a>`;
+                const user = contacts.instagram.replace('@', '');
+                html += `<a href="https://instagram.com/${user}" target="_blank" class="contact-item"><i class="fab fa-instagram"></i> ${contacts.instagram}</a>`;
             }
-
-            if (contacts.showFacebook && contacts.facebook) {
-                contactHTML += `<a href="${contacts.facebook.includes('http') ? contacts.facebook : 'https://facebook.com/' + contacts.facebook}" target="_blank" class="contact-item">
-                    <i class="fab fa-facebook"></i> Facebook
-                </a>`;
-            }
-
-            if (contacts.showEmail && contacts.email) {
-                contactHTML += `<a href="mailto:${contacts.email}" class="contact-item">
-                    <i class="fas fa-envelope"></i> ${contacts.email}
-                </a>`;
-            }
-
-            if (contacts.showAddress && contacts.address) {
-                contactHTML += `<div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i> ${contacts.address}
-                </div>`;
-            }
-
-            if (contacts.showHours && contacts.hours) {
-                contactHTML += `<div class="contact-item">
-                    <i class="fas fa-clock"></i> ${contacts.hours}
-                </div>`;
-            }
-
-            document.getElementById('contactBar').innerHTML = contactHTML;
-            document.getElementById('contactBarFooter').innerHTML = contactHTML;
+            if (contacts.showFacebook && contacts.facebook) html += `<a href="${contacts.facebook.includes('http') ? contacts.facebook : 'https://facebook.com/' + contacts.facebook}" target="_blank" class="contact-item"><i class="fab fa-facebook"></i> Facebook</a>`;
+            if (contacts.showEmail && contacts.email) html += `<a href="mailto:${contacts.email}" class="contact-item"><i class="fas fa-envelope"></i> ${contacts.email}</a>`;
+            if (contacts.showAddress && contacts.address) html += `<div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${contacts.address}</div>`;
+            if (contacts.showHours && contacts.hours) html += `<div class="contact-item"><i class="fas fa-clock"></i> ${contacts.hours}</div>`;
+            document.getElementById('contactBar').innerHTML = html;
+            document.getElementById('contactBarFooter').innerHTML = html;
         }
 
-        // Aplicar estilos
         function applyStyles() {
             document.documentElement.style.setProperty('--image-height', styles.imageHeight);
             document.documentElement.style.setProperty('--title-size', styles.titleSize);
@@ -1406,14 +963,12 @@
             document.documentElement.style.setProperty('--item-description-size', styles.itemDescriptionSize);
             document.documentElement.style.setProperty('--price-size', styles.priceSize);
             document.documentElement.style.setProperty('--contact-size', styles.contactSize);
-            
             document.documentElement.style.setProperty('--title-color', styles.titleColor);
             document.documentElement.style.setProperty('--subtitle-color', styles.subtitleColor);
             document.documentElement.style.setProperty('--item-title-color', styles.itemTitleColor);
             document.documentElement.style.setProperty('--item-description-color', styles.itemDescriptionColor);
             document.documentElement.style.setProperty('--price-color', styles.priceColor);
             document.documentElement.style.setProperty('--contact-color', styles.contactColor);
-            
             document.documentElement.style.setProperty('--title-font', styles.titleFont);
             document.documentElement.style.setProperty('--subtitle-font', styles.subtitleFont);
             document.documentElement.style.setProperty('--item-title-font', styles.itemTitleFont);
@@ -1422,7 +977,6 @@
             document.documentElement.style.setProperty('--body-font', "'Poppins', sans-serif");
         }
 
-        // Aplicar configurações
         function applySettings() {
             document.getElementById('restaurantName').textContent = settings.name;
             document.getElementById('restaurantSubtitle').textContent = settings.subtitle;
@@ -1430,166 +984,386 @@
             document.body.style.backgroundImage = `url('${settings.background}')`;
         }
 
-        // Renderizar menu
+        function renderCategories() {
+            let html = '<button class="category-btn active" onclick="filterCategory(\'all\')">🍽️ Todos</button>';
+            categories.forEach(cat => html += `<button class="category-btn" onclick="filterCategory('${cat}')">${cat}</button>`);
+            document.getElementById('categoriesNav').innerHTML = html;
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderMenu();
+        }
+
         function renderMenu() {
-            const grid = document.getElementById('menuGrid');
-            let itemsToShow = menuItems;
-
-            if (currentCategory !== 1) {
-                itemsToShow = menuItems.filter(item => item.categoryId === currentCategory);
-            }
-
-            grid.innerHTML = itemsToShow.map(item => `
-                <div class="menu-item">
+            const filtered = currentFilter === 'all' ? menuItems : menuItems.filter(item => item.category === currentFilter);
+            const html = filtered.map(item => `
+                <div class="menu-item" onclick="showItemDetail(${item.id})">
                     <img src="${item.image}" alt="${item.name}">
                     <div class="menu-item-content">
+                        <div class="category-tag">${item.category || 'Sem categoria'}</div>
                         <h3>${item.name}</h3>
                         <p>${item.description}</p>
                         <div class="price">R$ ${item.price}</div>
-                        <button class="add-to-cart-btn" onclick="addToCart(${item.id})">
-                            🛒 Adicionar ao Carrinho
-                        </button>
                     </div>
                 </div>
             `).join('');
-
-            if (isLoggedIn) {
-                renderAdminList();
-            }
+            document.getElementById('menuGrid').innerHTML = html || '<p style="color: white; text-align: center; padding: 40px;">Nenhum item cadastrado ainda.</p>';
+            if (isLoggedIn) renderAdminList();
         }
 
-        // Adicionar ao carrinho
-        function addToCart(itemId) {
-            const item = menuItems.find(i => i.id === itemId);
-            const cartItem = cart.find(c => c.id === itemId);
-
-            if (cartItem) {
-                cartItem.quantity++;
-            } else {
-                cart.push({
-                    id: item.id,
-                    name: item.name,
-                    price: parseFloat(item.price),
-                    quantity: 1
-                });
-            }
-
-            updateCartBadge();
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Feedback visual
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Adicionado!';
-            btn.style.background = '#27ae60';
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '#ff6b6b';
-            }, 1000);
+        function renderAdminList() {
+            const html = '<h3 style="margin-top: 30px; color: #333;">📋 Itens do Cardápio</h3>' +
+                menuItems.map(item => `
+                <div class="item-row">
+                    <div><strong>${item.name}</strong> - ${item.category} - R$ ${item.price}</div>
+                    <div class="item-actions">
+                        <button class="btn" onclick="editItem(${item.id})">✏️ Editar</button>
+                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('itemList').innerHTML = html;
         }
 
-        // Atualizar badge do carrinho
-        function updateCartBadge() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartBadge').textContent = totalItems;
-            document.getElementById('cartButton').style.display = totalItems > 0 ? 'flex' : 'none';
+        function showItemDetail(id) {
+            const item = menuItems.find(i => i.id === id);
+            const html = `
+                <img src="${item.image}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+                <h2>${item.name}</h2>
+                <p style="color: #666; margin: 15px 0;">${item.description}</p>
+                <div style="font-size: 28px; color: #ff6b6b; font-weight: bold; margin: 20px 0;">R$ ${item.price}</div>
+                <button class="btn" onclick="addToCart(${id})" style="width: 100%; font-size: 18px; padding: 15px;">
+                    🛒 Adicionar ao Carrinho
+                </button>
+            `;
+            document.getElementById('itemDetailContent').innerHTML = html;
+            document.getElementById('itemDetailModal').style.display = 'block';
         }
 
-        // Mostrar carrinho
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            const existing = cart.find(c => c.id === id);
+            if (existing) existing.qty++; else cart.push({ ...item, qty: 1 });
+            updateCartUI();
+            closeModal('itemDetailModal');
+            alert('✅ Item adicionado ao carrinho!');
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartFloat').style.display = count > 0 ? 'flex' : 'none';
+        }
+
         function showCartModal() {
-            const cartItemsDiv = document.getElementById('cartItems');
-            
-            if (cart.length === 0) {
-                cartItemsDiv.innerHTML = `
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-cart"></i>
-                        <h3>Seu carrinho está vazio</h3>
-                        <p>Adicione itens do cardápio para fazer seu pedido</p>
+            if (cart.length === 0) { alert('Seu carrinho está vazio!'); return; }
+            let html = '', total = 0;
+            cart.forEach(item => {
+                const subtotal = parseFloat(item.price) * item.qty;
+                total += subtotal;
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info"><strong>${item.name}</strong><br><small>R$ ${item.price} cada</small></div>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span style="margin: 0 10px; font-weight: bold;">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            <span style="margin-left: 15px; font-weight: bold;">R$ ${subtotal.toFixed(2)}</span>
+                        </div>
                     </div>
                 `;
-                document.getElementById('cartTotal').style.display = 'none';
-            } else {
-                cartItemsDiv.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <p>R$ ${item.price.toFixed(2)}</p>
-                        </div>
-                        <div class="cart-item-controls">
-                            <div class="quantity-control">
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span class="quantity-display">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            </div>
-                            <button class="remove-item-btn" onclick="removeFromCart(${item.id})">🗑️</button>
-                        </div>
-                    </div>
-                `).join('');
-
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                document.getElementById('totalPrice').textContent = `R$ ${total.toFixed(2)}`;
-                document.getElementById('cartTotal').style.display = 'block';
-            }
-
+            });
+            document.getElementById('cartItems').innerHTML = html;
+            document.getElementById('cartTotal').textContent = `Total: R$ ${total.toFixed(2)}`;
             document.getElementById('cartModal').style.display = 'block';
         }
 
-        // Atualizar quantidade
-        function updateQuantity(itemId, change) {
-            const cartItem = cart.find(c => c.id === itemId);
-            if (cartItem) {
-                cartItem.quantity += change;
-                if (cartItem.quantity <= 0) {
-                    removeFromCart(itemId);
-                } else {
-                    updateCartBadge();
-                    showCartModal();
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                }
+        function changeQty(id, delta) {
+            const item = cart.find(c => c.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+                updateCartUI();
+                showCartModal();
             }
         }
 
-        // Remover do carrinho
-        function removeFromCart(itemId) {
-            cart = cart.filter(c => c.id !== itemId);
-            updateCartBadge();
-            showCartModal();
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
-
-        // Mostrar checkout
-        function showCheckoutModal() {
-            closeModal('cartModal');
-            document.getElementById('checkoutModal').style.display = 'block';
-        }
-
-        // Enviar pedido pelo WhatsApp
-        function sendOrderToWhatsApp() {
+        function sendOrder() {
             const name = document.getElementById('customerName').value;
             const location = document.getElementById('customerLocation').value;
-            const notes = document.getElementById('orderNotes').value;
-
-            if (!name || !location) {
-                alert('⚠️ Por favor, preencha seu nome e localização!');
-                return;
-            }
-
-            let message = `🍽️ *NOVO PEDIDO*\\n\\n`;
-            message += `👤 *Cliente:* ${name}\\n`;
-            message += `📍 *Localização:* ${location}\\n\\n`;
-            message += `*Itens do Pedido:*\\n`;
-            message += `━━━━━━━━━━━━━━━━\\n`;
-
+            if (!name || !location) { alert('⚠️ Preencha seu nome e localização!'); return; }
+            let message = `🍽️ *NOVO PEDIDO*\\n\\n👤 *Cliente:* ${name}\\n📍 *Local:* ${location}\\n\\n*Itens:*\\n`;
+            let total = 0;
             cart.forEach(item => {
-                message += `\\n${item.quantity}x ${item.name}\\n`;
-                message += `R$ ${item.price.toFixed(2)} cada\\n`;
-                message += `Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\\n`;
+                const subtotal = parseFloat(item.price) * item.qty;
+                total += subtotal;
+                message += `• ${item.qty}x ${item.name} - R$ ${subtotal.toFixed(2)}\\n`;
             });
+            message += `\\n💰 *Total: R$ ${total.toFixed(2)}*`;
+            const whatsapp = contacts.whatsapp.replace(/\D/g, '');
+            const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+            cart = [];
+            updateCartUI();
+            closeModal('cartModal');
+            alert('✅ Pedido enviado! Aguarde a confirmação.');
+        }
 
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            message += `\\n━━━━━━━━━━━━━━━━\\n`;
-            message += `💰 *TOTAL: R$ ${total.toFixed(2)}*`;
+        function showCategoriesModal() {
+            renderCategoriesList();
+            document.getElementById('categoriesModal').style.display = 'block';
+        }
 
-            if (notes) {
-                message += `\\n\\n📝 *Observações:*\\n${notes}`;
+        function renderCategoriesList() {
+            const html = categories.map((cat, idx) => `
+                <div class="item-row">
+                    <div><strong>${cat}</strong></div>
+                    <div class="item-actions">
+                        <button class="btn-secondary btn" onclick="deleteCategory(${idx})">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('categoriesList').innerHTML = html;
+        }
+
+        function addCategory() {
+            const name = document.getElementById('newCategoryName').value.trim();
+            if (!name) { alert('Digite o nome da categoria!'); return; }
+            if (categories.includes(name)) { alert('Categoria já existe!'); return; }
+            categories.push(name);
+            saveToFirebase('categories', categories);
+            saveToLocalStorage();
+            renderCategories();
+            renderCategoriesList();
+            document.getElementById('newCategoryName').value = '';
+            alert('✅ Categoria adicionada!');
+        }
+
+        function deleteCategory(idx) {
+            if (confirm('Excluir esta categoria?')) {
+                categories.splice(idx, 1);
+                saveToFirebase('categories', categories);
+                saveToLocalStorage();
+                renderCategories();
+                renderCategoriesList();
             }
+        }
+
+        function showLoginModal() {
+            if (isLoggedIn) {
+                document.getElementById('adminPanel').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        }
+
+        function login() {
+            const password = document.getElementById('loginPassword').value;
+            if (password === settings.password) {
+                isLoggedIn = true;
+                closeModal('loginModal');
+                document.getElementById('adminPanel').style.display = 'block';
+                renderMenu();
+                alert('✅ Login realizado!');
+            } else {
+                alert('❌ Senha incorreta!');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('adminPanel').style.display = 'none';
+            alert('👋 Logout realizado!');
+        }
+
+        function showContactModal() {
+            document.getElementById('contactWhatsapp').value = contacts.whatsapp;
+            document.getElementById('contactPhone').value = contacts.phone;
+            document.getElementById('contactInstagram').value = contacts.instagram;
+            document.getElementById('contactFacebook').value = contacts.facebook;
+            document.getElementById('contactEmail').value = contacts.email;
+            document.getElementById('contactAddress').value = contacts.address;
+            document.getElementById('contactHours').value = contacts.hours;
+            document.getElementById('showWhatsapp').checked = contacts.showWhatsapp !== false;
+            document.getElementById('showPhone').checked = contacts.showPhone === true;
+            document.getElementById('showInstagram').checked = contacts.showInstagram !== false;
+            document.getElementById('showFacebook').checked = contacts.showFacebook === true;
+            document.getElementById('showEmail').checked = contacts.showEmail !== false;
+            document.getElementById('showAddress').checked = contacts.showAddress !== false;
+            document.getElementById('showHours').checked = contacts.showHours !== false;
+            document.getElementById('contactModal').style.display = 'block';
+        }
+
+        function saveContacts() {
+            contacts.whatsapp = document.getElementById('contactWhatsapp').value;
+            contacts.phone = document.getElementById('contactPhone').value;
+            contacts.instagram = document.getElementById('contactInstagram').value;
+            contacts.facebook = document.getElementById('contactFacebook').value;
+            contacts.email = document.getElementById('contactEmail').value;
+            contacts.address = document.getElementById('contactAddress').value;
+            contacts.hours = document.getElementById('contactHours').value;
+            contacts.showWhatsapp = document.getElementById('showWhatsapp').checked;
+            contacts.showPhone = document.getElementById('showPhone').checked;
+            contacts.showInstagram = document.getElementById('showInstagram').checked;
+            contacts.showFacebook = document.getElementById('showFacebook').checked;
+            contacts.showEmail = document.getElementById('showEmail').checked;
+            contacts.showAddress = document.getElementById('showAddress').checked;
+            contacts.showHours = document.getElementById('showHours').checked;
+            saveToFirebase('contacts', contacts);
+            saveToLocalStorage();
+            renderContacts();
+            closeModal('contactModal');
+            alert('✅ Contatos salvos!');
+        }
+
+        function showStyleModal() {
+            document.getElementById('imageHeight').value = parseInt(styles.imageHeight);
+            document.getElementById('titleSize').value = parseInt(styles.titleSize);
+            document.getElementById('subtitleSize').value = parseInt(styles.subtitleSize);
+            updateImageHeight();
+            updateSizePreview('title');
+            updateSizePreview('subtitle');
+            document.getElementById('titleColor').value = styles.titleColor;
+            document.getElementById('titleColorText').value = styles.titleColor;
+            document.getElementById('subtitleColor').value = styles.subtitleColor;
+            document.getElementById('subtitleColorText').value = styles.subtitleColor;
+            document.getElementById('styleModal').style.display = 'block';
+        }
+
+        function updateImageHeight() {
+            const val = document.getElementById('imageHeight').value;
+            document.getElementById('imageHeightValue').textContent = val + 'px';
+        }
+
+        function updateSizePreview(type) {
+            const val = document.getElementById(type + 'Size').value;
+            document.getElementById(type + 'SizeValue').textContent = val + 'px';
+        }
+
+        function updateColorText(type) {
+            const val = document.getElementById(type + 'Color').value;
+            document.getElementById(type + 'ColorText').value = val;
+        }
+
+        function saveStyles() {
+            styles.imageHeight = document.getElementById('imageHeight').value + 'px';
+            styles.titleSize = document.getElementById('titleSize').value + 'px';
+            styles.subtitleSize = document.getElementById('subtitleSize').value + 'px';
+            styles.titleColor = document.getElementById('titleColor').value;
+            styles.subtitleColor = document.getElementById('subtitleColor').value;
+            saveToFirebase('styles', styles);
+            saveToLocalStorage();
+            applyStyles();
+            closeModal('styleModal');
+            alert('✅ Estilos salvos!');
+        }
+
+        function showSettingsModal() {
+            document.getElementById('settingsName').value = settings.name;
+            document.getElementById('settingsSubtitle').value = settings.subtitle;
+            document.getElementById('settingsBackground').value = settings.background;
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function saveSettings() {
+            settings.name = document.getElementById('settingsName').value;
+            settings.subtitle = document.getElementById('settingsSubtitle').value;
+            settings.background = document.getElementById('settingsBackground').value;
+            const newPass = document.getElementById('settingsPassword').value;
+            if (newPass) settings.password = newPass;
+            saveToFirebase('settings', settings);
+            saveToLocalStorage();
+            applySettings();
+            closeModal('settingsModal');
+            alert('✅ Configurações salvas!');
+        }
+
+        function showAddItemModal() {
+            editingItemId = null;
+            document.getElementById('itemModalTitle').textContent = '➕ Adicionar Item';
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemDescription').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('imageUploadArea').classList.remove('has-image');
+            uploadedImageData = null;
+            const catSelect = document.getElementById('itemCategory');
+            catSelect.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('itemModal').style.display = 'block';
+        }
+
+        function editItem(id) {
+            const item = menuItems.find(i => i.id === id);
+            editingItemId = id;
+            document.getElementById('itemModalTitle').textContent = '✏️ Editar Item';
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemDescription').value = item.description;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemImage').value = item.image;
+            document.getElementById('imagePreview').src = item.image;
+            document.getElementById('imagePreview').style.display = 'block';
+            document.getElementById('imageUploadArea').classList.add('has-image');
+            uploadedImageData = null;
+            const catSelect = document.getElementById('itemCategory');
+            catSelect.innerHTML = categories.map(c => `<option value="${c}" ${c === item.category ? 'selected' : ''}>${c}</option>`).join('');
+            document.getElementById('itemModal').style.display = 'block';
+        }
+
+        function saveItem() {
+            const name = document.getElementById('itemName').value.trim();
+            const description = document.getElementById('itemDescription').value.trim();
+            const price = document.getElementById('itemPrice').value.trim();
+            const category = document.getElementById('itemCategory').value;
+            let image = document.getElementById('itemImage').value.trim();
+            
+            if (!name || !price || !category) { alert('Preencha todos os campos obrigatórios!'); return; }
+            
+            if (uploadedImageData) image = uploadedImageData;
+            if (!image) image = 'https://placehold.co/400x300/cccccc/666666?text=Sem+Imagem';
+            
+            if (editingItemId) {
+                const item = menuItems.find(i => i.id === editingItemId);
+                item.name = name;
+                item.description = description;
+                item.price = price;
+                item.image = image;
+                item.category = category;
+            } else {
+                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
+                menuItems.push({ id: newId, name, description, price, image, category });
+            }
+            
+            saveToFirebase('menuItems', menuItems);
+            saveToLocalStorage();
+            renderMenu();
+            renderCategories();
+            closeModal('itemModal');
+            alert('✅ Item salvo!');
+        }
+
+        function deleteItem(id) {
+            if (confirm('Excluir este item?')) {
+                menuItems = menuItems.filter(i => i.id !== id);
+                saveToFirebase('menuItems', menuItems);
+                saveToLocalStorage();
+                renderMenu();
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) event.target.style.display = 'none';
+        }
+
+        initFirebase();
+    </script>
+</body>
+</html>'''
