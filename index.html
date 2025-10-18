@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     
@@ -58,10 +58,6 @@
 
         .firebase-status.disconnected {
             color: #e74c3c;
-        }
-
-        .firebase-status i {
-            font-size: 10px;
         }
 
         header {
@@ -119,10 +115,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .contact-item i {
-            font-size: 1.3em;
-        }
-
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -136,6 +128,8 @@
             overflow: hidden;
             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
             transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
         }
 
         .menu-item:hover {
@@ -176,12 +170,274 @@
             font-weight: 700;
         }
 
+        .add-cart-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(46, 204, 113, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: white;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .menu-item:hover .add-cart-overlay {
+            opacity: 1;
+        }
+
+        .cart-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.8em;
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .cart-float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5em;
+            font-weight: 700;
+            border: 3px solid white;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+
+        .cart-modal-content {
+            background: white;
+            max-width: 700px;
+            margin: 30px auto;
+            border-radius: 20px;
+            position: relative;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-header {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .close-cart-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s;
+        }
+
+        .close-cart-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .cart-items-container {
+            padding: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            border-bottom: 1px solid #ecf0f1;
+            transition: background 0.3s;
+        }
+
+        .cart-item:hover {
+            background: #f8f9fa;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .cart-item-price {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .cart-qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .qty-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #27ae60;
+            transform: scale(1.1);
+        }
+
+        .qty-display {
+            font-weight: 600;
+            min-width: 35px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #c0392b;
+        }
+
+        .cart-obs-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+
+        .cart-empty i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .cart-footer {
+            padding: 25px;
+            background: #f8f9fa;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .checkout-whatsapp-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .checkout-whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+
         footer {
             text-align: center;
             color: white;
             padding: 30px 20px;
             margin-top: 40px;
-            font-family: var(--body-font);
             position: relative;
         }
 
@@ -199,7 +455,6 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 13px;
-            font-family: var(--body-font);
             font-weight: 500;
             margin-top: 15px;
             transition: all 0.3s;
@@ -229,7 +484,6 @@
             padding: 30px;
             border-radius: 15px;
             position: relative;
-            font-family: var(--body-font);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -243,10 +497,6 @@
             color: #666;
         }
 
-        .close-modal:hover {
-            color: #333;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -256,7 +506,6 @@
             margin-bottom: 8px;
             color: #333;
             font-weight: 600;
-            font-family: var(--body-font);
         }
 
         .form-group input,
@@ -267,19 +516,11 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
-            font-family: var(--body-font);
         }
 
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
-        }
-
-        .form-group small {
-            color: #666;
-            font-size: 0.9em;
-            display: block;
-            margin-top: 5px;
         }
 
         .checkbox-group {
@@ -294,12 +535,6 @@
             cursor: pointer;
         }
 
-        .checkbox-group label {
-            margin: 0;
-            cursor: pointer;
-            font-weight: normal;
-        }
-
         .btn {
             background: #ff6b6b;
             color: white;
@@ -308,7 +543,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            font-family: var(--body-font);
             font-weight: 500;
             margin-right: 10px;
             margin-bottom: 10px;
@@ -322,10 +556,6 @@
             background: #666;
         }
 
-        .btn-secondary:hover {
-            background: #555;
-        }
-
         .admin-panel {
             background: white;
             padding: 20px;
@@ -334,7 +564,6 @@
         }
 
         .admin-panel h2 {
-            font-family: var(--title-font);
             color: #333;
             margin-bottom: 20px;
             font-weight: 700;
@@ -352,22 +581,10 @@
             border-bottom: 1px solid #eee;
         }
 
-        .item-row:hover {
-            background: #f9f9f9;
-        }
-
         .item-actions button {
             margin-left: 10px;
             padding: 8px 16px;
             font-size: 14px;
-        }
-
-        .font-preview {
-            margin-top: 10px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            text-align: center;
         }
 
         .color-input-group {
@@ -384,40 +601,22 @@
             cursor: pointer;
         }
 
-        .color-input-group input[type="text"] {
-            flex: 1;
-        }
-
         @media (max-width: 768px) {
-            header h1 {
-                font-size: calc(var(--title-size) * 0.8);
-            }
-
-            .contact-bar {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .contact-item {
-                width: 100%;
-                justify-content: center;
-            }
-
             .menu-grid {
                 grid-template-columns: 1fr;
                 padding: 10px;
             }
 
-            .modal-content {
-                margin: 20px;
-                padding: 20px;
+            .cart-float-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+                bottom: 20px;
+                right: 20px;
             }
 
-            .firebase-status {
-                top: 10px;
-                right: 10px;
-                font-size: 11px;
-                padding: 6px 12px;
+            .cart-modal-content {
+                margin: 10px;
             }
         }
     </style>
@@ -439,13 +638,11 @@
             <div id="adminPanel" style="display: none;">
                 <div class="admin-panel">
                     <h2>Painel Administrativo</h2>
-                    
-                    <button class="btn" onclick="showSettingsModal()">⚙️ Configurações Gerais</button>
-                    <button class="btn" onclick="showContactModal()">📞 Editar Contatos</button>
-                    <button class="btn" onclick="showStyleModal()">🎨 Personalizar Estilos</button>
+                    <button class="btn" onclick="showSettingsModal()">⚙️ Configurações</button>
+                    <button class="btn" onclick="showContactModal()">📞 Contatos</button>
+                    <button class="btn" onclick="showStyleModal()">🎨 Estilos</button>
                     <button class="btn" onclick="showAddItemModal()">➕ Adicionar Item</button>
                     <button class="btn-secondary btn" onclick="logout()">🚪 Sair</button>
-
                     <div class="item-list" id="itemList"></div>
                 </div>
             </div>
@@ -454,306 +651,180 @@
 
             <footer>
                 <div class="contact-bar" id="contactBarFooter"></div>
-                <p>© 2024 <span id="footerName">Meu Restaurante</span>. Todos os direitos reservados.</p>
+                <p>© 2024 <span id="footerName">Meu Restaurante</span></p>
                 <button class="admin-btn" onclick="showLoginModal()">🔐 Admin</button>
             </footer>
         </div>
     </div>
 
-    <!-- Modal de Login -->
+    <button class="cart-float-btn" onclick="openCartModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-modal-content">
+            <div class="cart-header">
+                <h2><i class="fas fa-shopping-cart"></i> Meu Pedido</h2>
+                <button class="close-cart-btn" onclick="closeCartModal()">×</button>
+            </div>
+            <div class="cart-items-container" id="cartItemsContainer"></div>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Total:</span>
+                    <span id="cartTotalDisplay">R$ 0,00</span>
+                </div>
+                <button class="checkout-whatsapp-btn" onclick="sendOrderToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Finalizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
-            <h2>🔐 Login Administrativo</h2>
+            <span class="close-modal" onclick="closeModal('loginModal')">×</span>
+            <h2>🔐 Login</h2>
             <div class="form-group">
                 <label>Senha:</label>
-                <input type="password" id="loginPassword" placeholder="Digite a senha">
+                <input type="password" id="loginPassword">
             </div>
             <button class="btn" onclick="login()">Entrar</button>
         </div>
     </div>
 
-    <!-- Modal de Contatos -->
     <div id="contactModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
-            <h2>📞 Editar Informações de Contato</h2>
-
+            <span class="close-modal" onclick="closeModal('contactModal')">×</span>
+            <h2>📞 Contatos</h2>
             <div class="checkbox-group">
                 <input type="checkbox" id="showWhatsapp" checked>
-                <label for="showWhatsapp">Mostrar WhatsApp</label>
+                <label>WhatsApp</label>
             </div>
-            <div class="form-group" id="whatsappGroup">
-                <label><i class="fab fa-whatsapp"></i> WhatsApp:</label>
+            <div class="form-group">
                 <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
-                <small>Digite o número com DDD</small>
             </div>
-
             <div class="checkbox-group">
                 <input type="checkbox" id="showPhone">
-                <label for="showPhone">Mostrar Telefone</label>
+                <label>Telefone</label>
             </div>
-            <div class="form-group" id="phoneGroup">
-                <label><i class="fas fa-phone"></i> Telefone:</label>
+            <div class="form-group">
                 <input type="text" id="contactPhone" placeholder="(11) 3333-4444">
-                <small>Telefone fixo</small>
             </div>
-
             <div class="checkbox-group">
                 <input type="checkbox" id="showInstagram" checked>
-                <label for="showInstagram">Mostrar Instagram</label>
+                <label>Instagram</label>
             </div>
-            <div class="form-group" id="instagramGroup">
-                <label><i class="fab fa-instagram"></i> Instagram:</label>
-                <input type="text" id="contactInstagram" placeholder="@seurestaurante">
-                <small>Digite apenas o @usuario</small>
+            <div class="form-group">
+                <input type="text" id="contactInstagram" placeholder="@usuario">
             </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="showFacebook">
-                <label for="showFacebook">Mostrar Facebook</label>
-            </div>
-            <div class="form-group" id="facebookGroup">
-                <label><i class="fab fa-facebook"></i> Facebook:</label>
-                <input type="text" id="contactFacebook" placeholder="facebook.com/seurestaurante">
-                <small>URL completa ou nome da página</small>
-            </div>
-
             <div class="checkbox-group">
                 <input type="checkbox" id="showEmail" checked>
-                <label for="showEmail">Mostrar E-mail</label>
+                <label>E-mail</label>
             </div>
-            <div class="form-group" id="emailGroup">
-                <label><i class="fas fa-envelope"></i> E-mail:</label>
-                <input type="email" id="contactEmail" placeholder="contato@restaurante.com">
+            <div class="form-group">
+                <input type="email" id="contactEmail" placeholder="email@exemplo.com">
             </div>
-
             <div class="checkbox-group">
                 <input type="checkbox" id="showAddress" checked>
-                <label for="showAddress">Mostrar Endereço</label>
+                <label>Endereço</label>
             </div>
-            <div class="form-group" id="addressGroup">
-                <label><i class="fas fa-map-marker-alt"></i> Endereço:</label>
-                <input type="text" id="contactAddress" placeholder="Rua Exemplo, 123 - Bairro">
+            <div class="form-group">
+                <input type="text" id="contactAddress" placeholder="Rua, número">
             </div>
-
             <div class="checkbox-group">
                 <input type="checkbox" id="showHours" checked>
-                <label for="showHours">Mostrar Horário</label>
+                <label>Horário</label>
             </div>
-            <div class="form-group" id="hoursGroup">
-                <label><i class="fas fa-clock"></i> Horário de Funcionamento:</label>
-                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h">
+            <div class="form-group">
+                <input type="text" id="contactHours" placeholder="Seg-Sex: 11h-23h">
             </div>
-
-            <button class="btn" onclick="saveContacts()">💾 Salvar Contatos</button>
-            <button class="btn-secondary btn" onclick="closeModal('contactModal')">❌ Cancelar</button>
+            <button class="btn" onclick="saveContacts()">💾 Salvar</button>
         </div>
     </div>
 
-    <!-- Modal de Estilos -->
     <div id="styleModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('styleModal')">&times;</span>
-            <h2>🎨 Personalizar Estilos</h2>
-
-            <h3 style="margin-top: 20px; color: #333;">📏 Tamanhos de Texto</h3>
-
+            <span class="close-modal" onclick="closeModal('styleModal')">×</span>
+            <h2>🎨 Estilos</h2>
             <div class="form-group">
-                <label>Tamanho do Título Principal:</label>
+                <label>Tamanho Título:</label>
                 <input type="range" id="titleSize" min="20" max="60" value="40" oninput="updateSizePreview('title')">
                 <small id="titleSizeValue">40px</small>
             </div>
-
             <div class="form-group">
-                <label>Tamanho do Subtítulo:</label>
+                <label>Tamanho Subtítulo:</label>
                 <input type="range" id="subtitleSize" min="14" max="30" value="19" oninput="updateSizePreview('subtitle')">
                 <small id="subtitleSizeValue">19px</small>
             </div>
-
             <div class="form-group">
-                <label>Tamanho dos Nomes dos Pratos:</label>
-                <input type="range" id="itemTitleSize" min="16" max="32" value="22" oninput="updateSizePreview('itemTitle')">
-                <small id="itemTitleSizeValue">22px</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tamanho das Descrições:</label>
-                <input type="range" id="itemDescriptionSize" min="12" max="20" value="16" oninput="updateSizePreview('itemDescription')">
-                <small id="itemDescriptionSizeValue">16px</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tamanho dos Preços:</label>
-                <input type="range" id="priceSize" min="18" max="36" value="24" oninput="updateSizePreview('price')">
-                <small id="priceSizeValue">24px</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tamanho dos Contatos:</label>
-                <input type="range" id="contactSize" min="12" max="20" value="16" oninput="updateSizePreview('contact')">
-                <small id="contactSizeValue">16px</small>
-            </div>
-
-            <h3 style="margin-top: 30px; color: #333;">🎨 Cores dos Textos</h3>
-
-            <div class="form-group">
-                <label>Cor do Título Principal:</label>
+                <label>Cor Título:</label>
                 <div class="color-input-group">
                     <input type="color" id="titleColor" value="#ffffff">
                     <input type="text" id="titleColorText" value="#ffffff" readonly>
                 </div>
             </div>
-
             <div class="form-group">
-                <label>Cor do Subtítulo:</label>
-                <div class="color-input-group">
-                    <input type="color" id="subtitleColor" value="#ffffff">
-                    <input type="text" id="subtitleColorText" value="#ffffff" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor dos Nomes dos Pratos:</label>
-                <div class="color-input-group">
-                    <input type="color" id="itemTitleColor" value="#333333">
-                    <input type="text" id="itemTitleColorText" value="#333333" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor das Descrições:</label>
-                <div class="color-input-group">
-                    <input type="color" id="itemDescriptionColor" value="#666666">
-                    <input type="text" id="itemDescriptionColorText" value="#666666" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor dos Preços:</label>
-                <div class="color-input-group">
-                    <input type="color" id="priceColor" value="#ff6b6b">
-                    <input type="text" id="priceColorText" value="#ff6b6b" readonly>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Cor dos Contatos:</label>
-                <div class="color-input-group">
-                    <input type="color" id="contactColor" value="#ffffff">
-                    <input type="text" id="contactColorText" value="#ffffff" readonly>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 30px; color: #333;">✏️ Fontes</h3>
-
-            <div class="form-group">
-                <label>Fonte do Título:</label>
+                <label>Fonte Título:</label>
                 <select id="fontTitle">
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
+                    <option value="'Playfair Display', serif">Playfair Display</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Fonte do Subtítulo:</label>
-                <select id="fontSubtitle">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte dos Pratos:</label>
-                <select id="fontItemTitle">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Playfair Display', serif">Playfair Display (Elegante)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte das Descrições:</label>
-                <select id="fontItemDescription">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Fonte dos Preços:</label>
-                <select id="fontPrice">
-                    <option value="'Poppins', sans-serif">Poppins (Moderna)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Clean)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Simples)</option>
-                </select>
-            </div>
-
-            <button class="btn" onclick="saveStyles()">💾 Salvar Estilos</button>
-            <button class="btn-secondary btn" onclick="closeModal('styleModal')">❌ Cancelar</button>
+            <button class="btn" onclick="saveStyles()">💾 Salvar</button>
         </div>
     </div>
 
-    <!-- Modal de Configurações -->
     <div id="settingsModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
-            <h2>⚙️ Configurações Gerais</h2>
+            <span class="close-modal" onclick="closeModal('settingsModal')">×</span>
+            <h2>⚙️ Configurações</h2>
             <div class="form-group">
-                <label>Nome do Restaurante:</label>
-                <input type="text" id="settingsName" placeholder="Nome do restaurante">
+                <label>Nome:</label>
+                <input type="text" id="settingsName">
             </div>
             <div class="form-group">
                 <label>Subtítulo:</label>
-                <input type="text" id="settingsSubtitle" placeholder="Subtítulo">
+                <input type="text" id="settingsSubtitle">
             </div>
             <div class="form-group">
-                <label>URL da Imagem de Fundo:</label>
-                <input type="text" id="settingsBackground" placeholder="https://exemplo.com/imagem.jpg">
+                <label>Imagem de Fundo:</label>
+                <input type="text" id="settingsBackground">
             </div>
             <div class="form-group">
-                <label>Senha de Administrador:</label>
-                <input type="password" id="settingsPassword" placeholder="Nova senha (deixe em branco para manter)">
+                <label>Senha:</label>
+                <input type="password" id="settingsPassword">
             </div>
             <button class="btn" onclick="saveSettings()">💾 Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('settingsModal')">❌ Cancelar</button>
         </div>
     </div>
 
-    <!-- Modal de Item -->
     <div id="itemModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('itemModal')">&times;</span>
-            <h2 id="itemModalTitle">➕ Adicionar Item</h2>
+            <span class="close-modal" onclick="closeModal('itemModal')">×</span>
+            <h2 id="itemModalTitle">➕ Item</h2>
             <div class="form-group">
-                <label>Nome do Prato:</label>
-                <input type="text" id="itemName" placeholder="Ex: Pizza Margherita">
+                <label>Nome:</label>
+                <input type="text" id="itemName">
             </div>
             <div class="form-group">
                 <label>Descrição:</label>
-                <textarea id="itemDescription" placeholder="Descrição do prato"></textarea>
+                <textarea id="itemDescription"></textarea>
             </div>
             <div class="form-group">
-                <label>Preço (R$):</label>
-                <input type="text" id="itemPrice" placeholder="Ex: 35.90">
+                <label>Preço:</label>
+                <input type="text" id="itemPrice">
             </div>
             <div class="form-group">
-                <label>URL da Imagem:</label>
-                <input type="text" id="itemImage" placeholder="https://exemplo.com/imagem.jpg">
+                <label>Imagem URL:</label>
+                <input type="text" id="itemImage">
             </div>
             <button class="btn" onclick="saveItem()">💾 Salvar</button>
-            <button class="btn-secondary btn" onclick="closeModal('itemModal')">❌ Cancelar</button>
         </div>
     </div>
 
     <script>
-        // FIREBASE PRÉ-CONFIGURADO
         const firebaseConfig = {
             apiKey: "AIzaSyB2k6gxxExHWOkYWRPwSDald6Sd22N8BNM",
             authDomain: "cardapio-cantinho-gava.firebaseapp.com",
@@ -764,26 +835,23 @@
             appId: "1:250618497333:web:022ae360f0e923eda8247c"
         };
 
-        // Dados padrão
         let settings = {
             name: 'Meu Restaurante',
             subtitle: 'Sabores que encantam',
-            background: 'https://placehold.co/1920x1080/2c3e50/ffffff?text=Fundo+do+Cardapio',
+            background: 'https://placehold.co/1920x1080/2c3e50/ffffff?text=Fundo',
             password: 'admin123'
         };
 
         let contacts = {
             whatsapp: '(11) 99999-9999',
             phone: '',
-            instagram: '@meurestaurante',
-            facebook: '',
+            instagram: '@restaurante',
             email: 'contato@restaurante.com',
-            address: 'Rua Exemplo, 123 - Centro',
-            hours: 'Seg-Sex: 11h-23h | Sáb-Dom: 12h-00h',
+            address: 'Rua Exemplo, 123',
+            hours: 'Seg-Sex: 11h-23h',
             showWhatsapp: true,
             showPhone: false,
             showInstagram: true,
-            showFacebook: false,
             showEmail: true,
             showAddress: true,
             showHours: true
@@ -813,167 +881,121 @@
             {
                 id: 1,
                 name: 'Pizza Margherita',
-                description: 'Molho de tomate, mussarela, manjericão fresco',
+                description: 'Molho, mussarela, manjericão',
                 price: '35.90',
                 image: 'https://placehold.co/400x300/e74c3c/ffffff?text=Pizza'
             },
             {
                 id: 2,
-                name: 'Hambúrguer Artesanal',
-                description: 'Pão brioche, blend 180g, queijo cheddar, bacon',
+                name: 'Hambúrguer',
+                description: 'Pão, blend 180g, queijo',
                 price: '28.50',
                 image: 'https://placehold.co/400x300/3498db/ffffff?text=Hamburguer'
-            },
-            {
-                id: 3,
-                name: 'Salada Caesar',
-                description: 'Alface romana, croutons, parmesão, molho caesar',
-                price: '22.00',
-                image: 'https://placehold.co/400x300/2ecc71/ffffff?text=Salada'
             }
         ];
 
+        let cart = [];
         let isLoggedIn = false;
         let editingItemId = null;
-        let firebaseApp = null;
         let database = null;
 
-        // Inicializar Firebase automaticamente
         function initFirebase() {
             try {
-                firebaseApp = firebase.initializeApp(firebaseConfig);
+                firebase.initializeApp(firebaseConfig);
                 database = firebase.database();
                 updateFirebaseStatus(true);
                 loadFromFirebase();
             } catch (error) {
-                console.error('Erro ao inicializar Firebase:', error);
                 updateFirebaseStatus(false);
                 loadFromLocalStorage();
             }
         }
 
         function updateFirebaseStatus(connected) {
-            const statusEl = document.getElementById('firebaseStatus');
+            const el = document.getElementById('firebaseStatus');
             if (connected) {
-                statusEl.className = 'firebase-status connected';
-                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Conectado ☁️</span>';
+                el.className = 'firebase-status connected';
+                el.innerHTML = '<i class="fas fa-circle"></i><span>Conectado</span>';
             } else {
-                statusEl.className = 'firebase-status disconnected';
-                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Modo Local</span>';
+                el.className = 'firebase-status disconnected';
+                el.innerHTML = '<i class="fas fa-circle"></i><span>Local</span>';
             }
         }
 
-        // Carregar dados do Firebase
         function loadFromFirebase() {
             if (!database) return;
-
-            database.ref('settings').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    settings = snapshot.val();
+            database.ref('settings').once('value').then(s => {
+                if (s.exists()) {
+                    settings = s.val();
                     applySettings();
                 }
             });
-
-            database.ref('contacts').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    contacts = snapshot.val();
+            database.ref('contacts').once('value').then(s => {
+                if (s.exists()) {
+                    contacts = s.val();
                     renderContacts();
                 }
             });
-
-            database.ref('styles').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    styles = snapshot.val();
+            database.ref('styles').once('value').then(s => {
+                if (s.exists()) {
+                    styles = s.val();
                     applyStyles();
                 }
             });
-
-            database.ref('menuItems').once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    menuItems = Object.values(snapshot.val());
+            database.ref('menuItems').once('value').then(s => {
+                if (s.exists()) {
+                    menuItems = Object.values(s.val());
                     renderMenu();
                 }
             });
         }
 
-        // Salvar no Firebase
         function saveToFirebase(path, data) {
-            if (database) {
-                database.ref(path).set(data);
-            }
+            if (database) database.ref(path).set(data);
+            localStorage.setItem('menu' + path.charAt(0).toUpperCase() + path.slice(1), JSON.stringify(data));
         }
 
-        // Carregar do localStorage (fallback)
         function loadFromLocalStorage() {
-            const savedSettings = localStorage.getItem('menuSettings');
-            const savedItems = localStorage.getItem('menuItems');
-            const savedStyles = localStorage.getItem('menuStyles');
-            const savedContacts = localStorage.getItem('menuContacts');
-
-            if (savedSettings) settings = JSON.parse(savedSettings);
-            if (savedItems) menuItems = JSON.parse(savedItems);
-            if (savedStyles) styles = JSON.parse(savedStyles);
-            if (savedContacts) contacts = JSON.parse(savedContacts);
-
+            const s1 = localStorage.getItem('menuSettings');
+            const s2 = localStorage.getItem('menuItems');
+            const s3 = localStorage.getItem('menuStyles');
+            const s4 = localStorage.getItem('menuContacts');
+            if (s1) settings = JSON.parse(s1);
+            if (s2) menuItems = JSON.parse(s2);
+            if (s3) styles = JSON.parse(s3);
+            if (s4) contacts = JSON.parse(s4);
             applySettings();
             applyStyles();
             renderContacts();
             renderMenu();
         }
 
-        // Renderizar contatos
         function renderContacts() {
-            let contactHTML = '';
-
+            let html = '';
             if (contacts.showWhatsapp && contacts.whatsapp) {
-                const whatsappNumber = contacts.whatsapp.replace(/\D/g, '');
-                contactHTML += `<a href="https://wa.me/55${whatsappNumber}" target="_blank" class="contact-item">
-                    <i class="fab fa-whatsapp"></i> ${contacts.whatsapp}
-                </a>`;
+                const num = contacts.whatsapp.replace(/\D/g, '');
+                html += `<a href="https://wa.me/55${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
             }
-
             if (contacts.showPhone && contacts.phone) {
-                contactHTML += `<a href="tel:${contacts.phone}" class="contact-item">
-                    <i class="fas fa-phone"></i> ${contacts.phone}
-                </a>`;
+                html += `<a href="tel:${contacts.phone}" class="contact-item"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
             }
-
             if (contacts.showInstagram && contacts.instagram) {
-                const instaUser = contacts.instagram.replace('@', '');
-                contactHTML += `<a href="https://instagram.com/${instaUser}" target="_blank" class="contact-item">
-                    <i class="fab fa-instagram"></i> ${contacts.instagram}
-                </a>`;
+                const user = contacts.instagram.replace('@', '');
+                html += `<a href="https://instagram.com/${user}" target="_blank" class="contact-item"><i class="fab fa-instagram"></i> ${contacts.instagram}</a>`;
             }
-
-            if (contacts.showFacebook && contacts.facebook) {
-                contactHTML += `<a href="${contacts.facebook.includes('http') ? contacts.facebook : 'https://facebook.com/' + contacts.facebook}" target="_blank" class="contact-item">
-                    <i class="fab fa-facebook"></i> Facebook
-                </a>`;
-            }
-
             if (contacts.showEmail && contacts.email) {
-                contactHTML += `<a href="mailto:${contacts.email}" class="contact-item">
-                    <i class="fas fa-envelope"></i> ${contacts.email}
-                </a>`;
+                html += `<a href="mailto:${contacts.email}" class="contact-item"><i class="fas fa-envelope"></i> ${contacts.email}</a>`;
             }
-
             if (contacts.showAddress && contacts.address) {
-                contactHTML += `<div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i> ${contacts.address}
-                </div>`;
+                html += `<div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${contacts.address}</div>`;
             }
-
             if (contacts.showHours && contacts.hours) {
-                contactHTML += `<div class="contact-item">
-                    <i class="fas fa-clock"></i> ${contacts.hours}
-                </div>`;
+                html += `<div class="contact-item"><i class="fas fa-clock"></i> ${contacts.hours}</div>`;
             }
-
-            document.getElementById('contactBar').innerHTML = contactHTML;
-            document.getElementById('contactBarFooter').innerHTML = contactHTML;
+            document.getElementById('contactBar').innerHTML = html;
+            document.getElementById('contactBarFooter').innerHTML = html;
         }
 
-        // Aplicar estilos
         function applyStyles() {
             document.documentElement.style.setProperty('--title-size', styles.titleSize);
             document.documentElement.style.setProperty('--subtitle-size', styles.subtitleSize);
@@ -981,23 +1003,19 @@
             document.documentElement.style.setProperty('--item-description-size', styles.itemDescriptionSize);
             document.documentElement.style.setProperty('--price-size', styles.priceSize);
             document.documentElement.style.setProperty('--contact-size', styles.contactSize);
-            
             document.documentElement.style.setProperty('--title-color', styles.titleColor);
             document.documentElement.style.setProperty('--subtitle-color', styles.subtitleColor);
             document.documentElement.style.setProperty('--item-title-color', styles.itemTitleColor);
             document.documentElement.style.setProperty('--item-description-color', styles.itemDescriptionColor);
             document.documentElement.style.setProperty('--price-color', styles.priceColor);
             document.documentElement.style.setProperty('--contact-color', styles.contactColor);
-            
             document.documentElement.style.setProperty('--title-font', styles.titleFont);
             document.documentElement.style.setProperty('--subtitle-font', styles.subtitleFont);
             document.documentElement.style.setProperty('--item-title-font', styles.itemTitleFont);
             document.documentElement.style.setProperty('--item-description-font', styles.itemDescriptionFont);
             document.documentElement.style.setProperty('--price-font', styles.priceFont);
-            document.documentElement.style.setProperty('--body-font', "'Poppins', sans-serif");
         }
 
-        // Aplicar configurações
         function applySettings() {
             document.getElementById('restaurantName').textContent = settings.name;
             document.getElementById('restaurantSubtitle').textContent = settings.subtitle;
@@ -1005,11 +1023,13 @@
             document.body.style.backgroundImage = `url('${settings.background}')`;
         }
 
-        // Renderizar menu
         function renderMenu() {
             const grid = document.getElementById('menuGrid');
             grid.innerHTML = menuItems.map(item => `
-                <div class="menu-item">
+                <div class="menu-item" onclick="addToCart(${item.id})">
+                    <div class="add-cart-overlay">
+                        <i class="fas fa-cart-plus"></i> Adicionar
+                    </div>
                     <img src="${item.image}" alt="${item.name}">
                     <div class="menu-item-content">
                         <h3>${item.name}</h3>
@@ -1018,50 +1038,134 @@
                     </div>
                 </div>
             `).join('');
+            if (isLoggedIn) renderAdminList();
+        }
 
-            if (isLoggedIn) {
-                renderAdminList();
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+            const existing = cart.find(i => i.id === itemId);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({...item, quantity: 1, observation: ''});
+            }
+            updateCartDisplay();
+            showNotification();
+        }
+
+        function updateCartDisplay() {
+            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = total;
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-cart"></i><h3>Carrinho vazio</h3></div>';
+                document.getElementById('cartTotalDisplay').textContent = 'R$ 0,00';
+                return;
+            }
+            container.innerHTML = cart.map((item, i) => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">R$ ${item.price}</div>
+                        <div class="cart-qty-controls">
+                            <button class="qty-btn" onclick="decreaseQty(${i})">-</button>
+                            <span class="qty-display">${item.quantity}</span>
+                            <button class="qty-btn" onclick="increaseQty(${i})">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${i})"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <input type="text" class="cart-obs-input" placeholder="Observações" value="${item.observation}" onchange="updateObs(${i}, this.value)">
+                    </div>
+                </div>
+            `).join('');
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
+            document.getElementById('cartTotalDisplay').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function increaseQty(i) {
+            cart[i].quantity++;
+            updateCartDisplay();
+        }
+
+        function decreaseQty(i) {
+            if (cart[i].quantity > 1) {
+                cart[i].quantity--;
+                updateCartDisplay();
             }
         }
 
-        // Renderizar lista admin
+        function removeFromCart(i) {
+            cart.splice(i, 1);
+            updateCartDisplay();
+        }
+
+        function updateObs(i, val) {
+            cart[i].observation = val;
+        }
+
+        function openCartModal() {
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function showNotification() {
+            const n = document.createElement('div');
+            n.style.cssText = 'position:fixed;top:80px;right:20px;background:linear-gradient(135deg,#2ecc71,#27ae60);color:white;padding:15px 25px;border-radius:50px;box-shadow:0 10px 30px rgba(46,204,113,0.4);z-index:3500;font-weight:600;';
+            n.innerHTML = '<i class="fas fa-check-circle"></i> Adicionado!';
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 2000);
+        }
+
+        function sendOrderToWhatsApp() {
+            if (cart.length === 0) {
+                alert('Carrinho vazio!');
+                return;
+            }
+            const num = contacts.whatsapp.replace(/\D/g, '');
+            let msg = `🛒 *NOVO PEDIDO - ${settings.name}*\n${'═'.repeat(35)}\n\n`;
+            cart.forEach((item, i) => {
+                const sub = (parseFloat(item.price.replace(',', '.')) * item.quantity).toFixed(2).replace('.', ',');
+                msg += `*${i + 1}. ${item.name}*\n`;
+                msg += `   Qtd: ${item.quantity}x | Preço: R$ ${item.price}\n`;
+                msg += `   Subtotal: R$ ${sub}\n`;
+                if (item.observation) msg += `   📝 Obs: ${item.observation}\n`;
+                msg += `\n`;
+            });
+            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
+            msg += `${'═'.repeat(35)}\n💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n${'═'.repeat(35)}`;
+            window.open(`https://wa.me/55${num}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
         function renderAdminList() {
             const list = document.getElementById('itemList');
-            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">📋 Itens do Cardápio</h3>' +
-                menuItems.map(item => `
+            list.innerHTML = '<h3 style="margin-top:30px;color:#333;">Itens</h3>' + menuItems.map(item => `
                 <div class="item-row">
-                    <div>
-                        <strong>${item.name}</strong> - R$ ${item.price}
-                    </div>
+                    <div><strong>${item.name}</strong> - R$ ${item.price}</div>
                     <div class="item-actions">
-                        <button class="btn" onclick="editItem(${item.id})">✏️ Editar</button>
-                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️ Excluir</button>
+                        <button class="btn" onclick="editItem(${item.id})">✏️</button>
+                        <button class="btn-secondary btn" onclick="deleteItem(${item.id})">🗑️</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Atualizar preview de tamanho
         function updateSizePreview(type) {
-            const value = document.getElementById(type + 'Size').value + 'px';
-            document.getElementById(type + 'SizeValue').textContent = value;
+            const val = document.getElementById(type + 'Size').value + 'px';
+            document.getElementById(type + 'SizeValue').textContent = val;
         }
 
-        // Atualizar cor
-        document.addEventListener('DOMContentLoaded', function() {
-            ['title', 'subtitle', 'itemTitle', 'itemDescription', 'price', 'contact'].forEach(type => {
-                const colorInput = document.getElementById(type + 'Color');
-                const textInput = document.getElementById(type + 'ColorText');
-                
-                if (colorInput && textInput) {
-                    colorInput.addEventListener('input', function() {
-                        textInput.value = this.value;
-                    });
-                }
-            });
-        });
-
-        // Modais
         function showLoginModal() {
             if (isLoggedIn) {
                 document.getElementById('adminPanel').style.display = 'block';
@@ -1075,19 +1179,15 @@
             document.getElementById('contactWhatsapp').value = contacts.whatsapp;
             document.getElementById('contactPhone').value = contacts.phone;
             document.getElementById('contactInstagram').value = contacts.instagram;
-            document.getElementById('contactFacebook').value = contacts.facebook;
             document.getElementById('contactEmail').value = contacts.email;
             document.getElementById('contactAddress').value = contacts.address;
             document.getElementById('contactHours').value = contacts.hours;
-            
             document.getElementById('showWhatsapp').checked = contacts.showWhatsapp !== false;
             document.getElementById('showPhone').checked = contacts.showPhone === true;
             document.getElementById('showInstagram').checked = contacts.showInstagram !== false;
-            document.getElementById('showFacebook').checked = contacts.showFacebook === true;
             document.getElementById('showEmail').checked = contacts.showEmail !== false;
             document.getElementById('showAddress').checked = contacts.showAddress !== false;
             document.getElementById('showHours').checked = contacts.showHours !== false;
-            
             document.getElementById('contactModal').style.display = 'block';
         }
 
@@ -1095,87 +1195,41 @@
             contacts.whatsapp = document.getElementById('contactWhatsapp').value;
             contacts.phone = document.getElementById('contactPhone').value;
             contacts.instagram = document.getElementById('contactInstagram').value;
-            contacts.facebook = document.getElementById('contactFacebook').value;
             contacts.email = document.getElementById('contactEmail').value;
             contacts.address = document.getElementById('contactAddress').value;
             contacts.hours = document.getElementById('contactHours').value;
-            
             contacts.showWhatsapp = document.getElementById('showWhatsapp').checked;
             contacts.showPhone = document.getElementById('showPhone').checked;
             contacts.showInstagram = document.getElementById('showInstagram').checked;
-            contacts.showFacebook = document.getElementById('showFacebook').checked;
             contacts.showEmail = document.getElementById('showEmail').checked;
             contacts.showAddress = document.getElementById('showAddress').checked;
             contacts.showHours = document.getElementById('showHours').checked;
-
             saveToFirebase('contacts', contacts);
             renderContacts();
             closeModal('contactModal');
-            alert('✅ Contatos salvos com sucesso!');
+            alert('Salvo!');
         }
 
         function showStyleModal() {
             document.getElementById('titleSize').value = parseInt(styles.titleSize);
             document.getElementById('subtitleSize').value = parseInt(styles.subtitleSize);
-            document.getElementById('itemTitleSize').value = parseInt(styles.itemTitleSize);
-            document.getElementById('itemDescriptionSize').value = parseInt(styles.itemDescriptionSize);
-            document.getElementById('priceSize').value = parseInt(styles.priceSize);
-            document.getElementById('contactSize').value = parseInt(styles.contactSize);
-            
-            updateSizePreview('title');
-            updateSizePreview('subtitle');
-            updateSizePreview('itemTitle');
-            updateSizePreview('itemDescription');
-            updateSizePreview('price');
-            updateSizePreview('contact');
-            
             document.getElementById('titleColor').value = styles.titleColor;
             document.getElementById('titleColorText').value = styles.titleColor;
-            document.getElementById('subtitleColor').value = styles.subtitleColor;
-            document.getElementById('subtitleColorText').value = styles.subtitleColor;
-            document.getElementById('itemTitleColor').value = styles.itemTitleColor;
-            document.getElementById('itemTitleColorText').value = styles.itemTitleColor;
-            document.getElementById('itemDescriptionColor').value = styles.itemDescriptionColor;
-            document.getElementById('itemDescriptionColorText').value = styles.itemDescriptionColor;
-            document.getElementById('priceColor').value = styles.priceColor;
-            document.getElementById('priceColorText').value = styles.priceColor;
-            document.getElementById('contactColor').value = styles.contactColor;
-            document.getElementById('contactColorText').value = styles.contactColor;
-            
             document.getElementById('fontTitle').value = styles.titleFont;
-            document.getElementById('fontSubtitle').value = styles.subtitleFont;
-            document.getElementById('fontItemTitle').value = styles.itemTitleFont;
-            document.getElementById('fontItemDescription').value = styles.itemDescriptionFont;
-            document.getElementById('fontPrice').value = styles.priceFont;
-            
+            updateSizePreview('title');
+            updateSizePreview('subtitle');
             document.getElementById('styleModal').style.display = 'block';
         }
 
         function saveStyles() {
             styles.titleSize = document.getElementById('titleSize').value + 'px';
             styles.subtitleSize = document.getElementById('subtitleSize').value + 'px';
-            styles.itemTitleSize = document.getElementById('itemTitleSize').value + 'px';
-            styles.itemDescriptionSize = document.getElementById('itemDescriptionSize').value + 'px';
-            styles.priceSize = document.getElementById('priceSize').value + 'px';
-            styles.contactSize = document.getElementById('contactSize').value + 'px';
-            
             styles.titleColor = document.getElementById('titleColor').value;
-            styles.subtitleColor = document.getElementById('subtitleColor').value;
-            styles.itemTitleColor = document.getElementById('itemTitleColor').value;
-            styles.itemDescriptionColor = document.getElementById('itemDescriptionColor').value;
-            styles.priceColor = document.getElementById('priceColor').value;
-            styles.contactColor = document.getElementById('contactColor').value;
-            
             styles.titleFont = document.getElementById('fontTitle').value;
-            styles.subtitleFont = document.getElementById('fontSubtitle').value;
-            styles.itemTitleFont = document.getElementById('fontItemTitle').value;
-            styles.itemDescriptionFont = document.getElementById('fontItemDescription').value;
-            styles.priceFont = document.getElementById('fontPrice').value;
-
             saveToFirebase('styles', styles);
             applyStyles();
             closeModal('styleModal');
-            alert('✅ Estilos salvos com sucesso!');
+            alert('Salvo!');
         }
 
         function showSettingsModal() {
@@ -1185,9 +1239,21 @@
             document.getElementById('settingsModal').style.display = 'block';
         }
 
+        function saveSettings() {
+            settings.name = document.getElementById('settingsName').value;
+            settings.subtitle = document.getElementById('settingsSubtitle').value;
+            settings.background = document.getElementById('settingsBackground').value;
+            const newPass = document.getElementById('settingsPassword').value;
+            if (newPass) settings.password = newPass;
+            saveToFirebase('settings', settings);
+            applySettings();
+            closeModal('settingsModal');
+            alert('Salvo!');
+        }
+
         function showAddItemModal() {
             editingItemId = null;
-            document.getElementById('itemModalTitle').textContent = '➕ Adicionar Item';
+            document.getElementById('itemModalTitle').textContent = '➕ Adicionar';
             document.getElementById('itemName').value = '';
             document.getElementById('itemDescription').value = '';
             document.getElementById('itemPrice').value = '';
@@ -1195,75 +1261,11 @@
             document.getElementById('itemModal').style.display = 'block';
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Login
-        function login() {
-            const password = document.getElementById('loginPassword').value;
-            if (password === settings.password) {
-                isLoggedIn = true;
-                closeModal('loginModal');
-                document.getElementById('adminPanel').style.display = 'block';
-                renderMenu();
-                alert('✅ Login realizado com sucesso!');
-            } else {
-                alert('❌ Senha incorreta!');
-            }
-        }
-
-        function logout() {
-            isLoggedIn = false;
-            document.getElementById('adminPanel').style.display = 'none';
-            alert('👋 Logout realizado!');
-        }
-
-        // Salvar configurações
-        function saveSettings() {
-            settings.name = document.getElementById('settingsName').value;
-            settings.subtitle = document.getElementById('settingsSubtitle').value;
-            settings.background = document.getElementById('settingsBackground').value;
-
-            const newPassword = document.getElementById('settingsPassword').value;
-            if (newPassword) settings.password = newPassword;
-
-            saveToFirebase('settings', settings);
-            applySettings();
-            closeModal('settingsModal');
-            alert('✅ Configurações salvas!');
-        }
-
-        // Gerenciar itens
-        function saveItem() {
-            const name = document.getElementById('itemName').value;
-            const description = document.getElementById('itemDescription').value;
-            const price = document.getElementById('itemPrice').value;
-            const image = document.getElementById('itemImage').value;
-
-            if (!name || !price) {
-                alert('⚠️ Preencha pelo menos o nome e o preço!');
-                return;
-            }
-
-            if (editingItemId) {
-                const index = menuItems.findIndex(item => item.id === editingItemId);
-                menuItems[index] = { id: editingItemId, name, description, price, image };
-            } else {
-                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
-                menuItems.push({ id: newId, name, description, price, image });
-            }
-
-            saveToFirebase('menuItems', menuItems);
-            renderMenu();
-            closeModal('itemModal');
-            alert('✅ Item salvo!');
-        }
-
         function editItem(id) {
-            editingItemId = id;
             const item = menuItems.find(i => i.id === id);
-            document.getElementById('itemModalTitle').textContent = '✏️ Editar Item';
+            if (!item) return;
+            editingItemId = id;
+            document.getElementById('itemModalTitle').textContent = '✏️ Editar';
             document.getElementById('itemName').value = item.name;
             document.getElementById('itemDescription').value = item.description;
             document.getElementById('itemPrice').value = item.price;
@@ -1271,24 +1273,79 @@
             document.getElementById('itemModal').style.display = 'block';
         }
 
+        function saveItem() {
+            const name = document.getElementById('itemName').value;
+            const desc = document.getElementById('itemDescription').value;
+            const price = document.getElementById('itemPrice').value;
+            const img = document.getElementById('itemImage').value;
+            if (!name || !price) {
+                alert('Preencha nome e preço!');
+                return;
+            }
+            if (editingItemId) {
+                const item = menuItems.find(i => i.id === editingItemId);
+                item.name = name;
+                item.description = desc;
+                item.price = price;
+                item.image = img;
+            } else {
+                const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
+                menuItems.push({id: newId, name, description: desc, price, image: img});
+            }
+            saveToFirebase('menuItems', menuItems);
+            renderMenu();
+            closeModal('itemModal');
+            alert('Salvo!');
+        }
+
         function deleteItem(id) {
-            if (confirm('⚠️ Deseja realmente excluir este item?')) {
-                menuItems = menuItems.filter(item => item.id !== id);
-                saveToFirebase('menuItems', menuItems);
-                renderMenu();
-                alert('✅ Item excluído!');
+            if (!confirm('Excluir item?')) return;
+            menuItems = menuItems.filter(i => i.id !== id);
+            saveToFirebase('menuItems', menuItems);
+            renderMenu();
+        }
+
+        function login() {
+            const pass = document.getElementById('loginPassword').value;
+            if (pass === settings.password) {
+                isLoggedIn = true;
+                closeModal('loginModal');
+                document.getElementById('adminPanel').style.display = 'block';
+                renderAdminList();
+                window.scrollTo(0, 0);
+            } else {
+                alert('Senha incorreta!');
             }
         }
 
-        // Fechar modal ao clicar fora
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('adminPanel').style.display = 'none';
         }
 
-        // Inicializar Firebase automaticamente ao carregar a página
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            ['title', 'subtitle'].forEach(type => {
+                const colorInput = document.getElementById(type + 'Color');
+                const textInput = document.getElementById(type + 'ColorText');
+                if (colorInput && textInput) {
+                    colorInput.addEventListener('input', function() {
+                        textInput.value = this.value;
+                    });
+                }
+            });
+        });
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal') || e.target.classList.contains('cart-modal')) {
+                e.target.style.display = 'none';
+            }
+        };
+
         initFirebase();
     </script>
 </body>
-</html>'''
+</html>
