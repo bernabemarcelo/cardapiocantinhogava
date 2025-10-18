@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +8,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-size: cover;
@@ -22,16 +23,16 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
-        
+
         .overlay {
             background: rgba(0, 0, 0, 0.7);
             min-height: 100vh;
             padding: 20px;
             padding-bottom: 100px;
         }
-        
+
         .container { max-width: 1200px; margin: 0 auto; }
-        
+
         .firebase-status {
             position: fixed;
             top: 20px;
@@ -45,18 +46,18 @@
             align-items: center;
             gap: 6px;
         }
-        
+
         .firebase-status.connected { color: #27ae60; }
         .firebase-status.disconnected { color: #e74c3c; }
         .firebase-status i { font-size: 10px; }
-        
+
         header {
             text-align: center;
             color: white;
             padding: 30px 20px;
             margin-bottom: 30px;
         }
-        
+
         header h1 {
             font-family: var(--title-font);
             font-size: var(--title-size);
@@ -65,7 +66,7 @@
             font-weight: 700;
             color: var(--title-color);
         }
-        
+
         header p {
             font-family: var(--subtitle-font);
             font-size: var(--subtitle-size);
@@ -73,7 +74,7 @@
             font-weight: 300;
             color: var(--subtitle-color);
         }
-        
+
         .contact-bar {
             display: flex;
             justify-content: center;
@@ -86,7 +87,7 @@
             border-radius: 15px;
             backdrop-filter: blur(10px);
         }
-        
+
         .contact-item {
             display: flex;
             align-items: center;
@@ -99,14 +100,14 @@
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
         }
-        
+
         .contact-item:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.2);
         }
-        
+
         .contact-item i { font-size: 1.3em; }
-        
+
         .categories-nav {
             display: flex;
             gap: 10px;
@@ -117,7 +118,7 @@
             margin-bottom: 20px;
             backdrop-filter: blur(10px);
         }
-        
+
         .category-btn {
             padding: 12px 25px;
             background: rgba(255, 255, 255, 0.2);
@@ -130,24 +131,24 @@
             font-family: var(--body-font);
             font-weight: 500;
         }
-        
+
         .category-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
-        
+
         .category-btn.active {
             background: #ff6b6b;
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
-        
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             padding: 20px;
         }
-        
+
         .menu-item {
             background: white;
             border-radius: 15px;
@@ -156,17 +157,17 @@
             transition: transform 0.3s;
             cursor: pointer;
         }
-        
+
         .menu-item:hover { transform: translateY(-5px); }
-        
+
         .menu-item img {
             width: 100%;
             height: var(--image-height, 200px);
             object-fit: cover;
         }
-        
+
         .menu-item-content { padding: 20px; }
-        
+
         .menu-item h3 {
             font-family: var(--item-title-font);
             color: var(--item-title-color);
@@ -174,7 +175,7 @@
             font-size: var(--item-title-size);
             font-weight: 600;
         }
-        
+
         .menu-item p {
             font-family: var(--item-description-font);
             color: var(--item-description-color);
@@ -183,14 +184,14 @@
             font-weight: 400;
             font-size: var(--item-description-size);
         }
-        
+
         .menu-item .price {
             font-family: var(--price-font);
             color: var(--price-color);
             font-size: var(--price-size);
             font-weight: 700;
         }
-        
+
         .menu-item .category-tag {
             display: inline-block;
             padding: 4px 12px;
@@ -200,7 +201,7 @@
             color: #666;
             margin-bottom: 10px;
         }
-        
+
         .cart-float {
             position: fixed;
             bottom: 20px;
@@ -218,9 +219,9 @@
             z-index: 1500;
             transition: all 0.3s;
         }
-        
+
         .cart-float:hover { transform: scale(1.1); }
-        
+
         .cart-float .cart-count {
             position: absolute;
             top: -5px;
@@ -236,7 +237,7 @@
             font-size: 12px;
             font-weight: bold;
         }
-        
+
         footer {
             text-align: center;
             color: white;
@@ -245,9 +246,9 @@
             font-family: var(--body-font);
             position: relative;
         }
-        
+
         footer p { opacity: 0.8; margin-top: 10px; }
-        
+
         .admin-btn {
             display: inline-block;
             background: rgba(255, 107, 107, 0.8);
@@ -262,12 +263,12 @@
             margin-top: 15px;
             transition: all 0.3s;
         }
-        
+
         .admin-btn:hover {
             background: rgba(255, 82, 82, 0.9);
             transform: scale(1.05);
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -279,7 +280,7 @@
             z-index: 2000;
             overflow-y: auto;
         }
-        
+
         .modal-content {
             background: white;
             max-width: 600px;
@@ -291,9 +292,9 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        
+
         .modal-content.large { max-width: 800px; }
-        
+
         .close-modal {
             position: absolute;
             top: 15px;
@@ -302,11 +303,11 @@
             cursor: pointer;
             color: #666;
         }
-        
+
         .close-modal:hover { color: #333; }
-        
+
         .form-group { margin-bottom: 20px; }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
@@ -314,7 +315,7 @@
             font-weight: 600;
             font-family: var(--body-font);
         }
-        
+
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -325,37 +326,37 @@
             font-size: 16px;
             font-family: var(--body-font);
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
         }
-        
+
         .form-group small {
             color: #666;
             font-size: 0.9em;
             display: block;
             margin-top: 5px;
         }
-        
+
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 15px;
         }
-        
+
         .checkbox-group input[type="checkbox"] {
             width: auto;
             cursor: pointer;
         }
-        
+
         .checkbox-group label {
             margin: 0;
             cursor: pointer;
             font-weight: normal;
         }
-        
+
         .btn {
             background: #ff6b6b;
             color: white;
@@ -369,29 +370,29 @@
             margin-right: 10px;
             margin-bottom: 10px;
         }
-        
+
         .btn:hover { background: #ff5252; }
         .btn-secondary { background: #666; }
         .btn-secondary:hover { background: #555; }
         .btn-success { background: #27ae60; }
         .btn-success:hover { background: #229954; }
-        
+
         .admin-panel {
             background: white;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
         }
-        
+
         .admin-panel h2 {
             font-family: var(--title-font);
             color: #333;
             margin-bottom: 20px;
             font-weight: 700;
         }
-        
+
         .item-list { margin-top: 20px; }
-        
+
         .item-row {
             display: flex;
             justify-content: space-between;
@@ -399,21 +400,21 @@
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .item-row:hover { background: #f9f9f9; }
-        
+
         .item-actions button {
             margin-left: 10px;
             padding: 8px 16px;
             font-size: 14px;
         }
-        
+
         .color-input-group {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-        
+
         .color-input-group input[type="color"] {
             width: 60px;
             height: 40px;
@@ -421,9 +422,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        
+
         .color-input-group input[type="text"] { flex: 1; }
-        
+
         .image-upload-area {
             border: 2px dashed #ddd;
             border-radius: 8px;
@@ -432,21 +433,21 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .image-upload-area:hover {
             border-color: #ff6b6b;
             background: #fff5f5;
         }
-        
+
         .image-upload-area.has-image { border-color: #27ae60; }
-        
+
         .image-preview {
             max-width: 100%;
             max-height: 200px;
             margin-top: 10px;
             border-radius: 8px;
         }
-        
+
         .cart-item {
             display: flex;
             justify-content: space-between;
@@ -454,15 +455,15 @@
             padding: 15px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .cart-item-info { flex: 1; }
-        
+
         .cart-item-controls {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .qty-btn {
             width: 30px;
             height: 30px;
@@ -473,9 +474,9 @@
             cursor: pointer;
             font-size: 16px;
         }
-        
+
         .qty-btn:hover { background: #ff5252; }
-        
+
         .cart-total {
             padding: 20px;
             background: #f9f9f9;
@@ -485,7 +486,7 @@
             font-weight: bold;
             text-align: right;
         }
-        
+
         @media (max-width: 768px) {
             header h1 { font-size: calc(var(--title-size) * 0.8); }
             .contact-bar { flex-direction: column; gap: 10px; }
@@ -519,7 +520,7 @@
             <div id="adminPanel" style="display: none;">
                 <div class="admin-panel">
                     <h2>Painel Administrativo</h2>
-                    
+
                     <button class="btn" onclick="showSettingsModal()">⚙️ Configurações</button>
                     <button class="btn" onclick="showContactModal()">📞 Contatos</button>
                     <button class="btn" onclick="showStyleModal()">🎨 Estilos</button>
@@ -548,7 +549,7 @@
 
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('loginModal')">×</span>
             <h2>🔐 Login Administrativo</h2>
             <div class="form-group">
                 <label>Senha:</label>
@@ -560,24 +561,24 @@
 
     <div id="categoriesModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('categoriesModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('categoriesModal')">×</span>
             <h2>📁 Gerenciar Categorias</h2>
-            
+
             <div class="form-group">
                 <label>Nova Categoria:</label>
                 <input type="text" id="newCategoryName" placeholder="Ex: Bebidas, Pratos Quentes">
             </div>
             <button class="btn" onclick="addCategory()">➕ Adicionar</button>
-            
+
             <div id="categoriesList" style="margin-top: 20px;"></div>
-            
+
             <button class="btn-secondary btn" onclick="closeModal('categoriesModal')">Fechar</button>
         </div>
     </div>
 
     <div id="contactModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('contactModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('contactModal')">×</span>
             <h2>📞 Editar Contatos</h2>
 
             <div class="checkbox-group">
@@ -651,7 +652,7 @@
 
     <div id="styleModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('styleModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('styleModal')">×</span>
             <h2>🎨 Personalizar Estilos</h2>
 
             <h3 style="margin-top: 20px; color: #333;">📏 Tamanhos</h3>
@@ -699,7 +700,7 @@
 
     <div id="settingsModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('settingsModal')">×</span>
             <h2>⚙️ Configurações Gerais</h2>
             <div class="form-group">
                 <label>Nome do Restaurante:</label>
@@ -724,9 +725,9 @@
 
     <div id="itemModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('itemModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('itemModal')">×</span>
             <h2 id="itemModalTitle">➕ Adicionar Item</h2>
-            
+
             <div class="form-group">
                 <label>Categoria:</label>
                 <select id="itemCategory"></select>
@@ -736,17 +737,17 @@
                 <label>Nome do Prato:</label>
                 <input type="text" id="itemName" placeholder="Ex: Pizza Margherita">
             </div>
-            
+
             <div class="form-group">
                 <label>Descrição:</label>
                 <textarea id="itemDescription" placeholder="Descrição"></textarea>
             </div>
-            
+
             <div class="form-group">
                 <label>Preço (R$):</label>
                 <input type="text" id="itemPrice" placeholder="35.90">
             </div>
-            
+
             <div class="form-group">
                 <label>Imagem:</label>
                 <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('itemImageFile').click()">
@@ -758,7 +759,7 @@
                 <small>Ou cole a URL:</small>
                 <input type="text" id="itemImage" placeholder="https://exemplo.com/imagem.jpg" style="margin-top: 10px;">
             </div>
-            
+
             <button class="btn" onclick="saveItem()">💾 Salvar</button>
             <button class="btn-secondary btn" onclick="closeModal('itemModal')">Cancelar</button>
         </div>
@@ -766,23 +767,23 @@
 
     <div id="cartModal" class="modal">
         <div class="modal-content large">
-            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('cartModal')">×</span>
             <h2>🛒 Seu Pedido</h2>
-            
+
             <div id="cartItems"></div>
-            
+
             <div class="cart-total" id="cartTotal">Total: R$ 0,00</div>
-            
+
             <div class="form-group" style="margin-top: 20px;">
                 <label>👤 Seu Nome:</label>
                 <input type="text" id="customerName" placeholder="Digite seu nome">
             </div>
-            
+
             <div class="form-group">
                 <label>📍 Localização (Mesa/Quarto/Endereço):</label>
                 <input type="text" id="customerLocation" placeholder="Ex: Mesa 5">
             </div>
-            
+
             <button class="btn btn-success" onclick="sendOrder()" style="width: 100%; font-size: 18px; padding: 15px;">
                 <i class="fab fa-whatsapp"></i> Enviar Pedido pelo WhatsApp
             </button>
@@ -794,7 +795,7 @@
 
     <div id="itemDetailModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('itemDetailModal')">&times;</span>
+            <span class="close-modal" onclick="closeModal('itemDetailModal')">×</span>
             <div id="itemDetailContent"></div>
         </div>
     </div>
@@ -939,7 +940,7 @@
         function renderContacts() {
             let html = '';
             if (contacts.showWhatsapp && contacts.whatsapp) {
-                const num = contacts.whatsapp.replace(/\\D/g, '');
+                const num = contacts.whatsapp.replace(/\D/g, '');
                 html += `<a href="https://wa.me/${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
             }
             if (contacts.showPhone && contacts.phone) html += `<a href="tel:${contacts.phone}" class="contact-item"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
@@ -985,7 +986,7 @@
         }
 
         function renderCategories() {
-            let html = '<button class="category-btn active" onclick="filterCategory(\\'all\\')">🍽️ Todos</button>';
+            let html = '<button class="category-btn active" onclick="filterCategory(\'all\')">🍽️ Todos</button>';
             categories.forEach(cat => html += `<button class="category-btn" onclick="filterCategory('${cat}')">${cat}</button>`);
             document.getElementById('categoriesNav').innerHTML = html;
         }
@@ -1095,39 +1096,42 @@
             const name = document.getElementById('customerName').value;
             const location = document.getElementById('customerLocation').value;
             if (!name || !location) { alert('⚠️ Preencha seu nome e localização!'); return; }
-            
+
             const now = new Date();
             const dateStr = now.toLocaleDateString('pt-BR');
             const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            
+
             let total = 0;
-            let itemsText = '';
-            
+            let itemsLines = [];
+
             cart.forEach(item => {
                 const subtotal = parseFloat(item.price) * item.qty;
                 total += subtotal;
-                itemsText += `${item.qty}x ${item.name.padEnd(20)} R$ ${subtotal.toFixed(2)}\\n`;
+                const itemLine = `${item.qty}x ${item.name}`;
+                const priceLine = `R$ ${subtotal.toFixed(2)}`;
+                const spaces = 27 - itemLine.length - priceLine.length;
+                itemsLines.push(itemLine + ' '.repeat(Math.max(1, spaces)) + priceLine);
             });
-            
-            const message = `╔═══════════════════════════╗
-║     🍽️ NOVO PEDIDO 🍽️      ║
-╠═══════════════════════════╣
-║ 📅 Data: ${dateStr.padEnd(17)}║
-║ ⏰ Hora: ${timeStr.padEnd(17)}║
-╠═══════════════════════════╣
-║ 👤 Cliente: ${name.padEnd(15)}║
-║ 📍 Local: ${location.padEnd(17)}║
-╠═══════════════════════════╣
-║         📋 ITENS           ║
-╠═══════════════════════════╣
-${itemsText.split('\\n').filter(l => l).map(l => '║ ' + l.padEnd(25) + '║').join('\\n')}
-╠═══════════════════════════╣
-║ 💰 TOTAL: R$ ${total.toFixed(2).padStart(12)} ║
-╚═══════════════════════════╝
 
-✅ Pedido realizado via Cardápio Digital`;
-            
-            const whatsapp = contacts.whatsapp.replace(/\\D/g, '');
+            const message = `╔═════════════════════════════╗
+║    🍽️ NOVO PEDIDO 🍽️     ║
+╠═════════════════════════════╣
+║ 📅 ${dateStr.padEnd(23)}║
+║ ⏰ ${timeStr.padEnd(23)}║
+╠═════════════════════════════╣
+║ 👤 ${name.substring(0, 23).padEnd(23)}║
+║ 📍 ${location.substring(0, 23).padEnd(23)}║
+╠═════════════════════════════╣
+║         📋 ITENS            ║
+╠═════════════════════════════╣
+${itemsLines.map(line => '║ ' + line.padEnd(27) + '║').join('\n')}
+╠═════════════════════════════╣
+║ 💰 TOTAL: R$ ${total.toFixed(2).padStart(11)} ║
+╚═════════════════════════════╝
+
+✅ Pedido via Cardápio Digital`;
+
+            const whatsapp = contacts.whatsapp.replace(/\D/g, '');
             const url = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
             cart = [];
@@ -1344,12 +1348,12 @@ ${itemsText.split('\\n').filter(l => l).map(l => '║ ' + l.padEnd(25) + '║').
             const price = document.getElementById('itemPrice').value.trim();
             const category = document.getElementById('itemCategory').value;
             let image = document.getElementById('itemImage').value.trim();
-            
+
             if (!name || !price || !category) { alert('Preencha todos os campos obrigatórios!'); return; }
-            
+
             if (uploadedImageData) image = uploadedImageData;
             if (!image) image = 'https://placehold.co/400x300/cccccc/666666?text=Sem+Imagem';
-            
+
             if (editingItemId) {
                 const item = menuItems.find(i => i.id === editingItemId);
                 item.name = name;
@@ -1361,7 +1365,7 @@ ${itemsText.split('\\n').filter(l => l).map(l => '║ ' + l.padEnd(25) + '║').
                 const newId = menuItems.length > 0 ? Math.max(...menuItems.map(i => i.id)) + 1 : 1;
                 menuItems.push({ id: newId, name, description, price, image, category });
             }
-            
+
             saveToFirebase('menuItems', menuItems);
             saveToLocalStorage();
             renderMenu();
@@ -1390,4 +1394,4 @@ ${itemsText.split('\\n').filter(l => l).map(l => '║ ' + l.padEnd(25) + '║').
         initFirebase();
     </script>
 </body>
-</html>'''
+</html>
