@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+# Criar o arquivo HTML completo do cardápio com Firebase
+html_content = '''<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -32,6 +38,32 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .firebase-status {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .firebase-status.connected {
+            color: #27ae60;
+        }
+
+        .firebase-status.disconnected {
+            color: #e74c3c;
+        }
+
+        .firebase-status i {
+            font-size: 12px;
         }
 
         header {
@@ -316,6 +348,34 @@
             text-align: center;
         }
 
+        .firebase-config-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .firebase-config-box h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .firebase-config-box p {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .firebase-config-box code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2em;
@@ -347,12 +407,23 @@
                 padding: 10px 20px;
                 font-size: 14px;
             }
+
+            .firebase-status {
+                top: 60px;
+                right: 10px;
+                font-size: 12px;
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="overlay">
         <button class="admin-btn" onclick="showLoginModal()">Admin</button>
+        <div class="firebase-status disconnected" id="firebaseStatus">
+            <i class="fas fa-circle"></i>
+            <span>Configurando...</span>
+        </div>
 
         <div class="container">
             <header>
@@ -364,6 +435,17 @@
             <div id="adminPanel" style="display: none;">
                 <div class="admin-panel">
                     <h2>Painel Administrativo</h2>
+                    
+                    <div class="firebase-config-box" id="firebaseConfigBox">
+                        <h3>⚙️ Configuração do Firebase</h3>
+                        <p><strong>Status:</strong> <span id="configStatus">Não configurado</span></p>
+                        <button class="btn" onclick="showFirebaseConfigModal()">Configurar Firebase</button>
+                        <p style="margin-top: 15px; font-size: 0.9em;">
+                            <i class="fas fa-info-circle"></i> 
+                            Configure o Firebase para salvar suas alterações na nuvem permanentemente.
+                        </p>
+                    </div>
+
                     <button class="btn" onclick="showSettingsModal()">Configurações Gerais</button>
                     <button class="btn" onclick="showContactModal()">Editar Contatos</button>
                     <button class="btn" onclick="showFontModal()">Trocar Fontes</button>
@@ -380,6 +462,64 @@
                 <div class="contact-bar" id="contactBarFooter"></div>
                 <p>© 2024 <span id="footerName">Meu Restaurante</span>. Todos os direitos reservados.</p>
             </footer>
+        </div>
+    </div>
+
+    <!-- Modal de Configuração do Firebase -->
+    <div id="firebaseConfigModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('firebaseConfigModal')">&times;</span>
+            <h2>Configurar Firebase</h2>
+            
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #1976d2; margin-bottom: 10px;">📚 Como obter as configurações:</h3>
+                <ol style="color: #424242; line-height: 1.8; padding-left: 20px;">
+                    <li>Acesse <a href="https://console.firebase.google.com" target="_blank" style="color: #1976d2;">Firebase Console</a></li>
+                    <li>Crie um novo projeto ou selecione um existente</li>
+                    <li>Clique no ícone de engrenagem ⚙️ > Configurações do projeto</li>
+                    <li>Role até "Seus aplicativos" e clique no ícone Web (&lt;/&gt;)</li>
+                    <li>Copie os valores do <code>firebaseConfig</code></li>
+                    <li>No menu lateral, vá em "Realtime Database" e crie um banco de dados</li>
+                </ol>
+            </div>
+
+            <div class="form-group">
+                <label>API Key:</label>
+                <input type="text" id="firebaseApiKey" placeholder="AIzaSy...">
+            </div>
+
+            <div class="form-group">
+                <label>Auth Domain:</label>
+                <input type="text" id="firebaseAuthDomain" placeholder="seu-projeto.firebaseapp.com">
+            </div>
+
+            <div class="form-group">
+                <label>Database URL:</label>
+                <input type="text" id="firebaseDatabaseURL" placeholder="https://seu-projeto.firebaseio.com">
+            </div>
+
+            <div class="form-group">
+                <label>Project ID:</label>
+                <input type="text" id="firebaseProjectId" placeholder="seu-projeto">
+            </div>
+
+            <div class="form-group">
+                <label>Storage Bucket:</label>
+                <input type="text" id="firebaseStorageBucket" placeholder="seu-projeto.appspot.com">
+            </div>
+
+            <div class="form-group">
+                <label>Messaging Sender ID:</label>
+                <input type="text" id="firebaseMessagingSenderId" placeholder="123456789">
+            </div>
+
+            <div class="form-group">
+                <label>App ID:</label>
+                <input type="text" id="firebaseAppId" placeholder="1:123456789:web:abc123">
+            </div>
+
+            <button class="btn" onclick="saveFirebaseConfig()">Salvar e Conectar</button>
+            <button class="btn-secondary btn" onclick="closeModal('firebaseConfigModal')">Cancelar</button>
         </div>
     </div>
 
@@ -625,9 +765,124 @@
 
         let isLoggedIn = false;
         let editingItemId = null;
+        let firebaseApp = null;
+        let database = null;
+        let isFirebaseConfigured = false;
 
-        // Carregar dados do localStorage
-        function loadData() {
+        // Configuração do Firebase
+        function initFirebase() {
+            const savedConfig = localStorage.getItem('firebaseConfig');
+            if (savedConfig) {
+                try {
+                    const config = JSON.parse(savedConfig);
+                    firebaseApp = firebase.initializeApp(config);
+                    database = firebase.database();
+                    isFirebaseConfigured = true;
+                    updateFirebaseStatus(true);
+                    loadFromFirebase();
+                    document.getElementById('configStatus').textContent = 'Conectado ✓';
+                    document.getElementById('configStatus').style.color = '#27ae60';
+                } catch (error) {
+                    console.error('Erro ao inicializar Firebase:', error);
+                    updateFirebaseStatus(false);
+                    loadFromLocalStorage();
+                }
+            } else {
+                updateFirebaseStatus(false);
+                loadFromLocalStorage();
+            }
+        }
+
+        function updateFirebaseStatus(connected) {
+            const statusEl = document.getElementById('firebaseStatus');
+            if (connected) {
+                statusEl.className = 'firebase-status connected';
+                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Firebase Conectado</span>';
+            } else {
+                statusEl.className = 'firebase-status disconnected';
+                statusEl.innerHTML = '<i class="fas fa-circle"></i><span>Modo Local</span>';
+            }
+        }
+
+        function showFirebaseConfigModal() {
+            const savedConfig = localStorage.getItem('firebaseConfig');
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
+                document.getElementById('firebaseApiKey').value = config.apiKey || '';
+                document.getElementById('firebaseAuthDomain').value = config.authDomain || '';
+                document.getElementById('firebaseDatabaseURL').value = config.databaseURL || '';
+                document.getElementById('firebaseProjectId').value = config.projectId || '';
+                document.getElementById('firebaseStorageBucket').value = config.storageBucket || '';
+                document.getElementById('firebaseMessagingSenderId').value = config.messagingSenderId || '';
+                document.getElementById('firebaseAppId').value = config.appId || '';
+            }
+            document.getElementById('firebaseConfigModal').style.display = 'block';
+        }
+
+        function saveFirebaseConfig() {
+            const config = {
+                apiKey: document.getElementById('firebaseApiKey').value,
+                authDomain: document.getElementById('firebaseAuthDomain').value,
+                databaseURL: document.getElementById('firebaseDatabaseURL').value,
+                projectId: document.getElementById('firebaseProjectId').value,
+                storageBucket: document.getElementById('firebaseStorageBucket').value,
+                messagingSenderId: document.getElementById('firebaseMessagingSenderId').value,
+                appId: document.getElementById('firebaseAppId').value
+            };
+
+            if (!config.apiKey || !config.databaseURL) {
+                alert('Por favor, preencha pelo menos API Key e Database URL!');
+                return;
+            }
+
+            localStorage.setItem('firebaseConfig', JSON.stringify(config));
+            closeModal('firebaseConfigModal');
+            alert('Configuração salva! Recarregue a página para conectar ao Firebase.');
+            location.reload();
+        }
+
+        // Carregar dados do Firebase
+        function loadFromFirebase() {
+            if (!database) return;
+
+            database.ref('settings').once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    settings = snapshot.val();
+                    applySettings();
+                }
+            });
+
+            database.ref('contacts').once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    contacts = snapshot.val();
+                    renderContacts();
+                }
+            });
+
+            database.ref('fonts').once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    fonts = snapshot.val();
+                    applyFonts();
+                }
+            });
+
+            database.ref('menuItems').once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    menuItems = Object.values(snapshot.val());
+                    renderMenu();
+                }
+            });
+        }
+
+        // Salvar no Firebase
+        function saveToFirebase(path, data) {
+            if (database) {
+                database.ref(path).set(data);
+            }
+        }
+
+        // Carregar do localStorage (fallback)
+        function loadFromLocalStorage() {
             const savedSettings = localStorage.getItem('menuSettings');
             const savedItems = localStorage.getItem('menuItems');
             const savedFonts = localStorage.getItem('menuFonts');
@@ -736,7 +991,7 @@
         // Renderizar lista admin
         function renderAdminList() {
             const list = document.getElementById('itemList');
-            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">Itens do Cardápio</h3>' + 
+            list.innerHTML = '<h3 style="margin-top: 30px; color: #333;">Itens do Cardápio</h3>' +
                 menuItems.map(item => `
                 <div class="item-row">
                     <div>
@@ -781,6 +1036,7 @@
             contacts.hours = document.getElementById('contactHours').value;
 
             localStorage.setItem('menuContacts', JSON.stringify(contacts));
+            saveToFirebase('contacts', contacts);
             renderContacts();
             closeModal('contactModal');
             alert('Contatos salvos com sucesso!');
@@ -832,6 +1088,7 @@
             fonts.body = document.getElementById('fontBody').value;
 
             localStorage.setItem('menuFonts', JSON.stringify(fonts));
+            saveToFirebase('fonts', fonts);
             applyFonts();
             closeModal('fontModal');
             alert('Fontes salvas com sucesso!');
@@ -888,6 +1145,7 @@
             if (newPassword) settings.password = newPassword;
 
             localStorage.setItem('menuSettings', JSON.stringify(settings));
+            saveToFirebase('settings', settings);
             applySettings();
             closeModal('settingsModal');
             alert('Configurações salvas!');
@@ -914,6 +1172,7 @@
             }
 
             localStorage.setItem('menuItems', JSON.stringify(menuItems));
+            saveToFirebase('menuItems', menuItems);
             renderMenu();
             closeModal('itemModal');
             alert('Item salvo!');
@@ -934,6 +1193,7 @@
             if (confirm('Deseja realmente excluir este item?')) {
                 menuItems = menuItems.filter(item => item.id !== id);
                 localStorage.setItem('menuItems', JSON.stringify(menuItems));
+                saveToFirebase('menuItems', menuItems);
                 renderMenu();
                 alert('Item excluído!');
             }
@@ -947,7 +1207,14 @@
         }
 
         // Inicializar
-        loadData();
+        initFirebase();
     </script>
 </body>
-</html>
+</html>'''
+
+# Salvar o arquivo
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("✅ Arquivo 'index.html' criado com sucesso!")
+print("📁 Pronto para publicar no Netlify ou GitHub Pages!")
