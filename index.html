@@ -140,9 +140,24 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             padding: 20px;
+        }
+
+        .menu-grid.cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .menu-grid.cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .menu-grid.cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .menu-grid.cols-4 {
+            grid-template-columns: repeat(4, 1fr);
         }
 
         .menu-item {
@@ -496,6 +511,26 @@
             color: #2c3e50;
         }
 
+        .cart-subtotal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .cart-delivery-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            font-size: 1.2em;
+            color: #666;
+        }
+
         .checkout-btn {
             width: 100%;
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
@@ -679,8 +714,11 @@
         }
 
         @media (max-width: 768px) {
-            .menu-grid {
-                grid-template-columns: 1fr;
+            .menu-grid,
+            .menu-grid.cols-2,
+            .menu-grid.cols-3,
+            .menu-grid.cols-4 {
+                grid-template-columns: 1fr !important;
                 padding: 10px;
             }
 
@@ -772,6 +810,7 @@
             </div>
             <div class="cart-items-container" id="cartItemsContainer"></div>
             <div class="cart-footer">
+                <div id="cartFooterContent"></div>
                 <div class="cart-total-row">
                     <span>Total:</span>
                     <span id="cartTotalDisplay">R$ 0,00</span>
@@ -871,6 +910,19 @@
                 <input type="text" id="settingsBackground">
             </div>
             <div class="form-group">
+                <label>Número de Colunas na Grade:</label>
+                <select id="settingsGridColumns">
+                    <option value="1">1 Coluna</option>
+                    <option value="2">2 Colunas</option>
+                    <option value="3">3 Colunas</option>
+                    <option value="4">4 Colunas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Valor da Entrega (R$):</label>
+                <input type="text" id="settingsDeliveryFee" placeholder="5.00">
+            </div>
+            <div class="form-group">
                 <label>Senha Admin:</label>
                 <input type="password" id="settingsPassword" placeholder="Nova senha">
             </div>
@@ -878,41 +930,79 @@
         </div>
     </div>
 
-    <!-- Modal Contatos -->
+        <!-- Modal Contatos -->
     <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('contactModal')">×</span>
-            <h2>📞 Contatos</h2>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showWhatsapp" checked>
-                <label>WhatsApp</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="contactWhatsapp" placeholder="(11) 99999-9999">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showInstagram" checked>
-                <label>Instagram</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="contactInstagram" placeholder="@usuario">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showEmail" checked>
-                <label>E-mail</label>
-            </div>
-            <div class="form-group">
-                <input type="email" id="contactEmail" placeholder="email@exemplo.com">
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="showAddress" checked>
-                <label>Endereço</label>
-            </div>
-            <div class="form-group">
-                <input type="text" id="contactAddress" placeholder="Rua, número">
-            </div>
-            <button class="btn" onclick="saveContacts()">💾 Salvar</button>
-        </div>
+    <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+    <span class="close-modal" onclick="closeModal('contactModal')">×</span>
+    <h2>📞 Configurar Contatos</h2>
+    <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Configure os canais de contato que deseja exibir no seu cardápio</p>
+    
+    <div class="checkbox-group">
+    <input type="checkbox" id="showPhone">
+    <label><i class="fas fa-phone"></i> Telefone</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactPhone" placeholder="(11) 3333-4444">
+    </div>
+
+    <div class="checkbox-group">
+    <input type="checkbox" id="showPhoneExt">
+    <label><i class="fas fa-phone-square"></i> Ramal</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactPhoneExt" placeholder="Ramal 123">
+    </div>
+    
+    <div class="checkbox-group">
+    <input type="checkbox" id="showWhatsapp" checked>
+    <label><i class="fab fa-whatsapp"></i> WhatsApp</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactWhatsapp" placeholder="(11) 9999-9999">
+    </div>
+    
+    <div class="checkbox-group">
+    <input type="checkbox" id="showEmail" checked>
+    <label><i class="fas fa-envelope"></i> E-mail</label>
+    </div>
+    <div class="form-group">
+    <input type="email" id="contactEmail" placeholder="contato@restaurante.com">
+    </div>
+
+    <div class="checkbox-group">
+    <input type="checkbox" id="showWebsite">
+    <label><i class="fas fa-globe"></i> Website</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactWebsite" placeholder="https://www.seusite.com.br">
+    </div>
+    
+    <div class="checkbox-group">
+    <input type="checkbox" id="showInstagram" checked>
+    <label><i class="fab fa-instagram"></i> Instagram</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactInstagram" placeholder="@usuario">
+    </div>
+
+    <div class="checkbox-group">
+    <input type="checkbox" id="showFacebook">
+    <label><i class="fab fa-facebook"></i> Facebook</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactFacebook" placeholder="@pagina ou URL completa">
+    </div>
+    
+    <div class="checkbox-group">
+    <input type="checkbox" id="showAddress" checked>
+    <label><i class="fas fa-map-marker-alt"></i> Endereço</label>
+    </div>
+    <div class="form-group">
+    <input type="text" id="contactAddress" placeholder="Rua, número - Bairro">
+    </div>
+    
+    <button class="btn" onclick="saveContacts()">💾 Salvar Contatos</button>
+    </div>
     </div>
 
     <!-- Modal Categorias -->
@@ -982,7 +1072,9 @@
             password: 'admin123',
             logoType: 'text',
             logoImage: '',
-            logoSize: '300px'
+            logoSize: '300px',
+            gridColumns: '3',
+            deliveryFee: '5.00'
         };
 
         let contacts = {
@@ -1095,25 +1187,59 @@
         }
 
         function renderContacts() {
-            let html = '';
-            if (contacts.showWhatsapp && contacts.whatsapp) {
-                const num = contacts.whatsapp.replace(/\D/g, '');
-                html += `<a href="https://wa.me/55${num}" target="_blank" class="contact-item"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
-            }
-            if (contacts.showInstagram && contacts.instagram) {
-                const user = contacts.instagram.replace('@', '');
-                html += `<a href="https://instagram.com/${user}" target="_blank" class="contact-item"><i class="fab fa-instagram"></i> ${contacts.instagram}</a>`;
-            }
-            if (contacts.showEmail && contacts.email) {
-                html += `<a href="mailto:${contacts.email}" class="contact-item"><i class="fas fa-envelope"></i> ${contacts.email}</a>`;
-            }
-            if (contacts.showAddress && contacts.address) {
-                html += `<div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${contacts.address}</div>`;
-            }
-            document.getElementById('contactBar').innerHTML = html;
-            document.getElementById('contactBarFooter').innerHTML = html;
-        }
+    let html = '';
+    
+    if (contacts.showPhone && contacts.phone) {
+    const num = contacts.phone.replace(/\D/g, '');
+    html += `<a href="tel:${num}" class="contact-item phone" title="Ligar"><i class="fas fa-phone"></i> ${contacts.phone}</a>`;
+    }
+    
+    if (contacts.showPhoneExt && contacts.phoneExt) {
+    html += `<div class="contact-item phone" title="Ramal"><i class="fas fa-phone-square"></i> ${contacts.phoneExt}</div>`;
+    }
+    
+    if (contacts.showWhatsapp && contacts.whatsapp) {
+    const num = contacts.whatsapp.replace(/\D/g, '');
+    html += `<a href="https://wa.me/55${num}" target="_blank" class="contact-item whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i> ${contacts.whatsapp}</a>`;
+    }
+    
+    if (contacts.showEmail && contacts.email) {
+    html += `<a href="mailto:${contacts.email}" class="contact-item email" title="Enviar e-mail"><i class="fas fa-envelope"></i> ${contacts.email}</a>`;
+    }
+    
+    if (contacts.showWebsite && contacts.website) {
+    let websiteUrl = contacts.website;
+    if (!websiteUrl.startsWith('http')) {
+    websiteUrl = 'https://' + websiteUrl;
+    }
+    html += `<a href="${websiteUrl}" target="_blank" class="contact-item website" title="Visitar site"><i class="fas fa-globe"></i> Site</a>`;
+    }
+    
+    if (contacts.showInstagram && contacts.instagram) {
+    const user = contacts.instagram.replace('@', '');
+    html += `<a href="https://instagram.com/${user}" target="_blank" class="contact-item instagram" title="Instagram"><i class="fab fa-instagram"></i> ${contacts.instagram}</a>`;
+    }
+    
+    if (contacts.showFacebook && contacts.facebook) {
+    let fbUrl = contacts.facebook;
+    if (fbUrl.startsWith('@')) {
+    fbUrl = 'https://facebook.com/' + fbUrl.substring(1);
+    } else if (!fbUrl.startsWith('http')) {
+    fbUrl = 'https://facebook.com/' + fbUrl;
+    }
+    html += `<a href="${fbUrl}" target="_blank" class="contact-item facebook" title="Facebook"><i class="fab fa-facebook"></i> Facebook</a>`;
+    }
+    
+    if (contacts.showAddress && contacts.address) {
+    const encodedAddr = encodeURIComponent(contacts.address);
+    html += `<a href="https://www.google.com/maps/search/?api=1&query=${encodedAddr}" target="_blank" class="contact-item address" title="Ver no mapa"><i class="fas fa-map-marker-alt"></i> ${contacts.address}</a>`;
+    }
+    
+    document.getElementById('contactBar').innerHTML = html;
+    document.getElementById('contactBarFooter').innerHTML = html;
+    }
 
+    
         function applySettings() {
             const logoEl = document.getElementById('restaurantLogo');
             const nameEl = document.getElementById('restaurantName');
@@ -1203,6 +1329,7 @@
                 observation: obs
             });
             
+            saveCartToStorage();
             updateCartDisplay();
             closeModal('productDetailModal');
             showNotification();
@@ -1218,6 +1345,17 @@
             const container = document.getElementById('cartItemsContainer');
             if (cart.length === 0) {
                 container.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-cart"></i><h3>Carrinho vazio</h3></div>';
+                const footerHTML = `
+                <div class="cart-subtotal-row">
+                    <span>Subtotal produtos:</span>
+                    <span>R$ 0,00</span>
+                </div>
+                <div class="cart-delivery-row">
+                    <span>Entrega:</span>
+                    <span>R$ 0,00</span>
+                </div>
+                `;
+                document.getElementById('cartFooterContent').innerHTML = footerHTML;
                 document.getElementById('cartTotalDisplay').textContent = 'R$ 0,00';
                 return;
             }
@@ -1241,12 +1379,27 @@
         }
 
         function updateTotal() {
-            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
+            const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
+            const deliveryFee = parseFloat((settings.deliveryFee || '0').replace(',', '.')) || 0;
+            const total = subtotal + deliveryFee;
+            
+            const footerHTML = `
+            <div class="cart-subtotal-row">
+                <span>Subtotal produtos:</span>
+                <span>R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <div class="cart-delivery-row">
+                <span>Entrega:</span>
+                <span>R$ ${deliveryFee.toFixed(2).replace('.', ',')}</span>
+            </div>
+            `;
+            document.getElementById('cartFooterContent').innerHTML = footerHTML;
             document.getElementById('cartTotalDisplay').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
         }
 
         function removeFromCart(i) {
             cart.splice(i, 1);
+            saveCartToStorage();
             updateCartDisplay();
         }
 
@@ -1297,12 +1450,21 @@
                 msg += `\n`;
             });
             
-            const total = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
-            msg += `${'═'.repeat(35)}\n💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n${'═'.repeat(35)}`;
+            const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace(',', '.')) * item.quantity), 0);
+            const deliveryFee = parseFloat((settings.deliveryFee || '0').replace(',', '.')) || 0;
+            const total = subtotal + deliveryFee;
+            
+            msg += `${'═'.repeat(35)}\n`;
+            msg += `💵 *Subtotal produtos:* R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+            msg += `🚚 *Entrega:* R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
+            msg += `${'═'.repeat(35)}\n`;
+            msg += `💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
+            msg += `${'═'.repeat(35)}`;
             
             window.open(`https://wa.me/55${num}?text=${encodeURIComponent(msg)}`, '_blank');
             
             cart = [];
+            saveCartToStorage();
             updateCartDisplay();
             closeModal('checkoutModal');
             alert('✅ Pedido enviado com sucesso!');
@@ -1423,6 +1585,8 @@
             document.getElementById('settingsName').value = settings.name;
             document.getElementById('settingsSubtitle').value = settings.subtitle;
             document.getElementById('settingsBackground').value = settings.background;
+            document.getElementById('settingsGridColumns').value = settings.gridColumns || '3';
+            document.getElementById('settingsDeliveryFee').value = settings.deliveryFee || '5.00';
             
             const logoType = settings.logoType || 'text';
             document.querySelector(`input[name="logoType"][value="${logoType}"]`).checked = true;
@@ -1456,6 +1620,8 @@
             
             settings.subtitle = document.getElementById('settingsSubtitle').value;
             settings.background = document.getElementById('settingsBackground').value;
+            settings.gridColumns = document.getElementById('settingsGridColumns').value;
+            settings.deliveryFee = document.getElementById('settingsDeliveryFee').value;
             const newPass = document.getElementById('settingsPassword').value;
             if (newPass) settings.password = newPass;
             
@@ -1619,7 +1785,20 @@
             }
         };
 
-        initFirebase();
+        function saveCartToStorage() {
+    localStorage.setItem('menuCart', JSON.stringify(cart));
+    }
+
+    function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('menuCart');
+    if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCartDisplay();
+    }
+    }
+
+    initFirebase();
+    loadCartFromStorage();
     </script>
 </body>
 </html>
